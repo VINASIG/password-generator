@@ -283,9 +283,9 @@ function updateCountdown(): void {
   progress.value = remaining / 1000;
   progress.setAttribute("aria-valuetext", label);
   pauseButton.setAttribute("aria-pressed", String(paused));
-  element("pause-label", HTMLSpanElement).textContent = paused
-    ? copy.resume
-    : copy.pause;
+  const pauseLabel = element("pause-label", HTMLSpanElement);
+  const nextLabel = paused ? copy.resume : copy.pause;
+  if (pauseLabel.textContent !== nextLabel) pauseLabel.textContent = nextLabel;
   element("pause-icon", HTMLElement).hidden = paused;
   element("resume-icon", HTMLElement).hidden = !paused;
 }
