@@ -1,0 +1,52 @@
+{
+  "name": "@vinasig/password-generator",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "AGPL-3.0-or-later",
+  "description": "Local password and passphrase generation with uniform sampling, offline artifacts and inspectable evidence",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/VINASIG/password-generator.git"
+  },
+  "homepage": "https://github.com/VINASIG/password-generator#readme",
+  "bugs": {
+    "url": "https://github.com/VINASIG/password-generator/issues"
+  },
+  "engines": {
+    "node": ">=24.21.0 <25",
+    "npm": "12.2.0"
+  },
+  "packageManager": "npm@12.2.0",
+  "scripts": {
+    "build": "node scripts/build.ts",
+    "dev": "node scripts/serve.ts",
+    "check": "tsc --noEmit && eslint src scripts tests *.mjs playwright.config.ts --max-warnings 0 && node scripts/check-css.ts && prettier --check .",
+    "format": "prettier --write .",
+    "test": "node --test tests/*.test.ts",
+    "test:browser": "playwright test",
+    "test:performance": "node scripts/performance.ts",
+    "verify": "npm run build && npm run check && npm test && npm run check:licenses && npm audit --audit-level=low",
+    "check:licenses": "node .vinasig/standards/templates/check-licenses.mjs --built",
+    "environment": "node scripts/environment.ts",
+    "check:release": "node scripts/release-metadata.ts",
+    "research": "node scripts/research.ts",
+    "release": "node scripts/package.ts"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@eslint/js": "10.0.1",
+    "@playwright/test": "1.63.0",
+    "@types/node": "24.19.1",
+    "@types/css-tree": "3.2.0",
+    "css-tree": "3.2.1",
+    "esbuild": "0.28.2",
+    "eslint": "10.12.0",
+    "html-validate": "11.16.2",
+    "lighthouse": "13.5.0",
+    "lucide": "1.52.0",
+    "prettier": "3.9.9",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.71.1"
+  }
+}

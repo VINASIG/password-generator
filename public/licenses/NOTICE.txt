@@ -1,0 +1,7 @@
+VINASIG Password Generator
+
+Application software is AGPL-3.0-or-later. Corresponding Source, exact versions, build instructions and original notices are provided at https://github.com/VINASIG/password-generator and in the matching source archive distributed with the offline archive. A modified deployment must offer its actual Corresponding Source under the applicable license.
+
+Vietnamese Passphrase code retains LGPL-3.0-or-later. Vietnamese wordlists retain CC-BY-SA-4.0 and credited upstream corpus terms. EFF data credits Electronic Frontier Foundation and Joseph Bonneau under CC-BY-4.0. Space Grotesk retains its OFL notice. Lucide retains ISC and Feather MIT notices. VINASIG identity retains BRAND_POLICY.md.
+
+Read NOTICE.md and LICENSES.md in the corresponding source for complete attribution, modification records and data scopes. Check actual publication availability before relying on a source URL. No publisher authentication, security review, human usability or production assurance is implied by a checksum or source link alone.

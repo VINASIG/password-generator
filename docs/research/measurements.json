@@ -1,0 +1,72 @@
+{
+  "schema": 1,
+  "evidenceClass": "implementation-independent automated enumeration authored within this project",
+  "naiveInsertThenShuffle": {
+    "alphabet": [
+      "ab",
+      "01"
+    ],
+    "length": 4,
+    "equallyLikelyDecisionPaths": 1536,
+    "validOutcomes": 224,
+    "pathMultiplicityHistogram": {
+      "6": 128,
+      "8": 96
+    },
+    "maxProbabilityOverMin": 1.3333333333333333
+  },
+  "uniformSelectionOracle": {
+    "validStrings": 224,
+    "multiplicityPerRank": 1
+  },
+  "wordlists": [
+    {
+      "name": "eff-long",
+      "count": 7776,
+      "sha256": "6d557f0693958fb5e650b68b5bee585eb82cf4da32965505c789e924743bc522",
+      "defaultSevenWordBitsRoundedDown": 90,
+      "wordsFor80": 7,
+      "wordsFor128": 10,
+      "maxCodepoints": 9,
+      "maxUtf8Bytes": 9,
+      "containsSpace": false,
+      "containsPeriod": false,
+      "hyphenatedTokens": [
+        "drop-down",
+        "felt-tip",
+        "t-shirt",
+        "yo-yo"
+      ]
+    },
+    {
+      "name": "experimental-agent-vi",
+      "count": 2966,
+      "sha256": "a027da36027ead2da0e80133b3bce6edca28fef01fae867551647767cf79331e",
+      "defaultSevenWordBitsRoundedDown": 80,
+      "wordsFor80": 7,
+      "wordsFor128": 12,
+      "maxCodepoints": 13,
+      "maxUtf8Bytes": 18,
+      "containsSpace": false,
+      "containsPeriod": false,
+      "hyphenatedTokens": []
+    },
+    {
+      "name": "experimental-agent-ascii",
+      "count": 2389,
+      "sha256": "5c3777850faf4d5b95e8d98d990bb3c5f7498a223d31d0ccc7ef855e2502b9a3",
+      "defaultSevenWordBitsRoundedDown": 78,
+      "wordsFor80": 8,
+      "wordsFor128": 12,
+      "maxCodepoints": 13,
+      "maxUtf8Bytes": 13,
+      "containsSpace": false,
+      "containsPeriod": false,
+      "hyphenatedTokens": []
+    }
+  ],
+  "humanRecall": "NOT_RUN",
+  "humanTypingError": "NOT_RUN",
+  "thirdPartySecurityReview": "NOT_RUN",
+  "productionValidation": "NOT_RUN"
+}

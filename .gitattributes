@@ -1,0 +1,17 @@
+* text=auto eol=lf
+*.woff2 binary
+*.ttf binary
+*.png binary
+data/upstream/* -text
+src/vendor/** -text
+assets/** -text
+licenses/** -text
+LICENSE -text
+data/lists/experimental-agent-*.txt -text
+src/styles/tokens.css -text
+src/styles/preferences.css -text
+src/styles/site-chrome.css -text
+src/styles/control-surfaces.css -text
+.vinasig/** -text
+.agents/** -text
+public/licenses/** -text

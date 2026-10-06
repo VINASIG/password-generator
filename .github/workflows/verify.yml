@@ -1,0 +1,59 @@
+name: Verify
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-24.04
+            python: "3.12.14"
+          - os: windows-2025-vs2026
+            python: "3.14.8"
+    runs-on: ${{ matrix.os }}
+    env:
+      SOURCE_COMMIT: ${{ github.sha }}
+      BUILD_RUNNER_LABEL: ${{ matrix.os }}
+      ENVIRONMENT_RECORD: output/environment/environment-${{ matrix.os }}.json
+      PYTHONIOENCODING: utf-8
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - run: npm install --global npm@12.2.0
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: ${{ matrix.python }}
+      - run: npm ci --ignore-scripts
+      - run: npm run verify
+      - run: npm run check:release
+      - run: npm run research
+      - run: git diff --exit-code -- docs/research data/lists src/vendor
+      - run: npm exec -- playwright install --with-deps chromium firefox webkit
+      - run: npm run test:browser
+      - run: npm run release
+      - run: python scripts/verify-package.py
+      - run: npm run environment
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ${{ matrix.os }}
+          path: |
+            output/release/*
+            output/environment/*.json
+            output/browser-results.json
+          if-no-files-found: error
+          retention-days: 30

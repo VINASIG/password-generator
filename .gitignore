@@ -1,0 +1,6 @@
+node_modules/
+dist/
+output/
+.vinasig/backups/
+src/generated/wordlists.ts
+*.tsbuildinfo

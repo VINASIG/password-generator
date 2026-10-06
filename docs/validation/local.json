@@ -1,0 +1,165 @@
+{
+  "schema": 1,
+  "scope": "Local pre-publication Windows lab, project-authored checks and agent inspection",
+  "sourceCommit": null,
+  "unit": {
+    "status": "PASS",
+    "tests": 22,
+    "failed": 0,
+    "skipped": 0
+  },
+  "browser": {
+    "status": "PASS",
+    "tests": 57,
+    "skipped": 0,
+    "failed": 0,
+    "flaky": 0,
+    "engines": [
+      "Chromium",
+      "Firefox",
+      "WebKit"
+    ],
+    "completedFromRunStartedAt": "2026-10-06T16:35:46.458Z",
+    "engineVersions": {
+      "playwright": "1.63.0",
+      "observedEngineVersions": {
+        "chromium": "153.0.8010.12",
+        "firefox": "155.0",
+        "webkit": "26.6"
+      }
+    }
+  },
+  "dependencyAudit": {
+    "status": "PASS",
+    "knownFindings": 0,
+    "packageLockSha256": "0fc9c30aa1c2e16b120dcab865557929f7df2132cb95420eb7cb0c061bbe3cdd"
+  },
+  "build": {
+    "schema": 1,
+    "csp": "default-src 'none'; script-src 'sha256-bB69DMrbkBr4w3gzZtkwZ4eqwThnaGAa7Q8PoNX0k5A='; style-src 'sha256-gEqNpJuKR0qjK6QQCFiV+xhfrglcnA7dDTx+vYYWaRI='; img-src data:; font-src data:; connect-src 'none'; worker-src 'none'; child-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'",
+    "sourceCommit": null,
+    "publicOrigin": null,
+    "sourcePins": {
+      "vietnamese": "147c3791dd686b4eda5893b0eedb2d9b5f8f95e7",
+      "design": "f0fc7e5d04bbc2d70499a2aece59d6992b36d03e",
+      "brand": "83ed7515c81c3b2a28888a75c754e44562d5b107"
+    },
+    "wordlists": [
+      {
+        "id": "eff",
+        "sha256": "6d557f0693958fb5e650b68b5bee585eb82cf4da32965505c789e924743bc522",
+        "count": 7776
+      },
+      {
+        "id": "experimental-agent-vi",
+        "sha256": "a027da36027ead2da0e80133b3bce6edca28fef01fae867551647767cf79331e",
+        "count": 2966
+      },
+      {
+        "id": "experimental-agent-ascii",
+        "sha256": "5c3777850faf4d5b95e8d98d990bb3c5f7498a223d31d0ccc7ef855e2502b9a3",
+        "count": 2389
+      }
+    ],
+    "artifacts": {
+      "index.html": {
+        "sha256": "1b2d3474c498542a3b04305233154ef27a43133eabbb16e3478eb00e692f0e4e",
+        "bytes": 276157
+      },
+      "offline/vi.html": {
+        "sha256": "cd62d48fd9404a68a48b8f05d3d910c1ac14e61d6acc2a1bd2f7f6ac0f81cd14",
+        "bytes": 402362
+      },
+      "en/index.html": {
+        "sha256": "2fc9db2ab969b8771a6a22425ea99c8009e32ee5e62190a472762179efa48405",
+        "bytes": 275024
+      },
+      "offline/en.html": {
+        "sha256": "5d959e709e4dfd568b04b99f77d684ecad66aaa406f7260071803ab74c426ae7",
+        "bytes": 401293
+      },
+      "_headers": {
+        "sha256": "f0e9629009e863289b2b1e64f833b760f21b8530c899a003988b6948f92cbe36",
+        "bytes": 649
+      },
+      "robots.txt": {
+        "sha256": "89c8d8f735a577c4f189c1c6076b00a9104da8643f88b594e6891456b955fd38",
+        "bytes": 43
+      },
+      "licenses/AGPL-3.0-or-later.txt": {
+        "sha256": "d8a6cc31abc16b6748c7a21f21611f5a1ec33f67d22ca23d7da1c19b95496bee",
+        "bytes": 34020
+      },
+      "licenses/BRAND_POLICY.md": {
+        "sha256": "ec06977f2015ccf269b94865e000d981b967c1b7b1787bf0b0f739dc75632a5e",
+        "bytes": 4184
+      },
+      "licenses/CC-BY-SA-4.0.txt": {
+        "sha256": "28a9529c7d0bb4dc51f4bf5c116a3d16ef247a052f7591466768ddf563fd1cf5",
+        "bytes": 20138
+      },
+      "licenses/NOTICE.txt": {
+        "sha256": "f6394ae2b876d5d465735221bb123ec832d5bd47a28b4e4c804f0031e9918339",
+        "bytes": 1046
+      },
+      "licenses/Apache-2.0.txt": {
+        "sha256": "074e6e32c86a4c0ef8b3ed25b721ca23aca83df277cd88106ef7177c354615ff",
+        "bytes": 10280
+      },
+      "licenses/CC-BY-4.0.txt": {
+        "sha256": "d557539df68e771cc1eedcc91d13f70fca930e508d11eedcafa4b15db49e3744",
+        "bytes": 17023
+      },
+      "licenses/GPL-3.0-or-later.txt": {
+        "sha256": "fb981668c18a279e285fc4d83fba1e836cc84dd4daa73c9697d3cfd2d8aca6e0",
+        "bytes": 34674
+      },
+      "licenses/LGPL-3.0-or-later.txt": {
+        "sha256": "996af0513df21f7496288951c41428a03c174e9e4a9d63665c57d670f845ccb1",
+        "bytes": 42098
+      },
+      "licenses/Lucide.txt": {
+        "sha256": "b495047bd93a9b06913511076f504daba17d5bbeb3e0650f3bb53a4220329c57",
+        "bytes": 3208
+      },
+      "licenses/Tatoeba-CC-BY-2.0-FR.html": {
+        "sha256": "597d4c64f6606c64da65ba6c079e5cc87e4cce2b5187eda908c939b538e7ab9b",
+        "bytes": 39479
+      },
+      "licenses/vietphrase-CC-BY-SA-4.0.txt": {
+        "sha256": "cde7883b9050a1104f4ac19a1572aafd6e5d7323b68351aaf51fbf4beba54966",
+        "bytes": 18375
+      },
+      "licenses/vietphrase-NOTICE.md": {
+        "sha256": "7a9fa443013a20d91aa5eec59264e7b82b723aa300235d411e634ae46b422ffc",
+        "bytes": 3557
+      },
+      "licenses/wordfreq-NOTICE.md": {
+        "sha256": "d9b104dafe63886af55e7cea7484824e32e12d4e1f57f319923dd643b36d6b15",
+        "bytes": 2891
+      },
+      "licenses/SpaceGrotesk-OFL.txt": {
+        "sha256": "f2e05925e3d5e73aebbe4148639a899876c12e4708eb453682b278a0a6f2a3b2",
+        "bytes": 4403
+      }
+    },
+    "version": "0.1.0"
+  },
+  "lighthouseReports": {
+    "lighthouse/mobile-1.json": "3f382a745d597da8bd306c76fe705776701c736ba78acf95c99582d54c2f36c0",
+    "lighthouse/mobile-2.json": "73744666c3159c96be8dde2d740fc1de193a7f3ba701314670f78dfe5ed51ed8",
+    "lighthouse/mobile-3.json": "654a3af2bad0c87f5897b349611ca1eb8d6ba183597d64943b551b38a6edbd77",
+    "lighthouse/desktop-1.json": "08d311a0d679421ff431b5d93b3d9126e81c22eec1d950ee08cd3aea83aa34d8",
+    "lighthouse/desktop-2.json": "b9ed66dfec6840ac4a79e4b80bb016d8b707b326ac36b1c8fc87eaa77ea9f980",
+    "lighthouse/desktop-3.json": "287e57ed714906b26ad80a491e712a7a44f1162deb7329af10c1f0ed160c527b"
+  },
+  "gaps": {
+    "independentSecurityReview": "NOT_RUN",
+    "participantUsability": "NOT_RUN",
+    "linguisticReview": "NOT_RUN",
+    "productionValidation": "NOT_RUN",
+    "remoteCI": "NOT_RUN",
+    "publication": "NOT_RUN",
+    "fieldMetrics": "NOT_RUN"
+  }
+}

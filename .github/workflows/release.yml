@@ -1,0 +1,52 @@
+name: Reproducible research release
+
+on:
+  push:
+    tags: ["v0.*"]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    uses: ./.github/workflows/verify.yml
+  publish:
+    needs: verify
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .node-version
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          path: builds
+      - name: Validate exact notes, assets and cross-OS equality
+        id: release
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: node scripts/release-metadata.ts builds/ubuntu-24.04/release builds/windows-2025-vs2026/release
+      - uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+        with:
+          subject-path: |
+            builds/ubuntu-24.04/release/*
+            builds/ubuntu-24.04/environment/*.json
+            builds/windows-2025-vs2026/environment/*.json
+      - name: Publish verified prerelease
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ steps.release.outputs.tag }}
+          RELEASE_TITLE: ${{ steps.release.outputs.title }}
+          RELEASE_NOTES: ${{ steps.release.outputs.notes }}
+        run: >-
+          gh release create "$RELEASE_TAG" --verify-tag --prerelease --latest=false
+          --title "$RELEASE_TITLE" --notes-file "$RELEASE_NOTES"
+          builds/ubuntu-24.04/release/*.zip
+          builds/ubuntu-24.04/release/SHA256SUMS.txt builds/ubuntu-24.04/release/build-record.json
+          builds/ubuntu-24.04/environment/*.json builds/windows-2025-vs2026/environment/*.json
