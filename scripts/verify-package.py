@@ -14,8 +14,9 @@ folder = pathlib.Path(sys.argv[1] if len(sys.argv) > 1 else "output/release")
 version = json.loads((root / "package.json").read_text(encoding="utf-8"))["version"]
 source_path = folder / f"password-generator-v{version}-source.zip"
 offline_path = folder / f"password-generator-v{version}-offline.zip"
+site_path = folder / f"password-generator-v{version}-site.zip"
 totals = {}
-for archive_path in (source_path, offline_path):
+for archive_path in (source_path, offline_path, site_path):
     with zipfile.ZipFile(archive_path) as archive:
         assert archive.testzip() is None, "CRC validation failed"
         names = archive.namelist()
@@ -28,6 +29,8 @@ for archive_path in (source_path, offline_path):
             actual = archive.read(item)
             if archive_path == source_path:
                 expected = root / item.filename
+            elif archive_path == site_path:
+                expected = root / "dist" / item.filename
             elif item.filename in ("vi.html", "en.html"):
                 expected = root / "dist/offline" / item.filename
             elif item.filename == "build-record.json":
@@ -50,9 +53,15 @@ for archive_path in (source_path, offline_path):
                 "public/licenses/NOTICE.txt", ".vinasig/manifest.json",
             ):
                 assert name in names, f"Missing source entry {name}"
-        else:
+        elif archive_path == offline_path:
             assert "licenses/LGPL-3.0-or-later.txt" in names
             assert "fonts/OFL.txt" in names
+        else:
+            record = json.loads((root / "dist/build-record.json").read_text(encoding="utf-8"))
+            assert set(names) == set(record["artifacts"]) | {"build-record.json"}
+            assert "_headers" in names and "index.html" in names and "en/index.html" in names
+            for name, expected in record["artifacts"].items():
+                assert hashlib.sha256(archive.read(name)).hexdigest() == expected["sha256"]
         totals[archive_path.name] = len(names)
 covered = set()
 for line in (folder / "SHA256SUMS.txt").read_text(encoding="utf-8").splitlines():

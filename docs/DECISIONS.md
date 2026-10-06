@@ -37,3 +37,9 @@ There is no product animation. Reduced-motion is exercised without adding moveme
 Counts, hashes and runner records must not make the result look more certain than its evidence. Tests are authored within the same project, including separately implemented oracles. None is an independent reviewer. Runner labels name stable OS families, while exact image/tool versions are recorded separately. A recorded image is not a hermetic environment or a promise of reproducibility years later.
 
 Release notes are selected from exact package/tag identity. Publication compares deterministic artifacts from both OS builds, attaches their distinct environment records and produces provenance only for the verified files. Prepared workflows are **NOT_RUN** until actually executed.
+
+## Static hosting without repository administration access
+
+The owner selected Cloudflare Pages for custom response headers on 7 October 2026. Its GitHub App installation UI requested read/write administration, checks, code, deployments and pull requests. The app was not installed. A static-file deployment does not need that source-repository administration path, so Pages Direct Upload was selected instead.
+
+CI creates a complete deterministic site ZIP, checks it through Python's separate ZIP reader, and compares it across OS builds before release attestation. The operator uploads that exact artifact through the existing dashboard session. Subsequent site updates require an explicit checked-artifact upload. No new API credential is created and commits do not automatically deploy. This adds an operator step while keeping the hosting account from receiving new repository write permissions. Cloudflare still serves the site and remains inside the web-delivery trust boundary.

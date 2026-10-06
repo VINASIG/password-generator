@@ -98,6 +98,7 @@ mkdirSync(destination, { recursive: true });
 const files = {
   [`password-generator-v${version}-source.zip`]: zip(source),
   [`password-generator-v${version}-offline.zip`]: zip(offline),
+  [`password-generator-v${version}-site.zip`]: zip(collect("dist")),
   "build-record.json": readFileSync("dist/build-record.json"),
 };
 for (const [name, bytes] of Object.entries(files))
@@ -109,4 +110,6 @@ writeFileSync(
     .map(([name, bytes]) => `${hash(bytes)}  ${name}`)
     .join("\n")}\n`,
 );
-console.log("PASS built deterministic source and offline ZIPs with checksums");
+console.log(
+  "PASS built deterministic source, offline and site ZIPs with checksums",
+);

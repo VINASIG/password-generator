@@ -31,6 +31,7 @@ export function compareReleaseDirectories(first: string, second: string): void {
   const names = files(first);
   assert.ok(names.some((name) => name.endsWith("-source.zip")));
   assert.ok(names.some((name) => name.endsWith("-offline.zip")));
+  assert.ok(names.some((name) => name.endsWith("-site.zip")));
   assert.ok(
     names.includes("SHA256SUMS.txt") && names.includes("build-record.json"),
   );

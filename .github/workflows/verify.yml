@@ -23,6 +23,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       SOURCE_COMMIT: ${{ github.sha }}
+      PUBLIC_ORIGIN: https://password.vinasig.io.vn
       BUILD_RUNNER_LABEL: ${{ matrix.os }}
       ENVIRONMENT_RECORD: output/environment/environment-${{ matrix.os }}.json
       PYTHONIOENCODING: utf-8

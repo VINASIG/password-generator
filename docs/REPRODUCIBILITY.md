@@ -26,6 +26,8 @@ Build output contains two online documents, two self-contained offline documents
 
 ZIP packages use stored entries, lexical ordering, fixed DOS timestamps of 1 January 1980 and no host filesystem metadata. This trades archive size for a small, inspectable packaging path. The independent Python standard-library reader checks CRCs, paths, ordering, timestamps, contents and delivered checksums. It does not import the ZIP writer.
 
+The `-site.zip` contains the complete static `dist/` inventory at its archive root, including `_headers` and the build record. CI builds it with the canonical `PUBLIC_ORIGIN=https://password.vinasig.io.vn` and actual `SOURCE_COMMIT`. Release verification compares this ZIP between operating systems alongside the source/offline ZIPs. Its entries are independently checked against every recorded artifact digest. Upload only this checked site artifact to Cloudflare Pages Direct Upload, then compare served bytes and headers. Cloudflare does not build or alter the source repository through a GitHub App.
+
 The local automated rebuild check runs the same pinned toolchain in two separate directories, compares every output byte, and confirms corrupted source pins fail. The prepared CI workflow builds on Ubuntu 24.04 and Windows Server 2025 with Visual Studio 2026, records the actual image and compares both complete release directories before publication. Until those jobs actually run, cross-OS CI is NOT_RUN. Neither check is hermetic reproducibility.
 
 ## Published release verification

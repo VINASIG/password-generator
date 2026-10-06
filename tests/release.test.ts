@@ -32,6 +32,7 @@ void test("release comparison refuses missing, changed and unchecksummed artifac
   const names = [
     "preview-source.zip",
     "preview-offline.zip",
+    "preview-site.zip",
     "build-record.json",
   ];
   for (const name of names) writeFileSync(join(first, name), name);
@@ -44,7 +45,7 @@ void test("release comparison refuses missing, changed and unchecksummed artifac
   cpSync(first, second, { recursive: true });
   compareReleaseDirectories(first, second);
   verifyReleaseChecksums(first);
-  writeFileSync(join(second, names[0] ?? "bad.zip"), "corrupt");
+  writeFileSync(join(second, names[2] ?? "bad.zip"), "corrupt");
   assert.throws(() => {
     compareReleaseDirectories(first, second);
   });
