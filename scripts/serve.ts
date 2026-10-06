@@ -31,6 +31,7 @@ for (const path of Object.keys(distribution.artifacts))
 const server = createServer((request, response) => {
   const headers = {
     "Content-Security-Policy": `${record.csp}; frame-ancestors 'none'`,
+    "Strict-Transport-Security": "max-age=31536000",
     "Referrer-Policy": "no-referrer",
     "X-Content-Type-Options": "nosniff",
     "X-Frame-Options": "DENY",

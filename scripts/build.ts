@@ -161,7 +161,7 @@ function artifact(path: string, bytes: string | Buffer): void {
 }
 artifact(
   "_headers",
-  `/*\n  Content-Security-Policy: ${csp}; frame-ancestors 'none'\n  Referrer-Policy: no-referrer\n  X-Content-Type-Options: nosniff\n  X-Frame-Options: DENY\n  Cross-Origin-Opener-Policy: same-origin\n  Cross-Origin-Resource-Policy: same-origin\n  Permissions-Policy: camera=(), microphone=(), geolocation=(), clipboard-read=()\n  Cache-Control: no-cache\n`,
+  `/*\n  Content-Security-Policy: ${csp}; frame-ancestors 'none'\n  Strict-Transport-Security: max-age=31536000\n  Referrer-Policy: no-referrer\n  X-Content-Type-Options: nosniff\n  X-Frame-Options: DENY\n  Cross-Origin-Opener-Policy: same-origin\n  Cross-Origin-Resource-Policy: same-origin\n  Permissions-Policy: camera=(), microphone=(), geolocation=(), clipboard-read=()\n  Cache-Control: no-cache\n`,
 );
 artifact(
   "robots.txt",

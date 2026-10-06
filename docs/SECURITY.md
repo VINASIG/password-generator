@@ -25,6 +25,8 @@ Both online and offline documents contain exact SHA-256 script/style hashes. Oth
 
 Online hosts must apply `dist/_headers` or equivalent response headers. Meta CSP cannot provide every header defense. Deployment checks need to read the actual served headers and artifacts. The local preview server applies the intended headers so browser tests exercise them. The offline top-level guard is additional defense, not proof of authentic code.
 
+HTTPS responses include `Strict-Transport-Security: max-age=31536000`. This host-only policy does not set `includeSubDomains` or request preload. Per [RFC 6797](https://www.rfc-editor.org/rfc/rfc6797), a browser learns the policy through a valid HTTPS response and subsequently requires HTTPS for that hostname. It does not protect an initial unauthenticated HTTP visit or a compromised trusted publisher. The canonical HTTP origin was observed redirecting to HTTPS; actual release deployment must verify the HSTS header as well.
+
 The canonical Cloudflare hostname has scoped rules disabling injected Web Analytics/RUM, Zaraz, Rocket Loader and email obfuscation, respecting origin cache headers, and removing NEL/Report-To network-reporting headers. Observed served bytes and headers are recorded in [the publication evidence](PUBLICATION.md). These are delivery settings, not a promise about every browser or network provider. An existing browser policy cached before a hosting change may persist until it expires. Cloudflare still receives the ordinary HTTPS request and can retain provider-side request information. No generated secret is part of that request.
 
 ## Lifetime and transfer

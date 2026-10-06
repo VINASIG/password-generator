@@ -366,6 +366,9 @@ test("CSP denies arbitrary scripts, fetch connections, forms and foreign framing
     "frame-ancestors 'none'",
   );
   expect(response.headers()["referrer-policy"]).toBe("no-referrer");
+  expect(response.headers()["strict-transport-security"]).toBe(
+    "max-age=31536000",
+  );
 });
 test("response policy blocks an actual foreign ancestor", async ({
   page,

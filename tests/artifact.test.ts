@@ -33,6 +33,10 @@ void test("standalone CSP hashes cover exactly the embedded code and style, with
   assert.ok(
     readFileSync("dist/_headers", "utf8").includes("frame-ancestors 'none'"),
   );
+  assert.match(
+    readFileSync("dist/_headers", "utf8"),
+    /^ {2}Strict-Transport-Security: max-age=31536000$/m,
+  );
 });
 void test("canonical discovery is enabled only for a validated production origin, and offline remains noindex", () => {
   const destination = resolve("output/discovery-fixture");
