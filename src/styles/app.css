@@ -368,7 +368,9 @@ fieldset:disabled {
 
 #secret,
 #scramble {
+  display: block;
   width: 100%;
+  height: 6.5rem;
   min-height: 6.5rem;
   max-height: 24rem;
   resize: vertical;
@@ -389,6 +391,7 @@ input[aria-invalid="true"] {
 }
 
 #scramble {
+  overflow: auto;
   user-select: none;
 }
 
