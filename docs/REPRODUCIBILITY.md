@@ -28,17 +28,19 @@ ZIP packages use stored entries, lexical ordering, fixed DOS timestamps of 1 Jan
 
 The `-site.zip` contains the complete static `dist/` inventory at its archive root, including `_headers` and the build record. CI builds it with the canonical `PUBLIC_ORIGIN=https://password.vinasig.io.vn` and actual `SOURCE_COMMIT`. Release verification compares this ZIP between operating systems alongside the source/offline ZIPs. Its entries are independently checked against every recorded artifact digest. Upload only this checked site artifact to Cloudflare Pages Direct Upload, then compare served bytes and headers. Cloudflare does not build or alter the source repository through a GitHub App.
 
-The local automated rebuild check runs the same pinned toolchain in two separate directories, compares every output byte, and confirms corrupted source pins fail. The prepared CI workflow builds on Ubuntu 24.04 and Windows Server 2025 with Visual Studio 2026, records the actual image and compares both complete release directories before publication. Until those jobs actually run, cross-OS CI is NOT_RUN. Neither check is hermetic reproducibility.
+The local automated rebuild check runs the same pinned toolchain in two separate directories, compares every output byte, and confirms corrupted source pins fail. [Verification run 37504825103](https://github.com/VINASIG/password-generator/actions/runs/37504825103) executed revision `72d458e8edab660d6e7837f7352848b32e6c0ac1` on Ubuntu 24.04 and Windows Server 2025 with Visual Studio 2026. Both jobs passed. The downloaded source/offline/site ZIPs, checksums and build record were byte-identical across those two environments. Their separate manifests record the actual runner images and toolchains. The release workflow repeats the checks and comparison for each tag. Neither check is hermetic reproducibility or a guarantee about future runner updates.
 
 ## Published release verification
 
-Future authorized research tags must exactly match the package version and `docs/releases/<tag>.md` heading. A tag cannot silently fall back to another version's notes. Release metadata fixtures check that failure mode and reject changed, missing or unchecksummed assets. Publication requires successful verification jobs, identical paired source/offline ZIPs and checksums, followed by GitHub build-provenance attestations for those exact files and the separate environment records.
+Research tags must exactly match the package version and `docs/releases/<tag>.md` heading. A tag cannot silently fall back to another version's notes. Release metadata fixtures check that failure mode and reject changed, missing or unchecksummed assets. Publication requires successful verification jobs, identical paired source/offline/site ZIPs and checksums, followed by GitHub build-provenance attestations for those exact files and the separate environment records.
 
 After downloading an actually published asset, use a trusted channel to compare its SHA-256 and verify its attestation:
 
 ```sh
 gh attestation verify password-generator-v0.1.0-offline.zip --repo VINASIG/password-generator
 gh attestation verify password-generator-v0.1.0-source.zip --repo VINASIG/password-generator
+
+gh attestation verify password-generator-v0.1.0-site.zip --repo VINASIG/password-generator
 ```
 
 These commands are instructions, not claims that an attestation currently exists. Inspect the attested repository, workflow and revision, rebuild the corresponding source and compare the output. Matching bytes and provenance do not prove the specification is correct or the hosted publisher cannot serve a malicious future revision.

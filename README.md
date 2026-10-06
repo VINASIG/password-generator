@@ -6,6 +6,8 @@ This is a research preview. Uniform-selection mathematics and automated checks a
 
 ## Use
 
+Use the website in [Vietnamese](https://password.vinasig.io.vn/) or [English](https://password.vinasig.io.vn/en/). Standalone offline files are also available from the page and as a ZIP in [research releases](https://github.com/VINASIG/password-generator/releases). Verify the release identity and artifact checksum before using a downloaded copy.
+
 Open the built `dist/offline/vi.html` or `dist/offline/en.html` in a supported browser. Both files contain their code, fonts, icons and pinned lists. They work without a server or connection after opening. Generation stays disabled if secure context, Web Crypto, top-level browsing or wordlist integrity checks fail. Offline clipboard support depends on the browser. Reveal and manual copy remain available when clipboard access is denied.
 
 Choose settings and explicitly generate. The result is masked until revealed, and the actual secret is absent from the DOM while masked. Copy is explicit. Settings changes, leaving the tab, page navigation and a five-minute timer clear the page's result. This is lifecycle cleanup, not guaranteed erasure of JavaScript memory, browser caches, clipboard history or receiving applications. Save a unique result for each account in a trusted password manager.
@@ -48,6 +50,7 @@ Open `http://127.0.0.1:4179/`. Localhost is needed for preview Web Crypto, not f
 - [Sources, versions and license provenance](docs/SOURCES.md)
 - [Validation and gaps](docs/VALIDATION.md)
 - [Reproducibility and release verification](docs/REPRODUCIBILITY.md)
+- [Public deployment and publication evidence](docs/PUBLICATION.md)
 - [Technical decisions and standards specialization](docs/DECISIONS.md)
 - [Disclosure policy](SECURITY.md)
 - [License scopes](LICENSES.md) and [third-party credits](NOTICE.md)
@@ -56,4 +59,4 @@ Open `http://127.0.0.1:4179/`. Localhost is needed for preview Web Crypto, not f
 
 ## Publication state
 
-The canonical source repository is [VINASIG/password-generator](https://github.com/VINASIG/password-generator). Full publication at `password.vinasig.io.vn` was authorized on 7 October 2026. Repository details and private vulnerability reporting are configured. CI, release, hosting, DNS, discovery and related public information must be verified before being reported as complete. Current observations and deployment steps are in [the publication record](docs/PUBLICATION.md). Preparing a workflow does not prove it ran, and a checksum does not authenticate a publisher.
+The public source repository is [VINASIG/password-generator](https://github.com/VINASIG/password-generator). The canonical website runs on Cloudflare Pages Direct Upload with checked static response headers. Repository details and private vulnerability reporting are configured. Paired Ubuntu/Windows CI has passed, and the initial deployed files were compared with its checked site artifact. Current observations, evidence boundaries and release/deployment procedures are in [the publication record](docs/PUBLICATION.md). A website update requires uploading the verified site ZIP. Preparing a workflow does not prove it ran, and a checksum does not authenticate a publisher.

@@ -4,7 +4,7 @@ This project is an agent-assessed research preview. Maintenance is best effort, 
 
 ## Supported versions
 
-The latest published preview is the supported line once publication begins. Version 0.1.0 is the initial research preview undergoing publication checks. Report exact version, source commit, artifact SHA-256, browser and steps. Historical artifacts remain inspectable but are not automatically recommended.
+The latest published preview is the supported line. Version 0.1.0 is the initial research preview. Report exact version, source commit, artifact SHA-256, browser and steps. Historical artifacts remain inspectable but are not automatically recommended.
 
 ## Private reporting
 
