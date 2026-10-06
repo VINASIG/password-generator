@@ -111,10 +111,12 @@ test("selection, pointer hover and explicit pause freeze rotation, clear stays c
   await expect(page.locator("#secret")).toHaveValue(initial);
   await page.mouse.move(0, 0);
   await page.locator("#pause").click();
+  await expect(page.locator("#pause")).toHaveAttribute("aria-pressed", "true");
   await page.mouse.move(0, 0);
   await page.clock.fastForward(61_000);
   await expect(page.locator("#secret")).toHaveValue(initial);
   await page.locator("#pause").click();
+  await expect(page.locator("#pause")).toHaveAttribute("aria-pressed", "false");
   await page.mouse.move(0, 0);
   await page.clock.fastForward(61_000);
   await expect(page.locator("#secret")).not.toHaveValue(initial);
