@@ -164,7 +164,7 @@ test("scramble is decorative, noncopyable, cancellable and respects reduced moti
 
 test("a maximum-length phrase scramble stays inside the output surface on a narrow screen", async ({
   page,
-}) => {
+}, testInfo) => {
   const tokens = readFileSync("data/lists/eff-long.txt", "utf8")
     .trimEnd()
     .split("\n");
@@ -186,6 +186,7 @@ test("a maximum-length phrase scramble stays inside the output surface on a narr
   await page.clock.install();
   await page.goto("/en/");
   await expect(page.locator("#generate")).toBeEnabled();
+  await page.evaluate(() => document.fonts.ready.then(() => {}));
   await page.clock.pauseAt(new Date(Date.now() + 2_000));
   await page.locator('input[name="mode"][value="phrase"]').check();
   await page.locator("#words").fill("20");
@@ -201,11 +202,12 @@ test("a maximum-length phrase scramble stays inside the output surface on a narr
       const animation = animationElement.getBoundingClientRect();
       const button = buttonElement.getBoundingClientRect();
       return {
-        boxTop: box.top,
-        boxBottom: box.bottom,
-        animationTop: animation.top,
-        animationBottom: animation.bottom,
-        buttonTop: button.top,
+        scrollY: window.scrollY,
+        boxTop: box.top + window.scrollY,
+        boxBottom: box.bottom + window.scrollY,
+        animationTop: animation.top + window.scrollY,
+        animationBottom: animation.bottom + window.scrollY,
+        buttonTop: button.top + window.scrollY,
       };
     });
   const before = await geometry();
@@ -217,6 +219,12 @@ test("a maximum-length phrase scramble stays inside the output surface on a narr
     Array.from({ length: 20 }, () => tokens[longest]).join("-"),
   );
   const after = await geometry();
+  await testInfo.attach("maximum-phrase-geometry", {
+    body: JSON.stringify({ before, after }),
+    contentType: "application/json",
+  });
+  expect(Math.abs(after.boxTop - before.boxTop)).toBeLessThanOrEqual(1);
+  expect(Math.abs(after.boxBottom - before.boxBottom)).toBeLessThanOrEqual(1);
   expect(Math.abs(after.buttonTop - before.buttonTop)).toBeLessThanOrEqual(1);
 });
 
