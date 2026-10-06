@@ -4,7 +4,10 @@ import {
   KeyRound,
   RefreshCw,
   ShieldCheck,
-  SunMoon,
+  Sun,
+  Moon,
+  Pause,
+  Play,
   Trash2,
   WholeWord,
 } from "lucide";
@@ -19,8 +22,8 @@ export const escapeHtml = (value: string): string =>
         character
       ] ?? "",
   );
-function icon(node: IconNode): string {
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${node
+function icon(node: IconNode, className = ""): string {
+  return `<svg class="${className}" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${node
     .map(
       ([name, attributes]) =>
         `<${name} ${Object.entries(attributes)
@@ -37,6 +40,7 @@ const text = {
     lead: "Sinh ngay trên thiết bị của bạn. Chọn password cho trình quản lý mật khẩu, hoặc passphrase khi cần đọc và nhập lại.",
     skip: "Đến công cụ",
     theme: "Đổi giao diện sáng tối",
+    preferences: "Đổi ngôn ngữ và giao diện",
     settings: "Thiết lập",
     password: "Password",
     phrase: "Passphrase",
@@ -61,24 +65,29 @@ const text = {
     eff: "Tiếng Anh EFF",
     effHint: "7.776 từ, giữ nguyên chính tả nguồn",
     vi: "Tiếng Việt có dấu",
-    viHint: "2.966 token, thử nghiệm do agents tuyển chọn",
+    viHint: "2.966 từ từ Vietnamese Passphrase",
     ascii: "Tiếng Việt không dấu",
-    asciiHint: "2.389 token, thử nghiệm sau gộp trùng",
-    experimental:
-      "Hai bộ tiếng Việt chưa được người Việt kiểm thử khả năng ghi nhớ, mức quen thuộc hoặc lỗi gõ. Không có profile tiếng Việt được khuyến nghị. Dấu gạch dưới trong từ ghép là một phần của token. Bản không dấu làm mất phân biệt nghĩa.",
+    asciiHint: "2.389 từ không dấu, đã gộp trùng",
     words: "Số từ",
     wordsHint: "Từ 4 đến 20 từ. Các từ có thể lặp lại.",
     target: "Đặt số từ để có ít nhất",
     bits80: "80 bit",
     bits128: "128 bit",
     separator: "Ngăn cách các từ",
+    hyphen: "Dấu nối",
     space: "Khoảng trắng",
     period: "Dấu chấm",
     delimiterHint:
-      "Giữ nguyên dấu nối của từ tiếng Anh và gạch dưới của token tiếng Việt. Khoảng trắng hoặc dấu chấm giúp ranh giới token không bị nhập nhằng.",
-    generate: "Tạo kết quả mới",
+      "Mặc định dùng dấu nối giữa các từ. Giữ nguyên gạch dưới trong từ ghép tiếng Việt và chính tả của bộ từ nguồn.",
+    generate: "Tạo mới ngay",
+    pause: "Tạm dừng tự tạo",
+    rotation: "Thời gian đến lần tạo mới",
+    rotationHint:
+      "Tự tạo sau 60 giây. Tạm dừng khi trỏ chuột vào kết quả, thao tác với kết quả hoặc sao chép.",
+    footerHome: "Trang chủ VINASIG",
+    footerInfo: "Thông tin website",
     result: "Kết quả",
-    empty: "Kết quả chỉ xuất hiện khi bạn bấm tạo.",
+    empty: "Kết quả mới sẽ hiện tại đây.",
     resultLabel: "Password hoặc passphrase vừa tạo",
     reveal: "Hiện kết quả",
     copy: "Sao chép",
@@ -91,7 +100,7 @@ const text = {
     starting: "Đang kiểm tra tính toàn vẹn của các bộ từ vựng.",
     nojs: "Công cụ cần JavaScript và Web Crypto. Chức năng sinh bị khóa khi không chạy được mã đã kiểm tra.",
     lifecycle:
-      "Không lưu lịch sử. Kết quả bị xóa khỏi trang khi rời tab, đổi thiết lập hoặc sau 5 phút. Clipboard và ứng dụng nhận có thể vẫn giữ nội dung.",
+      "Thiết lập thay đổi sẽ tạo kết quả mới. Không lưu lịch sử. Trang xóa kết quả khi rời tab hoặc không thao tác trong 5 phút. Clipboard có thể vẫn giữ nội dung đã sao chép.",
     offline: "Dùng bản offline",
     offlineHint:
       "Bản HTML đã build chứa sẵn mã, font và dữ liệu. Mở trong trình duyệt tương thích rồi ngắt mạng. Kiểm tra chữ ký nguồn và checksum của bản phát hành trước khi dùng.",
@@ -100,7 +109,7 @@ const text = {
     limits: "Phương pháp và giới hạn",
     faq1: "Secret có được gửi ra ngoài không?",
     answer1:
-      "Mã sinh không có API mạng, analytics, storage hoặc service worker. Content Security Policy chặn kết nối. Tải trang và bấm liên kết vẫn tạo kết nối bình thường. Trang bị thay mã ở máy chủ, extension, hệ điều hành hoặc trình duyệt bị xâm nhập có thể làm lộ secret. Bản offline đã xác minh giúp giảm việc phải tin máy chủ ở lần sử dụng sau.",
+      "Mã sinh không có API mạng, analytics hoặc service worker. Chỉ tùy chọn sáng tối được lưu trên thiết bị. Content Security Policy chặn kết nối. Tải trang và bấm liên kết vẫn tạo kết nối bình thường. Trang bị thay mã ở máy chủ, extension, hệ điều hành hoặc trình duyệt bị xâm nhập có thể làm lộ secret. Bản offline đã xác minh giúp giảm việc phải tin máy chủ ở lần sử dụng sau.",
     faq2: "Bit không gian sinh có nghĩa gì?",
     answer2:
       "Với các ký tự độc lập, số kết quả là kích thước bảng ký tự mũ độ dài. Với passphrase, đó là số token mũ số từ. Khi bắt buộc có đủ nhóm ký tự, công cụ đếm chính xác các chuỗi hợp lệ rồi chọn đều một chuỗi. Dấu phân cách cố định không cộng thêm bit. Nếu sửa, bỏ từ hoặc chọn lại theo sở thích, mô hình này không còn mô tả lựa chọn của bạn.",
@@ -110,9 +119,9 @@ const text = {
     faq4: "Có thể dùng làm khóa mật mã không?",
     answer4:
       "Không dùng đầu ra này trực tiếp làm khóa giao thức, seed ví, nonce hoặc cặp khóa. Hãy dùng công cụ chuyên biệt và API tạo khóa của giao thức. Các định dạng đó có yêu cầu phân phối, tuổi thọ, lưu trữ và xác thực riêng.",
-    faq5: "Tiếng Việt đã được xác nhận dễ nhớ hơn chưa?",
+    faq5: "Dùng passphrase tiếng Việt thế nào?",
     answer5:
-      "Chưa. Các phép kiểm tra kỹ thuật và proxy từ corpus không thay thế quan sát người Việt. Nhãn thử nghiệm áp dụng cả bộ có dấu lẫn không dấu. Website có thể thay đổi hoặc chuẩn hóa Unicode khi nhận mật khẩu, nên hãy kiểm tra khả năng nhập lại trước khi dùng cho tài khoản.",
+      "Chọn bộ có dấu hoặc không dấu theo ký tự mà dịch vụ hỗ trợ. Giữ nguyên dấu phân cách và gạch dưới trong từ ghép. Lưu đầy đủ kết quả trong trình quản lý mật khẩu và kiểm tra khả năng nhập lại của dịch vụ.",
     evidence: "Đọc nghiên cứu, thuật toán và bằng chứng kiểm thử",
     licenses: "Giấy phép",
     source: "Mã nguồn",
@@ -129,6 +138,7 @@ const text = {
     lead: "Generate on your device. Choose a password for your password manager, or a passphrase when you need to read and type it again.",
     skip: "Go to generator",
     theme: "Change light or dark appearance",
+    preferences: "Language and appearance",
     settings: "Settings",
     password: "Password",
     phrase: "Passphrase",
@@ -153,24 +163,29 @@ const text = {
     eff: "English EFF",
     effHint: "7,776 words with original source spelling",
     vi: "Vietnamese with accents",
-    viHint: "2,966 tokens, experimental agent curation",
+    viHint: "2,966 tokens from Vietnamese Passphrase",
     ascii: "Vietnamese without accents",
-    asciiHint: "2,389 tokens, experimental after deduplication",
-    experimental:
-      "Neither Vietnamese list has participant evidence about recall, familiarity or typing errors. No Vietnamese profile is recommended. Underscores inside compounds are part of the token. The accent-free list loses semantic distinctions.",
+    asciiHint: "2,389 distinct accent-free tokens",
     words: "Word count",
     wordsHint: "From 4 to 20 words. Repeated words are allowed.",
     target: "Set word count for at least",
     bits80: "80 bits",
     bits128: "128 bits",
     separator: "Word separator",
+    hyphen: "Hyphen",
     space: "Space",
     period: "Period",
     delimiterHint:
-      "English hyphens and Vietnamese compound underscores remain unchanged. A space or period keeps token boundaries unambiguous.",
-    generate: "Generate new result",
+      "Hyphens separate words by default. Vietnamese compound underscores and original wordlist spellings stay unchanged.",
+    generate: "Generate now",
+    pause: "Pause automatic generation",
+    rotation: "Time until the next result",
+    rotationHint:
+      "New result every 60 seconds. Pauses while hovering over the result, interacting with it or copying.",
+    footerHome: "VINASIG home",
+    footerInfo: "Website information",
     result: "Result",
-    empty: "A result appears only when you generate one.",
+    empty: "Your new result appears here.",
     resultLabel: "Generated password or passphrase",
     reveal: "Reveal result",
     copy: "Copy",
@@ -183,7 +198,7 @@ const text = {
     starting: "Checking wordlist integrity.",
     nojs: "JavaScript and Web Crypto are required. Generation stays locked when the checked code cannot run.",
     lifecycle:
-      "No history is saved. Results are cleared from this page when leaving the tab, changing settings or after 5 minutes. The clipboard and receiving application may retain them.",
+      "Settings changes generate a new result. No history is saved. Leaving the tab or 5 minutes without interaction clears the result. The clipboard may retain copied content.",
     offline: "Use offline",
     offlineHint:
       "The built HTML includes code, fonts and data. Open in a compatible browser, then disconnect. Verify release provenance and checksums before use.",
@@ -193,7 +208,7 @@ const text = {
     limits: "Methods and limits",
     faq1: "Are secrets sent anywhere?",
     answer1:
-      "Generation code has no network API, analytics, storage or service worker. Content Security Policy blocks connections. Page loads and clicked links still make ordinary connections. Replaced hosting code, extensions, a compromised browser or operating system can expose secrets. A verified offline artifact reduces ongoing trust in the host.",
+      "Generation code has no network API, analytics or service worker. Only the appearance preference is saved on the device. Content Security Policy blocks connections. Page loads and clicked links still make ordinary connections. Replaced hosting code, extensions, a compromised browser or operating system can expose secrets. A verified offline artifact reduces ongoing trust in the host.",
     faq2: "What do generation-space bits mean?",
     answer2:
       "For independent characters, the number of outcomes is alphabet size raised to length. For passphrases, it is token count raised to word count. With required character groups, the generator counts valid strings exactly and samples uniformly. A fixed separator adds no bits. Editing, removing words or repeatedly selecting favorites changes the selection model.",
@@ -203,9 +218,9 @@ const text = {
     faq4: "Can outputs be used as cryptographic keys?",
     answer4:
       "Do not directly use these outputs as protocol keys, wallet seeds, nonces or key pairs. Use a specialized protocol tool and its key-generation API. These formats have separate distribution, lifetime, storage and authentication requirements.",
-    faq5: "Are Vietnamese phrases proven easier to remember?",
+    faq5: "How do I use a Vietnamese passphrase?",
     answer5:
-      "No. Engineering tests and corpus proxies cannot replace observation of Vietnamese participants. Both accented and accent-free lists are experimental. A website may normalize or transform Unicode passwords, so verify that you can enter one again before relying on it.",
+      "Choose accented or accent-free words according to the service character support. Preserve separators and compound underscores. Save the complete result in your password manager and verify that the service accepts it when entered again.",
     evidence: "Read research, algorithms and validation evidence",
     licenses: "Licenses",
     source: "Source code",
@@ -278,18 +293,18 @@ export function page(options: {
   return `<!doctype html>
 <html lang="${locale}"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="${escapeHtml(options.csp)}"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="referrer" content="no-referrer"><title>${t.title} | VINASIG</title><meta name="description" content="${t.description}">${discovery}<link rel="icon" type="image/svg+xml" href="${options.favicon}"><style>${options.css}</style></head>
 <body><a class="skip-link" href="#generator">${t.skip}</a><div data-site-shell class="app-shell">
-<header data-site-header><a data-brand-logo href="https://vinasig.io.vn/" aria-label="VINASIG"><picture><source type="image/svg+xml" srcset="${options.darkLogo}" media="(prefers-color-scheme: dark)"><img src="${options.lightLogo}" width="540" height="140" alt="VINASIG"></picture></a><div class="site-preferences"><button type="button" id="theme" data-theme-toggle aria-label="${t.theme}" disabled>${icon(SunMoon)}</button><a class="language-switch" data-copy-notation="ISO 639 language code" href="${languageHref}" lang="${locale === "vi" ? "en" : "vi"}" hreflang="${locale === "vi" ? "en" : "vi"}" aria-label="${locale === "vi" ? "Switch to English" : "Chuyển sang tiếng Việt"}">${locale === "vi" ? "EN" : "VI"}</a></div></header>
+<header data-site-header><a data-brand-logo href="https://vinasig.io.vn/" aria-label="${t.footerHome}"><picture><source type="image/svg+xml" srcset="${options.darkLogo}" media="(prefers-color-scheme: dark)"><img src="${options.lightLogo}" width="540" height="140" alt="VINASIG"></picture></a><nav class="site-preferences" aria-label="${t.preferences}"><button type="button" class="theme-switch" id="theme" data-theme-toggle aria-label="${t.theme}" aria-pressed="false" disabled>${icon(Sun, "theme-sun")}${icon(Moon, "theme-moon")}</button><a class="language-switch" data-copy-notation="ISO 639 language code" href="${languageHref}" lang="${locale === "vi" ? "en" : "vi"}" hreflang="${locale === "vi" ? "en" : "vi"}" aria-label="${locale === "vi" ? "Switch to English" : "Chuyển sang tiếng Việt"}">${locale === "vi" ? "EN" : "VI"}</a></nav></header>
 <main><div class="intro"><h1>${t.title}</h1><p class="lead">${t.lead}</p></div>
-<div class="workspace" id="generator"><section class="settings-surface" aria-labelledby="settings-title"><h2 id="settings-title">${icon(ShieldCheck)} ${t.settings}</h2><fieldset id="settings" disabled><legend class="sr-only">${t.settings}</legend>
+<div class="workspace" id="generator"><section class="result-surface" id="result-surface" aria-labelledby="result-title"><h2 id="result-title" tabindex="-1">${t.result}</h2><div class="secret-box"><p id="empty-result" class="empty-result">${t.empty}</p><div id="scramble" aria-hidden="true" data-user-content translate="no" hidden></div><label class="sr-only" for="secret">${t.resultLabel}</label><textarea id="secret" rows="3" readonly autocomplete="off" spellcheck="false" autocapitalize="off" translate="no" hidden></textarea></div><button type="button" class="primary generate" id="generate" disabled>${icon(RefreshCw)} ${t.generate}</button><div class="rotation" id="rotation" hidden><span id="countdown-text"></span><progress id="countdown" max="60" value="60" aria-label="${t.rotation}"></progress><button type="button" id="pause" aria-pressed="false" disabled><span id="pause-icon">${icon(Pause)}</span><span id="resume-icon" hidden>${icon(Play)}</span><span id="pause-label">${t.pause}</span></button><p class="hint">${t.rotationHint}</p></div><div class="result-actions"><button type="button" id="reveal" aria-pressed="true" disabled>${t.reveal}</button><button type="button" id="copy" disabled>${icon(Copy)} ${t.copy}</button><button type="button" id="clear" disabled>${icon(Trash2)} ${t.clear}</button></div>
+<dl class="metrics" id="metrics" hidden><div><dt>${t.bits}</dt><dd id="bit-count"></dd></div><div><dt>${t.chars}</dt><dd id="character-count"></dd></div><div><dt>${t.bytes}</dt><dd id="byte-count"></dd></div></dl><p class="hint">${t.metricHint}</p><p id="warning" class="warning"></p><p id="status" role="status" aria-live="polite" aria-atomic="true">${t.starting}</p><p class="hint lifecycle">${t.lifecycle}</p></section>
+<section class="settings-surface" aria-labelledby="settings-title"><h2 id="settings-title">${icon(ShieldCheck)} ${t.settings}</h2><fieldset id="settings" disabled><legend class="sr-only">${t.settings}</legend>
 <div class="choices">${radio("mode", "password", `${icon(KeyRound)} ${t.password}`, t.pwdHint, true)}${radio("mode", "phrase", `${icon(WholeWord)} ${t.phrase}`, t.phraseHint, false)}</div>
 <div id="password-panel">${count("length", t.length, 8, 128, 20, t.lengthHint)}<fieldset class="field"><legend>${t.groups}</legend><div class="checks">${check("lower", `${t.lower} a-z`, true)}${check("upper", `${t.upper} A-Z`, true)}${check("digits", `${t.digits} 0-9`, true)}${check("symbols", `${t.symbols} !@#`, true)}</div></fieldset>
 <details id="compatibility"><summary>${t.compatibility}</summary><div class="field">${check("require-each", t.require, false)}<p class="hint">${t.requireHint}</p></div><div class="field">${check("ambiguous", t.ambiguous, false)}</div><div class="field"><label for="exclude">${t.exclude}</label><input type="text" id="exclude" maxlength="94" autocomplete="off" spellcheck="false" aria-describedby="exclude-hint"><p class="hint" id="exclude-hint">${t.excludeHint}</p></div></details></div>
-<div id="phrase-panel" hidden><fieldset class="field"><legend>${t.lists}</legend><div class="list-choices">${radio("wordlist", "eff", t.eff, t.effHint, true)}${radio("wordlist", "experimental-agent-vi", t.vi, t.viHint, false)}${radio("wordlist", "experimental-agent-ascii", t.ascii, t.asciiHint, false)}</div></fieldset><p id="experimental-note" class="experimental" hidden>${t.experimental}</p>${count("words", t.words, 4, 20, 7, t.wordsHint)}<div class="bit-shortcuts"><span>${t.target}</span><button type="button" data-bits="80" disabled>${t.bits80}</button><button type="button" data-bits="128" disabled>${t.bits128}</button></div><fieldset class="field"><legend>${t.separator}</legend><div class="choices">${radio("separator", " ", t.space, "", true)}${radio("separator", ".", t.period, "", false)}</div><p class="hint">${t.delimiterHint}</p></fieldset></div></fieldset>
-<button type="button" class="primary generate" id="generate" disabled>${icon(RefreshCw)} ${t.generate}</button><noscript><p class="warning">${t.nojs}</p></noscript></section>
-<section class="result-surface" aria-labelledby="result-title"><h2 id="result-title" tabindex="-1">${t.result}</h2><p id="empty-result" class="empty-result">${t.empty}</p><label class="sr-only" for="secret">${t.resultLabel}</label><textarea id="secret" rows="3" readonly autocomplete="off" spellcheck="false" autocapitalize="off" translate="no" hidden></textarea><div class="result-actions"><button type="button" id="reveal" aria-pressed="false" disabled>${t.reveal}</button><button type="button" id="copy" disabled>${icon(Copy)} ${t.copy}</button><button type="button" id="clear" disabled>${icon(Trash2)} ${t.clear}</button></div>
-<dl class="metrics" id="metrics" hidden><div><dt>${t.bits}</dt><dd id="bit-count"></dd></div><div><dt>${t.chars}</dt><dd id="character-count"></dd></div><div><dt>${t.bytes}</dt><dd id="byte-count"></dd></div></dl><p class="hint">${t.metricHint}</p><p id="warning" class="warning"></p><p id="status" role="status" aria-live="polite" aria-atomic="true">${t.starting}</p><p class="hint lifecycle">${t.lifecycle}</p></section></div>
+<div id="phrase-panel" hidden><fieldset class="field"><legend>${t.lists}</legend><div class="list-choices">${radio("wordlist", "eff", t.eff, t.effHint, true)}${radio("wordlist", "experimental-agent-vi", t.vi, t.viHint, false)}${radio("wordlist", "experimental-agent-ascii", t.ascii, t.asciiHint, false)}</div></fieldset>${count("words", t.words, 4, 20, 7, t.wordsHint)}<div class="bit-shortcuts"><span>${t.target}</span><button type="button" data-bits="80" disabled>${t.bits80}</button><button type="button" data-bits="128" disabled>${t.bits128}</button></div><fieldset class="field"><legend>${t.separator}</legend><div class="choices">${radio("separator", "-", t.hyphen, "", true)}${radio("separator", " ", t.space, "", false)}${radio("separator", ".", t.period, "", false)}</div><p class="hint">${t.delimiterHint}</p></fieldset></div></fieldset>
+<noscript><p class="warning">${t.nojs}</p></noscript></section></div>
 <section class="offline prose" aria-labelledby="offline-title"><h2 id="offline-title">${icon(Download)} ${t.offline}</h2><p>${offline ? t.downloaded : t.offlineHint}</p>${offline ? "" : `<a class="button-link" download="vinasig-password-${locale}.html" href="/offline/${locale}.html">${t.download}</a>`}</section>
 <section class="prose methods" aria-labelledby="methods-title"><h2 id="methods-title">${t.limits}</h2>${([1, 2, 3, 4, 5] as const).map((number) => `<details><summary>${t[`faq${number}`]}</summary><p>${t[`answer${number}`]}</p></details>`).join("")}<p><a href="${repository}/blob/${options.sourceCommit ?? "main"}/docs/RESEARCH.md">${t.evidence}</a></p></section>
 <section class="prose" id="licenses"><details><summary>${t.licenses}</summary><p>${t.licenseCopy}</p><p>${t.sourceBundle}</p><p><a href="${repository}/blob/${options.sourceCommit ?? "main"}/NOTICE.md">${t.licenses}</a></p>${offline ? `<pre class="legal-text" tabindex="0">${legalHtml}</pre>` : '<p><a href="/licenses/NOTICE.txt"><code>NOTICE</code></a> · <a href="/licenses/AGPL-3.0-or-later.txt"><code>AGPL-3.0-or-later</code></a> · <a href="/licenses/SpaceGrotesk-OFL.txt"><code>OFL-1.1</code></a> · <a href="/licenses/Lucide.txt">Lucide</a></p>'}</details></section></main>
-<footer data-site-footer><a class="footer-home" href="https://vinasig.io.vn/">VINASIG</a><nav class="footer-links" aria-label="${t.source}"><a href="${source}">${t.source}</a><a href="${repository}/issues">${t.issue}</a><a href="#licenses">${t.licenses}</a></nav></footer></div><script>${options.js}</script></body></html>\n`;
+<footer data-site-footer><a class="footer-home" href="https://vinasig.io.vn/" aria-label="${t.footerHome}">VINASIG</a><nav class="footer-links" aria-label="${t.footerInfo}"><a data-source-link href="${source}">${t.source}</a><a href="${repository}/issues">${t.issue}</a><a href="#licenses">${t.licenses}</a></nav></footer></div><script>${options.js}</script></body></html>\n`;
 }

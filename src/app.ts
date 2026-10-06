@@ -3,16 +3,22 @@ import type { CharacterGroup } from "./password.ts";
 import { prepareList, generatePhrase, phrasePlan } from "./phrase.ts";
 import type { VerifiedList } from "./phrase.ts";
 import { SOURCES } from "./generated/wordlists.ts";
+import {
+  boundedCount,
+  scrambleFrame,
+  ROTATION_MILLISECONDS,
+  IDLE_MILLISECONDS,
+  SCRAMBLE_MILLISECONDS,
+} from "./presentation.ts";
 
 const lang = document.documentElement.lang === "vi" ? "vi" : "en";
 const copy = {
   vi: {
-    ready: "Chọn thiết lập rồi tạo một kết quả mới.",
-    changed: "Thiết lập đã đổi. Hãy tạo kết quả mới.",
+    ready: "Sẵn sàng tạo kết quả mới.",
     created: "Đã tạo. Lưu một bản duy nhất trong trình quản lý mật khẩu.",
     cleared:
       "Đã xóa kết quả khỏi trang. Nội dung đã sao chép có thể vẫn còn trong clipboard.",
-    expired: "Đã xóa kết quả khi rời tab hoặc hết 5 phút.",
+    expired: "Đã xóa kết quả khi rời tab hoặc không thao tác trong 5 phút.",
     invalid:
       "Kiểm tra độ dài và nhóm ký tự. Mỗi nhóm được chọn phải còn ít nhất một ký tự. Chỉ dùng ký tự ASCII hiển thị trong ô loại trừ.",
     failed:
@@ -23,6 +29,12 @@ const copy = {
     copied: "Đã sao chép. Clipboard và ứng dụng nhận có thể lưu nội dung này.",
     denied:
       "Trình duyệt không cho phép sao chép. Hãy hiện kết quả và tự sao chép nếu cần.",
+    pause: "Tạm dừng tự tạo",
+    resume: "Tiếp tục tự tạo",
+    countdown: (seconds: number) => `Tạo mới sau ${seconds} giây`,
+    paused: "Đếm ngược đang tạm dừng",
+    light: "Chuyển sang giao diện sáng",
+    dark: "Chuyển sang giao diện tối",
     show: "Hiện kết quả",
     hide: "Ẩn kết quả",
     bits: "bit không gian sinh",
@@ -33,12 +45,12 @@ const copy = {
       "Dưới 15 ký tự. NIST yêu cầu tối thiểu 15 cho mật khẩu xác thực một yếu tố ở phía dịch vụ. Chỉ giảm độ dài để tương thích với yêu cầu đã hiểu rõ.",
   },
   en: {
-    ready: "Choose settings, then generate a new result.",
-    changed: "Settings changed. Generate a new result.",
+    ready: "Ready to generate a new result.",
     created: "Generated. Save a unique result in your password manager.",
     cleared:
       "Result cleared from this page. Copied content may still remain in the clipboard.",
-    expired: "Result cleared after leaving the tab or after 5 minutes.",
+    expired:
+      "Result cleared after leaving the tab or 5 minutes without interaction.",
     invalid:
       "Check length and character groups. Every selected group must retain at least one character. Use only visible ASCII characters in the exclusion field.",
     failed:
@@ -51,6 +63,12 @@ const copy = {
       "Copied. The clipboard and receiving application may retain this content.",
     denied:
       "Clipboard access was denied. Reveal the result and copy it yourself if needed.",
+    pause: "Pause automatic generation",
+    resume: "Resume automatic generation",
+    countdown: (seconds: number) => `New result in ${seconds} seconds`,
+    paused: "Countdown paused",
+    light: "Switch to light theme",
+    dark: "Switch to dark theme",
     show: "Reveal result",
     hide: "Hide result",
     bits: "bits of generation space",
@@ -75,7 +93,9 @@ const generateButton = element("generate", HTMLButtonElement);
 const revealButton = element("reveal", HTMLButtonElement);
 const copyButton = element("copy", HTMLButtonElement);
 const clearButton = element("clear", HTMLButtonElement);
+const pauseButton = element("pause", HTMLButtonElement);
 const result = element("secret", HTMLTextAreaElement);
+const scramble = element("scramble", HTMLDivElement);
 const status = element("status", HTMLParagraphElement);
 const metrics = element("metrics", HTMLDListElement);
 const bitCount = element("bit-count", HTMLElement);
@@ -85,17 +105,29 @@ const warning = element("warning", HTMLParagraphElement);
 const empty = element("empty-result", HTMLParagraphElement);
 const passwordPanel = element("password-panel", HTMLDivElement);
 const phrasePanel = element("phrase-panel", HTMLDivElement);
-const experimental = element("experimental-note", HTMLParagraphElement);
+const rotation = element("rotation", HTMLDivElement);
+const progress = element("countdown", HTMLProgressElement);
+const countdownText = element("countdown-text", HTMLSpanElement);
+const resultSurface = element("result-surface", HTMLElement);
+const motion = matchMedia("(prefers-reduced-motion: reduce)");
 let secret: string | null = null;
-let revealed = false;
+let revealed = true;
 let revision = 0;
-let timer: ReturnType<typeof setTimeout> | undefined;
-let deadline = 0;
+let idleTimer: ReturnType<typeof setTimeout> | undefined;
+let rotationTimer: ReturnType<typeof setInterval> | undefined;
+let frame = 0;
+let lastActivity = Date.now();
+let remaining = ROTATION_MILLISECONDS;
+let previousTick = 0;
+let paused = false;
+let pointerInResult = false;
+let copying = false;
+let active = !document.hidden;
 let lists: readonly VerifiedList[] = [];
 let readyForGeneration = false;
 
 function selected(name: string): string {
-  const checked = document.querySelector(`input[name="${name}"]:checked`);
+  const checked = document.querySelector('input[name="' + name + '"]:checked');
   if (!(checked instanceof HTMLInputElement))
     throw new Error("MISSING_SELECTION");
   return checked.value;
@@ -103,16 +135,25 @@ function selected(name: string): string {
 function input(id: string): HTMLInputElement {
   return element(id, HTMLInputElement);
 }
+function stopScramble(): void {
+  cancelAnimationFrame(frame);
+  frame = 0;
+  scramble.textContent = "";
+  scramble.hidden = true;
+}
 function clear(message: string): void {
   revision++;
   secret = null;
-  revealed = false;
-  deadline = 0;
-  clearTimeout(timer);
-  timer = undefined;
+  copying = false;
+  clearTimeout(idleTimer);
+  clearInterval(rotationTimer);
+  idleTimer = undefined;
+  rotationTimer = undefined;
+  stopScramble();
   result.value = "";
   result.hidden = true;
   empty.hidden = false;
+  rotation.hidden = true;
   metrics.hidden = true;
   bitCount.textContent = "";
   characterCount.textContent = "";
@@ -121,10 +162,34 @@ function clear(message: string): void {
   revealButton.disabled = true;
   copyButton.disabled = true;
   clearButton.disabled = true;
-  revealButton.textContent = copy.show;
-  revealButton.setAttribute("aria-pressed", "false");
+  pauseButton.disabled = true;
+  revealButton.textContent = revealed ? copy.hide : copy.show;
+  revealButton.setAttribute("aria-pressed", String(revealed));
   status.textContent = message;
   status.dataset["state"] = "ready";
+}
+function armIdleTimer(): void {
+  clearTimeout(idleTimer);
+  if (secret === null) return;
+  idleTimer = setTimeout(
+    () => {
+      if (Date.now() - lastActivity >= IDLE_MILLISECONDS) clear(copy.expired);
+      else armIdleTimer();
+    },
+    Math.max(1, lastActivity + IDLE_MILLISECONDS - Date.now()),
+  );
+}
+function touchActivity(): void {
+  const now = Date.now();
+  if (secret !== null && now - lastActivity >= IDLE_MILLISECONDS)
+    clear(copy.expired);
+  lastActivity = now;
+  armIdleTimer();
+}
+function isExpired(): boolean {
+  if (Date.now() - lastActivity < IDLE_MILLISECONDS) return false;
+  clear(copy.expired);
+  return true;
 }
 function currentList(): VerifiedList {
   const list = lists.find((candidate) => candidate.id === selected("wordlist"));
@@ -135,18 +200,163 @@ function updatePanels(): void {
   const isPassword = selected("mode") === "password";
   passwordPanel.hidden = !isPassword;
   phrasePanel.hidden = isPassword;
-  experimental.hidden = isPassword || selected("wordlist") === "eff";
 }
 function setNumber(id: string, value: string): void {
   input(id).value = value;
-  input(`${id}-range`).value = value;
+  input(id + "-range").value = value;
+  input(id).setAttribute("aria-invalid", "false");
+}
+function syncNumber(id: string, commit = false): void {
+  const field = input(id);
+  const range = input(id + "-range");
+  const min = Number(range.min);
+  const max = Number(range.max);
+  if (/^\d{1,3}$/.test(field.value)) {
+    const value = Number(field.value);
+    if (value > max || (commit && value < min))
+      setNumber(id, String(Math.max(min, Math.min(max, value))));
+    else if (value >= min) setNumber(id, String(value));
+  }
+  field.setAttribute(
+    "aria-invalid",
+    String(boundedCount(field.value, min, max) === null),
+  );
 }
 function renderSecret(): void {
+  stopScramble();
   result.value = revealed ? (secret ?? "") : "••••••••••••••••••••";
   result.hidden = false;
   empty.hidden = true;
   revealButton.textContent = revealed ? copy.hide : copy.show;
   revealButton.setAttribute("aria-pressed", String(revealed));
+  copyButton.disabled = secret === null || copying;
+}
+function animateSecret(): void {
+  renderSecret();
+  if (!revealed || motion.matches || secret === null) return;
+  const capturedRevision = revision;
+  const started = performance.now();
+  let previousPaint = -Infinity;
+  result.value = "";
+  result.hidden = true;
+  scramble.hidden = false;
+  copyButton.disabled = true;
+  const tick = (now: number): void => {
+    if (
+      revision !== capturedRevision ||
+      secret === null ||
+      !revealed ||
+      !active
+    )
+      return;
+    const elapsed = now - started;
+    if (motion.matches || elapsed >= SCRAMBLE_MILLISECONDS) {
+      renderSecret();
+      return;
+    }
+    try {
+      if (now - previousPaint >= 40) {
+        scramble.textContent = scrambleFrame(
+          secret,
+          elapsed / SCRAMBLE_MILLISECONDS,
+        );
+        previousPaint = now;
+      }
+      frame = requestAnimationFrame(tick);
+    } catch {
+      clear(copy.failed);
+      status.dataset["state"] = "error";
+    }
+  };
+  tick(started);
+}
+function countdownPaused(): boolean {
+  return (
+    paused || pointerInResult || copying || document.activeElement === result
+  );
+}
+function updateCountdown(): void {
+  const label = countdownPaused()
+    ? copy.paused
+    : copy.countdown(Math.ceil(remaining / 1000));
+  if (countdownText.textContent !== label) countdownText.textContent = label;
+  progress.value = remaining / 1000;
+  progress.setAttribute("aria-valuetext", label);
+  pauseButton.setAttribute("aria-pressed", String(paused));
+  element("pause-label", HTMLSpanElement).textContent = paused
+    ? copy.resume
+    : copy.pause;
+  element("pause-icon", HTMLElement).hidden = paused;
+  element("resume-icon", HTMLElement).hidden = !paused;
+}
+function startRotation(): void {
+  if (secret === null) return;
+  remaining = ROTATION_MILLISECONDS;
+  previousTick = Date.now();
+  rotation.hidden = false;
+  pauseButton.disabled = false;
+  updateCountdown();
+  rotationTimer = setInterval(() => {
+    const now = Date.now();
+    const elapsed = Math.max(0, now - previousTick);
+    previousTick = now;
+    if (secret === null || !active || isExpired()) return;
+    if (!countdownPaused()) remaining = Math.max(0, remaining - elapsed);
+    if (remaining === 0) generate();
+    else updateCountdown();
+  }, 250);
+}
+function generate(): void {
+  if (!readyForGeneration || !active || document.hidden) return;
+  clear(copy.ready);
+  try {
+    let bits: number;
+    if (selected("mode") === "password") {
+      const length = boundedCount(input("length").value, 8, 128);
+      if (length === null) throw new Error("INVALID_LENGTH");
+      const groups: CharacterGroup[] = [];
+      for (const name of ["lower", "upper", "digits", "symbols"] as const)
+        if (input(name).checked) groups.push(name);
+      const plan = planPassword({
+        length,
+        groups,
+        requireEach: input("require-each").checked,
+        exclude: input("exclude").value,
+        avoidAmbiguous: input("ambiguous").checked,
+      });
+      secret = generatePassword(plan);
+      bits = plan.bits;
+    } else {
+      const words = boundedCount(input("words").value, 4, 20);
+      if (words === null) throw new Error("INVALID_WORDS");
+      const list = currentList();
+      const separator = selected("separator");
+      const plan = phrasePlan(list, words, separator);
+      secret = generatePhrase(list, words, separator);
+      bits = plan.bits;
+    }
+    const characters = Array.from(secret).length;
+    bitCount.textContent = String(bits);
+    characterCount.textContent = String(characters);
+    byteCount.textContent = String(new TextEncoder().encode(secret).length);
+    metrics.hidden = false;
+    warning.textContent =
+      bits < 80 ? copy.low : characters < 15 ? copy.short : "";
+    revealButton.disabled = false;
+    clearButton.disabled = false;
+    status.textContent = copy.created;
+    animateSecret();
+    armIdleTimer();
+    startRotation();
+  } catch (error) {
+    clear(
+      error instanceof RangeError ||
+        (error instanceof Error && error.message.startsWith("INVALID_"))
+        ? copy.invalid
+        : copy.failed,
+    );
+    status.dataset["state"] = "error";
+  }
 }
 
 function updateLogo(): void {
@@ -171,61 +381,142 @@ function updateLogo(): void {
   if (source instanceof HTMLSourceElement)
     source.media = luminance < 0.179 ? "all" : "not all";
 }
-element("theme", HTMLButtonElement).addEventListener("click", () => {
+const themeButton = element("theme", HTMLButtonElement);
+const systemTheme = matchMedia("(prefers-color-scheme: dark)");
+let savedTheme: string | null = null;
+function readTheme(): void {
+  try {
+    savedTheme = localStorage.getItem("vinasig-theme");
+  } catch {
+    savedTheme = null;
+  }
+}
+function applyTheme(): void {
   const dark =
-    getComputedStyle(document.documentElement).colorScheme === "dark";
-  document.documentElement.dataset["theme"] = dark ? "light" : "dark";
+    savedTheme === "dark" || (savedTheme !== "light" && systemTheme.matches);
+  document.documentElement.dataset["theme"] = dark ? "dark" : "light";
+  const label = dark ? copy.light : copy.dark;
+  themeButton.setAttribute("aria-label", label);
+  themeButton.setAttribute("aria-pressed", String(dark));
+  themeButton.title = label;
   updateLogo();
+}
+readTheme();
+themeButton.addEventListener("click", () => {
+  savedTheme =
+    document.documentElement.dataset["theme"] === "dark" ? "light" : "dark";
+  try {
+    localStorage.setItem("vinasig-theme", savedTheme);
+  } catch {
+    /* Appearance remains available without storage. */
+  }
+  applyTheme();
 });
-matchMedia("(prefers-color-scheme: dark)").addEventListener(
-  "change",
-  updateLogo,
-);
+systemTheme.addEventListener("change", applyTheme);
+window.addEventListener("storage", (event) => {
+  if (event.key === "vinasig-theme" || event.key === null) {
+    readTheme();
+    applyTheme();
+  }
+});
 matchMedia("(forced-colors: active)").addEventListener("change", updateLogo);
-updateLogo();
-element("theme", HTMLButtonElement).disabled = false;
+applyTheme();
+themeButton.disabled = false;
+
+for (const event of ["pointerdown", "keydown", "input"] as const)
+  document.addEventListener(event, touchActivity, {
+    passive: true,
+    capture: true,
+  });
 settings.addEventListener("input", (event) => {
   const target = event.target;
-  if (target instanceof HTMLInputElement && target.type === "range")
-    setNumber(target.id.replace("-range", ""), target.value);
+  if (target instanceof HTMLInputElement) {
+    if (target.type === "range")
+      setNumber(target.id.replace("-range", ""), target.value);
+    if (["length", "words"].includes(target.id)) syncNumber(target.id);
+  }
+  updatePanels();
+  generate();
+});
+settings.addEventListener("change", (event) => {
+  const target = event.target;
   if (
     target instanceof HTMLInputElement &&
     ["length", "words"].includes(target.id)
-  )
-    input(`${target.id}-range`).value = target.value;
-  clear(copy.changed);
-  updatePanels();
+  ) {
+    const previous = target.value;
+    syncNumber(target.id, true);
+    if (target.value !== previous) generate();
+  }
 });
 document
   .querySelectorAll<HTMLButtonElement>("[data-bits]")
   .forEach((button) => {
     button.addEventListener("click", () => {
-      const target = Number(button.dataset["bits"]);
-      const words = Math.ceil(target / Math.log2(currentList().tokens.length));
-      setNumber("words", String(words));
-      clear(copy.changed);
+      if (!readyForGeneration) return;
+      touchActivity();
+      setNumber(
+        "words",
+        String(
+          Math.ceil(
+            Number(button.dataset["bits"]) /
+              Math.log2(currentList().tokens.length),
+          ),
+        ),
+      );
+      generate();
     });
   });
+generateButton.addEventListener("click", () => {
+  touchActivity();
+  generate();
+});
 clearButton.addEventListener("click", () => {
   clear(copy.cleared);
 });
 revealButton.addEventListener("click", () => {
-  if (secret === null) return;
-  if (Date.now() >= deadline) {
-    clear(copy.expired);
-    return;
-  }
+  if (secret === null || isExpired()) return;
   revealed = !revealed;
   renderSecret();
 });
-copyButton.addEventListener("click", () => {
+pauseButton.addEventListener("click", () => {
   if (secret === null) return;
-  if (Date.now() >= deadline) {
-    clear(copy.expired);
-    return;
-  }
+  paused = !paused;
+  previousTick = Date.now();
+  updateCountdown();
+});
+resultSurface.addEventListener("pointerenter", (event) => {
+  if (event.pointerType !== "mouse") return;
+  pointerInResult = true;
+  updateCountdown();
+});
+resultSurface.addEventListener("pointerleave", () => {
+  pointerInResult = false;
+  previousTick = Date.now();
+  updateCountdown();
+});
+resultSurface.addEventListener("focusin", updateCountdown);
+resultSurface.addEventListener("focusout", () => {
+  previousTick = Date.now();
+});
+motion.addEventListener("change", () => {
+  if (motion.matches && secret !== null) renderSecret();
+});
+
+copyButton.addEventListener("click", () => {
+  if (secret === null || frame !== 0 || copying || isExpired()) return;
   const capturedRevision = revision;
+  copying = true;
+  paused = true;
   copyButton.disabled = true;
+  updateCountdown();
+  const complete = (message: string): void => {
+    if (revision !== capturedRevision || secret === null) return;
+    copying = false;
+    status.textContent = message;
+    copyButton.disabled = false;
+    updateCountdown();
+  };
   try {
     const clipboard = (navigator as { clipboard?: Clipboard }).clipboard;
     if (typeof clipboard?.writeText !== "function")
@@ -233,101 +524,33 @@ copyButton.addEventListener("click", () => {
     void clipboard
       .writeText(secret)
       .then(() => {
-        if (revision === capturedRevision && secret !== null)
-          status.textContent = copy.copied;
+        complete(copy.copied);
       })
       .catch(() => {
-        if (revision === capturedRevision && secret !== null)
-          status.textContent = copy.denied;
-      })
-      .finally(() => {
-        if (revision === capturedRevision && secret !== null)
-          copyButton.disabled = false;
+        complete(copy.denied);
       });
   } catch {
-    if (revision === capturedRevision) {
-      status.textContent = copy.denied;
-      copyButton.disabled = false;
-    }
-  }
-});
-generateButton.addEventListener("click", () => {
-  if (!readyForGeneration) return;
-  clear(copy.ready);
-  try {
-    let bits: number;
-    if (selected("mode") === "password") {
-      const lengthText = input("length").value;
-      if (
-        !/^\d{1,3}$/.test(lengthText) ||
-        Number(lengthText) < 8 ||
-        Number(lengthText) > 128
-      )
-        throw new Error("INVALID_LENGTH");
-      const groups: CharacterGroup[] = [];
-      for (const name of ["lower", "upper", "digits", "symbols"] as const)
-        if (input(name).checked) groups.push(name);
-      const plan = planPassword({
-        length: Number(lengthText),
-        groups,
-        requireEach: input("require-each").checked,
-        exclude: input("exclude").value,
-        avoidAmbiguous: input("ambiguous").checked,
-      });
-      secret = generatePassword(plan);
-      bits = plan.bits;
-    } else {
-      const wordsText = input("words").value;
-      if (
-        !/^\d{1,2}$/.test(wordsText) ||
-        Number(wordsText) < 4 ||
-        Number(wordsText) > 20
-      )
-        throw new Error("INVALID_WORDS");
-      const words = Number(wordsText);
-      const list = currentList();
-      const separator = selected("separator");
-      const plan = phrasePlan(list, words, separator);
-      secret = generatePhrase(list, words, separator);
-      bits = plan.bits;
-    }
-    const characters = Array.from(secret).length;
-    const bytes = new TextEncoder().encode(secret).length;
-    bitCount.textContent = String(bits);
-    characterCount.textContent = String(characters);
-    byteCount.textContent = String(bytes);
-    metrics.hidden = false;
-    warning.textContent =
-      bits < 80 ? copy.low : characters < 15 ? copy.short : "";
-    revealed = false;
-    renderSecret();
-    revealButton.disabled = false;
-    copyButton.disabled = false;
-    clearButton.disabled = false;
-    status.textContent = copy.created;
-    deadline = Date.now() + 300000;
-    timer = setTimeout(() => {
-      clear(copy.expired);
-    }, 300000);
-    element("result-title", HTMLHeadingElement).focus();
-  } catch (error) {
-    clear(
-      error instanceof RangeError ||
-        (error instanceof Error && error.message.startsWith("INVALID_"))
-        ? copy.invalid
-        : copy.failed,
-    );
-    status.dataset["state"] = "error";
+    complete(copy.denied);
   }
 });
 window.addEventListener("pagehide", () => {
+  active = false;
   clear(copy.expired);
 });
-window.addEventListener("pageshow", () => {
-  if (secret !== null && Date.now() >= deadline) clear(copy.expired);
+window.addEventListener("pageshow", (event) => {
+  if (event.persisted && !document.hidden) {
+    active = true;
+    touchActivity();
+    generate();
+  }
 });
 document.addEventListener("visibilitychange", () => {
-  if (document.hidden && secret !== null) clear(copy.expired);
+  active = !document.hidden;
+  if (!active) clear(copy.expired);
+  else {
+    touchActivity();
+    generate();
+  }
 });
 document.querySelectorAll<HTMLAnchorElement>("a").forEach((link) => {
   link.addEventListener("click", () => {
@@ -366,6 +589,8 @@ async function initialize(): Promise<void> {
       });
     status.textContent = copy.ready;
     updatePanels();
+    touchActivity();
+    generate();
   } catch {
     status.textContent = copy.integrity;
     status.dataset["state"] = "error";

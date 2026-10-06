@@ -29,7 +29,7 @@ void test("pinned lists have exactly the reviewed sizes, unique NFC tokens and u
     assert.equal(list.tokens.length, count);
     assert.equal(new Set(list.tokens).size, count);
     assert.ok(list.tokens.every((token) => token === token.normalize("NFC")));
-    for (const separator of [" ", "."])
+    for (const separator of ["-", " ", "."])
       for (const words of [4, 7, 20]) {
         const plan = phrasePlan(list, words, separator);
         const exact = BigInt(count) ** BigInt(words);
@@ -53,7 +53,6 @@ void test("pinned lists have exactly the reviewed sizes, unique NFC tokens and u
           list.tokens[count - 1],
         ]);
       }
-    assert.throws(() => phrasePlan(list, 7, "-"));
     assert.throws(() => phrasePlan(list, 7, "_"));
     assert.throws(() => phrasePlan(list, 21, " "));
     if (id === "eff")
@@ -62,6 +61,47 @@ void test("pinned lists have exactly the reviewed sizes, unique NFC tokens and u
         ["drop-down", "felt-tip", "t-shirt", "yo-yo"],
       );
   }
+});
+void test("hyphen codewords decode uniquely, and ambiguous prefix vocabularies fail closed", async () => {
+  const text = readFileSync("data/lists/eff-long.txt", "utf8");
+  const list = await prepareList({
+    id: "eff",
+    text,
+    sha256: digest(text),
+    count: 7776,
+  });
+  const dictionary = new Set(list.tokens);
+  const decode = (value: string): string[] => {
+    const output: string[] = [];
+    let accumulated = "";
+    for (const part of value.split("-")) {
+      accumulated += (accumulated ? "-" : "") + part;
+      if (dictionary.has(accumulated)) {
+        output.push(accumulated);
+        accumulated = "";
+      }
+    }
+    assert.equal(accumulated, "");
+    return output;
+  };
+  for (const compound of ["drop-down", "felt-tip", "t-shirt", "yo-yo"])
+    for (const other of list.tokens) {
+      const tokens = [other, compound, other, compound];
+      assert.deepEqual(decode(tokens.join("-")), tokens);
+    }
+  const fixture = "a\na-b\nb-a\n";
+  const ambiguous = await prepareList({
+    id: "eff",
+    text: fixture,
+    sha256: digest(fixture),
+    count: 3,
+  });
+  assert.equal(["a-b", "a"].join("-"), ["a", "b-a"].join("-"));
+  assert.throws(
+    () => phrasePlan(ambiguous, 2, "-"),
+    /INVALID_PHRASE_PARAMETERS/,
+  );
+  assert.equal(phrasePlan(ambiguous, 2, " ").outcomes, 9n);
 });
 void test("list verification snapshots source text before an asynchronous digest completes", async () => {
   const original = "apple\nbanana\n";

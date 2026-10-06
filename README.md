@@ -1,6 +1,6 @@
 # VINASIG Password Generator
 
-A static generator for passwords, English EFF passphrases and experimental Vietnamese Passphrase profiles. Generation runs on the device using Web Crypto. The application has no runtime package dependency, network API, tracking, storage, service worker or saved secret history.
+A static generator for passwords, English EFF passphrases and Vietnamese Passphrase profiles. Generation runs on the device using Web Crypto. The application has no runtime package dependency, network API, tracking, service worker or saved secret history. Only the shared light/dark appearance preference is persisted.
 
 This is a research preview. Uniform-selection mathematics and automated checks are inspectable. An independent security review, participant usability study and production validation have not been performed. The project does not claim to be the best generator, a Vietnamese vocabulary standard, or a replacement for a password manager or phishing-resistant authentication.
 
@@ -10,16 +10,16 @@ Use the website in [Vietnamese](https://password.vinasig.io.vn/) or [English](ht
 
 Open the built `dist/offline/vi.html` or `dist/offline/en.html` in a supported browser. Both files contain their code, fonts, icons and pinned lists. They work without a server or connection after opening. Generation stays disabled if secure context, Web Crypto, top-level browsing or wordlist integrity checks fail. Offline clipboard support depends on the browser. Reveal and manual copy remain available when clipboard access is denied.
 
-Choose settings and explicitly generate. The result is masked until revealed, and the actual secret is absent from the DOM while masked. Copy is explicit. Settings changes, leaving the tab, page navigation and a five-minute timer clear the page's result. This is lifecycle cleanup, not guaranteed erasure of JavaScript memory, browser caches, clipboard history or receiving applications. Save a unique result for each account in a trusted password manager.
+A fresh result is generated on startup, whenever relevant settings change, and every 60 seconds while the page is active. A visible countdown and Generate now button control rotation. Results are shown by default with a short character scramble, and show/hide stays selected until reload. Masked mode keeps the actual secret out of the DOM. Copy is explicit and pauses rotation. Hovering over the result or selecting its text temporarily freezes the countdown. Clear stops rotation. Leaving the tab, page navigation and five minutes without interaction clear the result. Automatic rotation does not reset the inactivity deadline. This is lifecycle cleanup, not guaranteed erasure of JavaScript memory, browser caches, clipboard history or receiving applications. Save a unique result for each account in a trusted password manager.
 
-The root UI is Vietnamese. `/en/` is English. Both have light, dark, system preference, keyboard and responsive layouts. Theme preference is deliberately volatile.
+The root UI is Vietnamese. `/en/` is English. Both have light, dark, system preference, keyboard and responsive layouts. The appearance preference uses the same `vinasig-theme` key as the other VINASIG tools. Secret, settings, visibility and rotation preferences remain volatile.
 
-| Mode                       | Selection                                                     | Default                                 | Evidence boundary                                                         |
-| -------------------------- | ------------------------------------------------------------- | --------------------------------------- | ------------------------------------------------------------------------- |
-| Password                   | 94 printable ASCII characters across four optional groups     | 20 characters, no mandatory composition | 131 whole bits of generation space under the uniform CSPRNG model         |
-| English EFF                | Original 7,776-token long list                                | Seven draws, space separator            | 90 whole bits, no new participant study by this project                   |
-| Vietnamese with accents    | `experimental-agent-vi`, 2,966 original tokens                | Seven draws when selected               | Experimental agent curation, 80 whole bits, no participant evidence       |
-| Vietnamese without accents | `experimental-agent-ascii`, 2,389 already-deduplicated tokens | Seven draws when selected               | Experimental lossy representation, 78 whole bits, no participant evidence |
+| Mode                       | Selection                                                     | Default                                 | Evidence boundary                                                 |
+| -------------------------- | ------------------------------------------------------------- | --------------------------------------- | ----------------------------------------------------------------- |
+| Password                   | 94 printable ASCII characters across four optional groups     | 20 characters, no mandatory composition | 131 whole bits of generation space under the uniform CSPRNG model |
+| English EFF                | Original 7,776-token long list                                | Seven draws, hyphen separator           | 90 whole bits under uniform token selection                       |
+| Vietnamese with accents    | `experimental-agent-vi`, 2,966 original tokens                | Seven draws when selected               | Original agent-curated tokens, 80 whole bits                      |
+| Vietnamese without accents | `experimental-agent-ascii`, 2,389 already-deduplicated tokens | Seven draws when selected               | Distinct accent-free tokens, 78 whole bits                        |
 
 A fixed delimiter contributes no bits. Repeated characters and words are allowed. Optional required groups are sampled uniformly over the exact set of satisfying strings. There is no insertion/shuffle shortcut, post-generation filtering, accent folding or truncation. The UI reports whole bits rounded down, Unicode codepoints and UTF-8 bytes. Those numbers describe this generator's output space, not account security or a cracking time.
 

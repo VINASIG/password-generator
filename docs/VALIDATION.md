@@ -1,5 +1,7 @@
 # Validation record
 
+This dated record describes the original interaction model. The [7 October interaction review](UI-REVIEW-2026-10-07.md) records the subsequent automatic-generation, visibility, separator, theme and layout changes and their additional checks.
+
 Reviewed 6 October 2026 on Windows 11 Pro, Node 24.21.0 and npm 12.2.0. The local build has no Git source commit yet. This is an explicitly scoped pre-publication record, not independent security review, linguistic validation, participant testing or production evidence.
 
 The retained [evidence JSON](validation/local.json) binds these observations to the four HTML hashes and source pins. [Raw Lighthouse reports](validation/lighthouse/) and [before](validation/performance-before.json)/[after](validation/performance-after.json) summaries are included in source, rather than relying only on a score table. Local full test logs and synthetic screenshots remain under `output/`. CI must regenerate checks against the eventual published revision.

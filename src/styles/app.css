@@ -144,6 +144,13 @@ button svg {
 
 .result-surface {
   border-inline-start: 1px solid var(--color-border);
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.settings-surface {
+  grid-column: 1;
+  grid-row: 1;
 }
 
 fieldset {
@@ -318,11 +325,49 @@ fieldset:disabled {
   background: var(--color-surface-muted);
 }
 
+.generate {
+  margin-block-start: 1.5rem;
+}
+
+.secret-box {
+  padding: 1rem;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--color-canvas);
+  min-height: 9rem;
+}
+
+.rotation {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.5rem;
+  margin-block: 1rem;
+}
+
+.rotation progress {
+  width: 100%;
+}
+
+.rotation button {
+  justify-self: start;
+  text-align: start;
+}
+
+.rotation button > span:first-child,
+.rotation button > span:nth-child(2) {
+  display: inline-flex;
+}
+
+.rotation p {
+  margin: 0;
+}
+
 .result-surface p {
   margin-block: 0.75rem;
 }
 
-#secret {
+#secret,
+#scramble {
   width: 100%;
   min-height: 6.5rem;
   max-height: 24rem;
@@ -337,6 +382,14 @@ fieldset:disabled {
   line-height: 1.6;
   overflow-wrap: anywhere;
   white-space: pre-wrap;
+}
+
+input[aria-invalid="true"] {
+  border-color: var(--color-error);
+}
+
+#scramble {
+  user-select: none;
 }
 
 .metrics {
@@ -359,14 +412,6 @@ fieldset:disabled {
 
 .warning {
   color: var(--color-warning);
-  font-size: 0.875rem;
-}
-
-.experimental {
-  padding: 0.75rem 1rem;
-  border-inline-start: 3px solid var(--color-warning-accent);
-  background: var(--color-surface-muted);
-  color: var(--color-text);
   font-size: 0.875rem;
 }
 
@@ -423,9 +468,15 @@ details p {
   }
 
   .result-surface {
+    grid-column: 1;
+    grid-row: 1;
     border-inline-start: 0;
-    border-block-start: 1px solid var(--color-border);
-    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    border-block-end: 1px solid var(--color-border);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  }
+
+  .settings-surface {
+    grid-row: 2;
   }
 
   .intro {

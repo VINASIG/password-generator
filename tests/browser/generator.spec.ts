@@ -14,6 +14,7 @@ import { inspectSiteChrome } from "../../.vinasig/standards/templates/web/site-c
 import type { Page } from "@playwright/test";
 
 async function ready(page: Page, path = "/en/"): Promise<void> {
+  await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto(path);
   await expect(page.locator("#generate")).toBeEnabled();
 }
@@ -34,15 +35,18 @@ async function phrase(page: Page, id = "eff"): Promise<void> {
 }
 async function reveal(page: Page): Promise<string> {
   await page.locator("#generate").click();
-  await page.locator("#reveal").click();
+  if ((await page.locator("#reveal").getAttribute("aria-pressed")) === "false")
+    await page.locator("#reveal").click();
   return page.locator("#secret").inputValue();
 }
-test("explicit generation, masked DOM, readonly result, exact metrics and invalid settings clear previous output", async ({
+test("initial generation, persistent visibility, masked DOM, readonly result and invalid settings", async ({
   page,
 }) => {
   await ready(page);
   await zeroRandom(page);
-  await expect(page.locator("#secret")).toBeHidden();
+  await expect(page.locator("#secret")).toBeVisible();
+  await expect(page.locator("#secret")).not.toBeEmpty();
+  await page.locator("#reveal").click();
   await page.locator("#generate").click();
   await expect(page.locator("#secret")).toHaveValue("••••••••••••••••••••");
   expect(await page.locator("body").innerHTML()).not.toContain("a".repeat(20));
@@ -58,7 +62,7 @@ test("explicit generation, masked DOM, readonly result, exact metrics and invali
   ).toBe(true);
   await page.locator("#reveal").click();
   await expect(page.locator("#secret")).toHaveValue("••••••••••••••••••••");
-  await page.locator("#length").fill("129");
+  await page.locator("#length").fill("");
   await expect(page.locator("#secret")).toBeHidden();
   await page.locator("#generate").click();
   await expect(page.locator("#status")).toHaveAttribute("data-state", "error");
@@ -70,7 +74,7 @@ test("explicit generation, masked DOM, readonly result, exact metrics and invali
   await page.locator("#generate").click();
   await expect(page.locator("#status")).toHaveAttribute("data-state", "error");
 });
-test("all phrases preserve pinned tokens, repetition and delimiter boundaries, with experimental labels and byte counts", async ({
+test("all phrases preserve pinned tokens, repetition, hyphen default and byte counts", async ({
   page,
 }) => {
   await ready(page);
@@ -87,7 +91,7 @@ test("all phrases preserve pinned tokens, repetition and delimiter boundaries, w
     expect(value).toBe(
       Array<string>(7)
         .fill(first ?? "")
-        .join(" "),
+        .join("-"),
     );
     await expect(page.locator("#bit-count")).toHaveText(String(bits));
     await expect(page.locator("#character-count")).toHaveText(
@@ -96,20 +100,19 @@ test("all phrases preserve pinned tokens, repetition and delimiter boundaries, w
     await expect(page.locator("#byte-count")).toHaveText(
       String(Buffer.byteLength(value)),
     );
-    if (id === "eff")
-      await expect(page.locator("#experimental-note")).toBeHidden();
-    else await expect(page.locator("#experimental-note")).toBeVisible();
+    await expect(page.locator("#experimental-note")).toHaveCount(0);
     await page.locator('input[name="separator"][value="."]').check();
     expect(await reveal(page)).toBe(
       Array<string>(7)
         .fill(first ?? "")
         .join("."),
     );
-    await page.locator('input[name="separator"][value=" "]').check();
+    await page.locator('input[name="separator"][value="-"]').check();
   }
   await page.locator('[data-bits="128"]').click();
   await expect(page.locator("#words")).toHaveValue("12");
-  await expect(page.locator("#secret")).toBeHidden();
+  await expect(page.locator("#secret")).toBeVisible();
+  await expect(page.locator("#bit-count")).toHaveText("134");
 });
 test("failed CSPRNG clears an earlier result and has no weak fallback", async ({
   page,
@@ -133,7 +136,7 @@ test("failed CSPRNG clears an earlier result and has no weak fallback", async ({
   await page.locator("#generate").click();
   await expect(page.locator("#status")).toContainText("Safe generation failed");
 });
-test("no network, storage, history, service worker or weak randomness is used by generation", async ({
+test("no network, secret storage, history, service worker or weak randomness is used by generation", async ({
   page,
   context,
 }) => {
@@ -163,7 +166,14 @@ test("no network, storage, history, service worker or weak randomness is used by
         configurable: true,
         value: deny(name),
       });
-    Storage.prototype.setItem = deny("storage");
+    const setItem = Storage.prototype.setItem.bind(localStorage);
+    Storage.prototype.setItem = function (key: string, value: string): void {
+      if (key !== "vinasig-theme" || !["light", "dark"].includes(value)) {
+        deny("secret storage")();
+        return;
+      }
+      setItem(key, value);
+    };
     Math.random = deny("Math.random");
     history.pushState = deny("pushState");
     history.replaceState = deny("replaceState");
@@ -198,7 +208,12 @@ test("no network, storage, history, service worker or weak randomness is used by
   ).toEqual([]);
   expect(await context.cookies()).toEqual([]);
   const snapshot = await context.storageState();
-  expect(snapshot.origins).toEqual([]);
+  expect(snapshot.origins).toEqual([
+    {
+      origin: "http://127.0.0.1:4179",
+      localStorage: [{ name: "vinasig-theme", value: "dark" }],
+    },
+  ]);
   expect(page.url()).toBe("http://127.0.0.1:4179/en/");
 });
 test("clipboard is explicit, denied writes explain manual copy, and late completion cannot resurrect cleared state", async ({
@@ -525,7 +540,8 @@ test("both locales and themes fit declared viewports, preserve shared chrome and
         expect(await page.evaluate(inspectInterface)).toEqual([]);
         expect(await page.evaluate(inspectControlSurfaces)).toEqual([]);
         expect(await page.evaluate(inspectControlIndicators)).toEqual([]);
-        await expect(page.locator('input[type="radio"]')).toHaveCount(7);
+        await expect(page.locator('input[type="radio"]')).toHaveCount(8);
+        await expect(page.locator("progress")).toHaveCount(1);
         await expect(page.locator('input[type="checkbox"]')).toHaveCount(6);
         await expect(page.locator('input[type="range"]')).toHaveCount(2);
         await expect(page.locator("details")).toHaveCount(7);
@@ -536,6 +552,8 @@ test("both locales and themes fit declared viewports, preserve shared chrome and
           [320, 390, 1440].includes(width)
         ) {
           mkdirSync("output/screenshots", { recursive: true });
+          await zeroRandom(page);
+          await page.locator("#generate").click();
           await page.locator("details").first().locator("summary").click();
           await page.evaluate(() => {
             window.scrollTo(0, 0);
@@ -556,7 +574,7 @@ test("both locales and themes fit declared viewports, preserve shared chrome and
     }
   }
 });
-test("long results, experimental notes, 200 percent text, forced colors and keyboard controls remain usable", async ({
+test("long results, 200 percent text, forced colors and keyboard controls remain usable", async ({
   page,
 }, info) => {
   await page.setViewportSize({ width: 360, height: 800 });
@@ -588,7 +606,7 @@ test("long results, experimental notes, 200 percent text, forced colors and keyb
   await page.locator("#words-range").focus();
   await page.keyboard.press("ArrowLeft");
   await expect(page.locator("#words")).toHaveValue("19");
-  await expect(page.locator("#secret")).toBeHidden();
+  await expect(page.locator("#secret")).toBeVisible();
   await page.locator("#theme").focus();
   await page.keyboard.press("Enter");
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
@@ -645,7 +663,8 @@ test("logo link opens VINASIG and language switch clears rather than carrying a 
   await reveal(page);
   await page.locator(".language-switch").click();
   await expect(page.locator("html")).toHaveAttribute("lang", "vi");
-  await expect(page.locator("#secret")).toHaveValue("");
+  await expect(page.locator("#secret")).toBeVisible();
+  await expect(page.locator("#secret")).not.toHaveValue("a".repeat(20));
   await page.route("https://vinasig.io.vn/", (route) =>
     route.fulfill({
       contentType: "text/html",

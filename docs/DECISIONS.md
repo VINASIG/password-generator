@@ -6,7 +6,7 @@ Reviewed 6 October 2026 under the owner's instruction to independently select ar
 
 Strict TypeScript plus build-only esbuild emits a readable IIFE. No framework, runtime icon package, external font, fetched list or service worker was needed. Two locale documents and two standalone variants share one script and one embedded data model. Self-contained delivery increases duplicate payload but simplifies the runtime trust graph and offline verification.
 
-Default password mode is 20 characters from all printable non-space ASCII, with no required character groups. Site compatibility rules are in a closed disclosure. Passphrase mode initially selects the unchanged EFF list. Both Vietnamese choices are explicitly experimental, and neither is recommended. Examples and controls state evidence levels. Transformation names alone do not establish usability.
+Default password mode is 20 characters from all printable non-space ASCII, with no required character groups. Site compatibility rules are in a closed disclosure. Passphrase mode initially selects the unchanged EFF list. The Vietnamese data retains its immutable upstream profile IDs and provenance. Product controls name the representation and exact list size. Detailed evidence scopes remain in methodology documentation rather than a repeated warning in the generation form. No participant or comparative memorability claim is introduced.
 
 No PIN, cryptographic key, uploaded custom list, deterministic secret seed, bulk export, generated-history, URL settings, strength library or clipboard auto-erasure is included. These add distinct threat or specification surfaces without demonstrated need for version 0.1. These are scoped choices, not a universal judgment about other products.
 

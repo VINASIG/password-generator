@@ -89,9 +89,9 @@ export function phrasePlan(
     !Number.isSafeInteger(words) ||
     words < 1 ||
     words > 20 ||
-    ![" ", "."].includes(separator) ||
+    !["-", " ", "."].includes(separator) ||
     list.tokens.length < 2 ||
-    list.tokens.some((word) => word.includes(separator))
+    !hasUniqueBoundaries(list.tokens, separator)
   )
     throw new RangeError("INVALID_PHRASE_PARAMETERS");
   const outcomes = BigInt(list.tokens.length) ** BigInt(words);
@@ -101,6 +101,25 @@ export function phrasePlan(
     maxCodepoints: words * list.maxCodepoints + words - 1,
     maxBytes: words * list.maxBytes + words - 1,
   };
+}
+
+function hasUniqueBoundaries(
+  tokens: readonly string[],
+  separator: string,
+): boolean {
+  if (separator !== "-")
+    return tokens.every((token) => !token.includes(separator));
+  // The codewords token + delimiter must be prefix-free, including compound spellings.
+  const vocabulary = new Set(tokens);
+  return tokens.every((token) => {
+    for (
+      let index = token.indexOf("-");
+      index >= 0;
+      index = token.indexOf("-", index + 1)
+    )
+      if (vocabulary.has(token.slice(0, index))) return false;
+    return true;
+  });
 }
 
 export function generatePhrase(

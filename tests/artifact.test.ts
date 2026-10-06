@@ -27,8 +27,10 @@ void test("standalone CSP hashes cover exactly the embedded code and style, with
   assert.doesNotMatch(html, /<script[^>]+src=|<link[^>]+rel="stylesheet"/);
   assert.doesNotMatch(
     js,
-    /Math\.random|localStorage|sessionStorage|sendBeacon|XMLHttpRequest|WebSocket|EventSource|serviceWorker|fetch\(|console\.|innerHTML|eval\(|new Function/,
+    /Math\.random|sessionStorage|sendBeacon|XMLHttpRequest|WebSocket|EventSource|serviceWorker|fetch\(|console\.|innerHTML|eval\(|new Function/,
   );
+  assert.equal((js.match(/localStorage\.setItem\(/g) ?? []).length, 1);
+  assert.match(js, /localStorage\.setItem\("vinasig-theme", savedTheme\)/);
   assert.doesNotMatch(html, /name="secret"|<form\b/);
   assert.ok(
     readFileSync("dist/_headers", "utf8").includes("frame-ancestors 'none'"),
