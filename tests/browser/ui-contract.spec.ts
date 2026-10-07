@@ -14,9 +14,15 @@ async function ready(page: Page, locale = "vi"): Promise<void> {
       },
     });
   });
-  await page.goto(locale === "vi" ? "/" : "/en/");
+  await page.goto(locale === "vi" ? "/" : "/en/", {
+    waitUntil: "domcontentloaded",
+  });
+  await page.waitForFunction(() => document.readyState === "complete");
   await expect(page.locator("#copy")).toBeEnabled();
-  await page.evaluate(() => document.fonts.ready.then(() => {}));
+  await page.evaluate(async () => {
+    await document.fonts.ready;
+    await Promise.all(Array.from(document.images, (image) => image.decode()));
+  });
 }
 
 async function painted(page: Page): Promise<void> {
