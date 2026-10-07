@@ -357,8 +357,24 @@ test("CSP denies arbitrary scripts, fetch connections, forms and foreign framing
   await ready(page);
   const result = await page.evaluate(async () => {
     const violations: string[] = [];
-    document.addEventListener("securitypolicyviolation", (event) => {
-      violations.push(event.effectiveDirective);
+    const blocked = new Promise<void>((resolveEvent, rejectEvent) => {
+      const timeout = setTimeout(() => {
+        document.removeEventListener("securitypolicyviolation", inspect);
+        rejectEvent(new Error(`Missing CSP events: ${violations.join(", ")}`));
+      }, 5000);
+      const inspect = (event: SecurityPolicyViolationEvent): void => {
+        violations.push(event.effectiveDirective);
+        if (
+          violations.some((directive) => directive.startsWith("script-src")) &&
+          violations.includes("connect-src") &&
+          violations.includes("form-action")
+        ) {
+          clearTimeout(timeout);
+          document.removeEventListener("securitypolicyviolation", inspect);
+          resolveEvent();
+        }
+      };
+      document.addEventListener("securitypolicyviolation", inspect);
     });
     const script = document.createElement("script");
     script.textContent = "globalThis.__injected = true";
@@ -371,30 +387,31 @@ test("CSP denies arbitrary scripts, fetch connections, forms and foreign framing
     }
     const form = document.createElement("form");
     form.action = "/robots.txt";
-    form.target = "synthetic-form-target";
-    const frame = document.createElement("iframe");
-    frame.name = form.target;
-    document.body.append(frame);
+    form.target = "_self";
     document.body.append(form);
     try {
       form.submit();
     } catch {
       // Firefox may throw synchronously. The policy event is asserted independently below.
     }
-    await new Promise<void>((resolveEvent) => {
-      setTimeout(resolveEvent, 100);
-    });
+    await blocked;
     return {
       injected: (globalThis as { __injected?: boolean }).__injected ?? false,
       connected,
       violations,
+      documentURL: location.href,
+      documentState: document.readyState,
     };
   });
   expect(result.injected).toBe(false);
   expect(result.connected).toBe(false);
+  expect(
+    result.violations.some((directive) => directive.startsWith("script-src")),
+  ).toBe(true);
   expect(result.violations).toContain("form-action");
   expect(result.violations).toContain("connect-src");
-  await expect(page).toHaveURL(/\/en\/$/);
+  expect(result.documentURL).toMatch(/\/en\/$/);
+  expect(result.documentState).toBe("complete");
   const response = await page.request.get("/en/");
   expect(response.headers()["content-security-policy"]).toContain(
     "frame-ancestors 'none'",
