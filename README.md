@@ -40,7 +40,7 @@ npm run dev
 
 Open `http://127.0.0.1:4179/`. Localhost is needed for preview Web Crypto, not for the standalone HTML. On Linux, install browser system dependencies using `playwright install --with-deps`. If a shared browser cache cannot launch, install into a project-specific `PLAYWRIGHT_BROWSERS_PATH` and use that same environment variable for tests. Do not weaken browser checks to bypass a broken cache.
 
-`npm run verify` builds the same four HTML artifacts, checks strict TypeScript, typed ESLint, CSS grammar, formatting and generated HTML, runs enumeration/counting/adversarial tests, and audits the locked development dependency graph. Browser, lab performance and package checks are separate gates. Browser traces, video and automatic failure screenshots are disabled so normal tests do not export random secrets. Deliberate UI screenshots use a synthetic all-zero test source, never account credentials.
+`npm run verify` builds the same four HTML artifacts, checks strict TypeScript, typed ESLint, CSS grammar, formatting and generated HTML, runs enumeration/counting/adversarial tests, and audits the locked development dependency graph. Browser, lab performance and package checks are separate gates. Failed browser executions retain diagnostic traces and JSON results for 30 days in CI; video and automatic failure screenshots remain disabled. These tests generate disposable local test values and never use account credentials. Deliberate UI screenshots use a synthetic test source.
 
 ## Evidence and reuse
 
@@ -55,7 +55,7 @@ Open `http://127.0.0.1:4179/`. Localhost is needed for preview Web Crypto, not f
 - [Reported interface defects and acceptance evidence](docs/UI-ACCEPTANCE-v0.2.3.md)
 - [Output interaction and copy follow-up](docs/UI-ACCEPTANCE-v0.2.4.md)
 - [v0.2.4 local source, browser, opened-image and performance evidence](docs/UI-VALIDATION-v0.2.4.json)
-- [v0.2.3 release and deployed execution receipt](docs/validation/publication-v0.2.3.json)
+- [v0.2.6 release and deployed execution receipt](docs/validation/publication-v0.2.6.json)
 - [Disclosure policy](SECURITY.md)
 - [License scopes](LICENSES.md) and [third-party credits](NOTICE.md)
 
@@ -63,4 +63,4 @@ Open `http://127.0.0.1:4179/`. Localhost is needed for preview Web Crypto, not f
 
 ## Publication state
 
-The public source repository is [VINASIG/password-generator](https://github.com/VINASIG/password-generator). The canonical website runs on Cloudflare Pages Direct Upload with checked static response headers. Repository details and private vulnerability reporting are configured. The published v0.2.3 revision `45f832779c6eadeb4c1c5fb0b14cfc1a2e07f05e` passed its own paired Ubuntu/Windows CI and release provenance checks. Its 21 public deployed files match the release bytes and all nine declared response headers; 36 delivery cases and 51 affected live regressions passed. The [execution receipt](docs/validation/publication-v0.2.3.json) and [publication record](docs/PUBLICATION.md) retain revision-specific observations and procedures. A website update requires uploading the verified site ZIP. Preparing a workflow does not prove it ran, and a checksum does not authenticate a publisher.
+The public source repository is [VINASIG/password-generator](https://github.com/VINASIG/password-generator). The canonical website runs on Cloudflare Pages Direct Upload with checked static response headers. Repository details and private vulnerability reporting are configured. The published v0.2.6 revision `3a9c9146b24fda5af547f675658f8bce74526bc6` passed 135 browser cases in each main/tag Ubuntu and Windows job and exact-tag provenance verification for all seven release assets. Its 21 public deployed files match the release bytes and all nine declared response headers; 36 delivery cases and 75 affected live regressions passed. The [execution receipt](docs/validation/publication-v0.2.6.json) and [publication record](docs/PUBLICATION.md) retain revision-specific observations and procedures. A website update requires uploading the verified site ZIP. Preparing a workflow does not prove it ran, and a checksum does not authenticate a publisher.

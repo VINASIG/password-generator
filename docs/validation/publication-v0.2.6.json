@@ -1,0 +1,1216 @@
+{
+  "version": "0.2.6",
+  "sourceCommit": "3a9c9146b24fda5af547f675658f8bce74526bc6",
+  "status": "PASS",
+  "evidenceClass": "project-authored execution, byte/provenance verification and opened visual review; not independent or participant validation",
+  "release": {
+    "url": "https://github.com/VINASIG/password-generator/releases/tag/v0.2.6",
+    "publishedAt": "2026-10-07T07:43:50Z",
+    "researchPrerelease": true,
+    "assets": 7
+  },
+  "repository": {
+    "details": {
+      "default_branch": "main",
+      "description": "Static local password and passphrase generator with uniform sampling, offline builds and inspectable evidence",
+      "homepage": "https://password.vinasig.io.vn/",
+      "private": false,
+      "topics": [
+        "offline",
+        "passphrase",
+        "password-generator",
+        "privacy",
+        "reproducible-builds",
+        "security",
+        "typescript",
+        "vietnamese",
+        "web-crypto"
+      ]
+    },
+    "privateVulnerabilityReporting": true
+  },
+  "ci": [
+    {
+      "kind": "main",
+      "runId": 37587761197,
+      "url": "https://github.com/VINASIG/password-generator/actions/runs/37587761197",
+      "status": "PASS",
+      "results": [
+        {
+          "runner": "ubuntu-24.04",
+          "browserStats": {
+            "startTime": "2026-10-07T07:32:11.229Z",
+            "duration": 282754.789,
+            "expected": 135,
+            "skipped": 0,
+            "unexpected": 0,
+            "flaky": 0
+          }
+        },
+        {
+          "runner": "windows-2025-vs2026",
+          "browserStats": {
+            "startTime": "2026-10-07T07:36:47.252Z",
+            "duration": 432220.963,
+            "expected": 135,
+            "skipped": 0,
+            "unexpected": 0,
+            "flaky": 0
+          }
+        }
+      ]
+    },
+    {
+      "kind": "release",
+      "runId": 37587766143,
+      "url": "https://github.com/VINASIG/password-generator/actions/runs/37587766143",
+      "status": "PASS",
+      "results": [
+        {
+          "runner": "ubuntu-24.04",
+          "browserStats": {
+            "startTime": "2026-10-07T07:32:00.712Z",
+            "duration": 283465.825,
+            "expected": 135,
+            "skipped": 0,
+            "unexpected": 0,
+            "flaky": 0
+          }
+        },
+        {
+          "runner": "windows-2025-vs2026",
+          "browserStats": {
+            "startTime": "2026-10-07T07:36:36.191Z",
+            "duration": 404251.542,
+            "expected": 135,
+            "skipped": 0,
+            "unexpected": 0,
+            "flaky": 0
+          }
+        }
+      ]
+    }
+  ],
+  "downloadComparison": {
+    "status": "PASS",
+    "sourceCommit": "3a9c9146b24fda5af547f675658f8bce74526bc6",
+    "assets": [
+      {
+        "name": "build-record.json",
+        "bytes": 4177,
+        "sha256": "e11d8f3b2c7dd94bfd92bfd1e8a50cb2d0fe0e86d7648bf4d907a2560cc278f6",
+        "matchesMainAndReleaseCIBothOS": true
+      },
+      {
+        "name": "password-generator-v0.2.6-offline.zip",
+        "bytes": 1093205,
+        "sha256": "df05e441c3df8d5b1ae18090b368a8ca6d99ea69172e9753a8ecac30ebcbefd7",
+        "matchesMainAndReleaseCIBothOS": true
+      },
+      {
+        "name": "password-generator-v0.2.6-site.zip",
+        "bytes": 1678407,
+        "sha256": "1ab0ad87f12a49e3e924dedd09c1aebf1e79ddb52b027b2852348310af261bbd",
+        "matchesMainAndReleaseCIBothOS": true
+      },
+      {
+        "name": "password-generator-v0.2.6-source.zip",
+        "bytes": 5728564,
+        "sha256": "5c22f4a842abbd376a0ddba89664c3c4b64f0054c193a7733c4e9d6a1279468f",
+        "matchesMainAndReleaseCIBothOS": true
+      },
+      {
+        "name": "SHA256SUMS.txt",
+        "bytes": 392,
+        "sha256": "b12dd2ccb5cec64c2808f09c0dc533434e1287ab980b786b440fd215e2b8729e",
+        "matchesMainAndReleaseCIBothOS": true
+      }
+    ]
+  },
+  "provenance": {
+    "status": "PASS",
+    "sourceCommit": "3a9c9146b24fda5af547f675658f8bce74526bc6",
+    "signerIdentity": "https://github.com/VINASIG/password-generator/.github/workflows/release.yml@refs/tags/v0.2.6",
+    "issuer": "https://token.actions.githubusercontent.com",
+    "runnerEnvironment": "github-hosted",
+    "assets": [
+      {
+        "name": "build-record.json",
+        "sha256": "e11d8f3b2c7dd94bfd92bfd1e8a50cb2d0fe0e86d7648bf4d907a2560cc278f6",
+        "status": "PASS"
+      },
+      {
+        "name": "environment-ubuntu-24.04.json",
+        "sha256": "e1cdfae85c24aeed81015b66556b498a16775b83d9b2f484bc52c74bcbaaafe2",
+        "status": "PASS"
+      },
+      {
+        "name": "environment-windows-2025-vs2026.json",
+        "sha256": "9ba15e50973d9e3fbb2176c8a43faae4de4cf428abd0e7bc02a0e5211251ce5d",
+        "status": "PASS"
+      },
+      {
+        "name": "password-generator-v0.2.6-offline.zip",
+        "sha256": "df05e441c3df8d5b1ae18090b368a8ca6d99ea69172e9753a8ecac30ebcbefd7",
+        "status": "PASS"
+      },
+      {
+        "name": "password-generator-v0.2.6-site.zip",
+        "sha256": "1ab0ad87f12a49e3e924dedd09c1aebf1e79ddb52b027b2852348310af261bbd",
+        "status": "PASS"
+      },
+      {
+        "name": "password-generator-v0.2.6-source.zip",
+        "sha256": "5c22f4a842abbd376a0ddba89664c3c4b64f0054c193a7733c4e9d6a1279468f",
+        "status": "PASS"
+      },
+      {
+        "name": "SHA256SUMS.txt",
+        "sha256": "b12dd2ccb5cec64c2808f09c0dc533434e1287ab980b786b440fd215e2b8729e",
+        "status": "PASS"
+      }
+    ]
+  },
+  "packageReader": {
+    "status": "PASS",
+    "implementation": "Python standard-library zipfile",
+    "entries": {
+      "source": 174,
+      "offline": 19,
+      "site": 22
+    }
+  },
+  "cloudflare": {
+    "project": "password-generator",
+    "environment": "Production",
+    "deploymentId": "780bf195-bbd0-4c43-9ca8-8f2b58dd8140",
+    "observedStatus": "success",
+    "canonicalAlias": "password.vinasig.io.vn",
+    "uploadedEntriesIncludingHeaders": 22,
+    "servedDocuments": 21,
+    "cachePurgeScope": "hostname password.vinasig.io.vn; submitted through Custom Purge"
+  },
+  "liveVerification": {
+    "origin": "https://password.vinasig.io.vn",
+    "sourceCommit": "3a9c9146b24fda5af547f675658f8bce74526bc6",
+    "checkedAt": "2026-10-07T07:49:54.383Z",
+    "http": [
+      {
+        "route": "/build-record.json",
+        "finalUrl": "https://password.vinasig.io.vn/build-record.json",
+        "status": 200,
+        "bytes": 4177,
+        "sha256": "e11d8f3b2c7dd94bfd92bfd1e8a50cb2d0fe0e86d7648bf4d907a2560cc278f6",
+        "headers": {
+          "content-security-policy": "default-src 'none'; script-src 'sha256-sJYaLlHJRlg04vfokffzkf1/zaheWN6swCT9MvjHOB8='; style-src 'sha256-ablnwj0dwG+GFWcoIC0Zc5LvDOXZNZCBrm94f4NIN5Y='; img-src data:; font-src data:; connect-src 'none'; worker-src 'none'; child-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'",
+          "strict-transport-security": "max-age=31536000",
+          "x-frame-options": "DENY",
+          "x-content-type-options": "nosniff",
+          "referrer-policy": "no-referrer",
+          "cross-origin-opener-policy": "same-origin",
+          "cross-origin-resource-policy": "same-origin",
+          "permissions-policy": "camera=(), microphone=(), geolocation=(), clipboard-read=()",
+          "cache-control": "no-cache",
+          "nel": null,
+          "report-to": null
+        }
+      },
+      {
+        "route": "/",
+        "finalUrl": "https://password.vinasig.io.vn/",
+        "status": 200,
+        "bytes": 296615,
+        "sha256": "e6e8a75b8bf208aa8b8e60a334d027653c31d43ad95718f8ea3cb52bfde4aa3f",
+        "headers": {
+          "content-security-policy": "default-src 'none'; script-src 'sha256-sJYaLlHJRlg04vfokffzkf1/zaheWN6swCT9MvjHOB8='; style-src 'sha256-ablnwj0dwG+GFWcoIC0Zc5LvDOXZNZCBrm94f4NIN5Y='; img-src data:; font-src data:; connect-src 'none'; worker-src 'none'; child-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'",
+          "strict-transport-security": "max-age=31536000",
+          "x-frame-options": "DENY",
+          "x-content-type-options": "nosniff",
+          "referrer-policy": "no-referrer",
+          "cross-origin-opener-policy": "same-origin",
+          "cross-origin-resource-policy": "same-origin",
+          "permissions-policy": "camera=(), microphone=(), geolocation=(), clipboard-read=()",
+          "cache-control": "no-cache",
+          "nel": null,
+          "report-to": null
+        }
+      },
+      {
+        "route": "/offline/vi.html",
+        "finalUrl": "https://password.vinasig.io.vn/offline/vi",
+        "status": 200,
+        "bytes": 422082,
+        "sha256": "a83687dbaf41e9777299fe083118ad8ff4932486bbd3d0b68a0c2d5e01a52e8c",
+        "headers": {
+          "content-security-policy": "default-src 'none'; script-src 'sha256-sJYaLlHJRlg04vfokffzkf1/zaheWN6swCT9MvjHOB8='; style-src 'sha256-ablnwj0dwG+GFWcoIC0Zc5LvDOXZNZCBrm94f4NIN5Y='; img-src data:; font-src data:; connect-src 'none'; worker-src 'none'; child-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'",
+          "strict-transport-security": "max-age=31536000",
+          "x-frame-options": "DENY",
+          "x-content-type-options": "nosniff",
+          "referrer-policy": "no-referrer",
+          "cross-origin-opener-policy": "same-origin",
+          "cross-origin-resource-policy": "same-origin",
+          "permissions-policy": "camera=(), microphone=(), geolocation=(), clipboard-read=()",
+          "cache-control": "no-cache",
+          "nel": null,
+          "report-to": null
+        }
+      },
+      {
+        "route": "/en/",
+        "finalUrl": "https://password.vinasig.io.vn/en/",
+        "status": 200,
+        "bytes": 295473,
+        "sha256": "a0259a1c0e2f7bb3841b793b31ce73a3a607208b3cbab4d4f7b54361910fc56a",
+        "headers": {
+          "content-security-policy": "default-src 'none'; script-src 'sha256-sJYaLlHJRlg04vfokffzkf1/zaheWN6swCT9MvjHOB8='; style-src 'sha256-ablnwj0dwG+GFWcoIC0Zc5LvDOXZNZCBrm94f4NIN5Y='; img-src data:; font-src data:; connect-src 'none'; worker-src 'none'; child-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'",
+          "strict-transport-security": "max-age=31536000",
+          "x-frame-options": "DENY",
+          "x-content-type-options": "nosniff",
+          "referrer-policy": "no-referrer",
+          "cross-origin-opener-policy": "same-origin",
+          "cross-origin-resource-policy": "same-origin",
+          "permissions-policy": "camera=(), microphone=(), geolocation=(), clipboard-read=()",
+          "cache-control": "no-cache",
+          "nel": null,
+          "report-to": null
+        }
+      },
+      {
+        "route": "/offline/en.html",
+        "finalUrl": "https://password.vinasig.io.vn/offline/en",
+        "status": 200,
+        "bytes": 421032,
+        "sha256": "27c6d3deda6c2fcfe8c4f76849a826a8f9477b81a0ab1396ac6a2407b1616da6",
+        "headers": {
+          "content-security-policy": "default-src 'none'; script-src 'sha256-sJYaLlHJRlg04vfokffzkf1/zaheWN6swCT9MvjHOB8='; style-src 'sha256-ablnwj0dwG+GFWcoIC0Zc5LvDOXZNZCBrm94f4NIN5Y='; img-src data:; font-src data:; connect-src 'none'; worker-src 'none'; child-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'",
+          "strict-transport-security": "max-age=31536000",
+          "x-frame-options": "DENY",
+          "x-content-type-options": "nosniff",
+          "referrer-policy": "no-referrer",
+          "cross-origin-opener-policy": "same-origin",
+          "cross-origin-resource-policy": "same-origin",
+          "permissions-policy": "camera=(), microphone=(), geolocation=(), clipboard-read=()",
+          "cache-control": "no-cache",
+          "nel": null,
+          "report-to": null
+        }
+      },
+      {
+        "route": "/robots.txt",
+        "finalUrl": "https://password.vinasig.io.vn/robots.txt",
+        "status": 200,
+        "bytes": 95,
+        "sha256": "4c70ed71e1e35b72a89a6655281b7d3c60c24032b5f8c85a5a814b1bd794dbce",
+        "headers": {
+          "content-security-policy": "default-src 'none'; script-src 'sha256-sJYaLlHJRlg04vfokffzkf1/zaheWN6swCT9MvjHOB8='; style-src 'sha256-ablnwj0dwG+GFWcoIC0Zc5LvDOXZNZCBrm94f4NIN5Y='; img-src data:; font-src data:; connect-src 'none'; worker-src 'none'; child-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'",
+          "strict-transport-security": "max-age=31536000",
+          "x-frame-options": "DENY",
+          "x-content-type-options": "nosniff",
+          "referrer-policy": "no-referrer",
+          "cross-origin-opener-policy": "same-origin",
+          "cross-origin-resource-policy": "same-origin",
+          "permissions-policy": "camera=(), microphone=(), geolocation=(), clipboard-read=()",
+          "cache-control": "no-cache",
+          "nel": null,
+          "report-to": null
+        }
+      },
+      {
+        "route": "/sitemap.xml",
+        "finalUrl": "https://password.vinasig.io.vn/sitemap.xml",
+        "status": 200,
+        "bytes": 218,
+        "sha256": "81606852c2fa7a7f11d29274256ac888fc2127266ee294db4295b2465f1830b1",
+        "headers": {
+          "content-security-policy": "default-src 'none'; script-src 'sha256-sJYaLlHJRlg04vfokffzkf1/zaheWN6swCT9MvjHOB8='; style-src 'sha256-ablnwj0dwG+GFWcoIC0Zc5LvDOXZNZCBrm94f4NIN5Y='; img-src data:; font-src data:; connect-src 'none'; worker-src 'none'; child-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'",
+          "strict-transport-security": "max-age=31536000",
+          "x-frame-options": "DENY",
+          "x-content-type-options": "nosniff",
+          "referrer-policy": "no-referrer",
+          "cross-origin-opener-policy": "same-origin",
+          "cross-origin-resource-policy": "same-origin",
+          "permissions-policy": "camera=(), microphone=(), geolocation=(), clipboard-read=()",
+          "cache-control": "no-cache",
+          "nel": null,
+          "report-to": null
+        }
+      },
+      {
+        "route": "/licenses/AGPL-3.0-or-later.txt",
+        "finalUrl": "https://password.vinasig.io.vn/licenses/AGPL-3.0-or-later.txt",
+        "status": 200,
+        "bytes": 34020,
+        "sha256": "d8a6cc31abc16b6748c7a21f21611f5a1ec33f67d22ca23d7da1c19b95496bee",
+        "headers": {
+          "content-security-policy": "default-src 'none'; script-src 'sha256-sJYaLlHJRlg04vfokffzkf1/zaheWN6swCT9MvjHOB8='; style-src 'sha256-ablnwj0dwG+GFWcoIC0Zc5LvDOXZNZCBrm94f4NIN5Y='; img-src data:; font-src data:; connect-src 'none'; worker-src 'none'; child-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'",
+          "strict-transport-security": "max-age=31536000",
+          "x-frame-options": "DENY",
+          "x-content-type-options": "nosniff",
+          "referrer-policy": "no-referrer",
+          "cross-origin-opener-policy": "same-origin",
+          "cross-origin-resource-policy": "same-origin",
+          "permissions-policy": "camera=(), microphone=(), geolocation=(), clipboard-read=()",
+          "cache-control": "no-cache",
+          "nel": null,
+          "report-to": null
+        }
+      },
+      {
+        "route": "/licenses/BRAND_POLICY.md",
+        "finalUrl": "https://password.vinasig.io.vn/licenses/BRAND_POLICY.md",
+        "status": 200,
+        "bytes": 4184,
+        "sha256": "ec06977f2015ccf269b94865e000d981b967c1b7b1787bf0b0f739dc75632a5e",
+        "headers": {
+          "content-security-policy": "default-src 'none'; script-src 'sha256-sJYaLlHJRlg04vfokffzkf1/zaheWN6swCT9MvjHOB8='; style-src 'sha256-ablnwj0dwG+GFWcoIC0Zc5LvDOXZNZCBrm94f4NIN5Y='; img-src data:; font-src data:; connect-src 'none'; worker-src 'none'; child-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'",
+          "strict-transport-security": "max-age=31536000",
+          "x-frame-options": "DENY",
+          "x-content-type-options": "nosniff",
+          "referrer-policy": "no-referrer",
+          "cross-origin-opener-policy": "same-origin",
+          "cross-origin-resource-policy": "same-origin",
+          "permissions-policy": "camera=(), microphone=(), geolocation=(), clipboard-read=()",
+          "cache-control": "no-cache",
+          "nel": null,
+          "report-to": null
+        }
+      },
+      {
+        "route": "/licenses/CC-BY-SA-4.0.txt",
+        "finalUrl": "https://password.vinasig.io.vn/licenses/CC-BY-SA-4.0.txt",
+        "status": 200,
+        "bytes": 20138,
+        "sha256": "28a9529c7d0bb4dc51f4bf5c116a3d16ef247a052f7591466768ddf563fd1cf5",
+        "headers": {
+          "content-security-policy": "default-src 'none'; script-src 'sha256-sJYaLlHJRlg04vfokffzkf1/zaheWN6swCT9MvjHOB8='; style-src 'sha256-ablnwj0dwG+GFWcoIC0Zc5LvDOXZNZCBrm94f4NIN5Y='; img-src data:; font-src data:; connect-src 'none'; worker-src 'none'; child-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'",
+          "strict-transport-security": "max-age=31536000",
+          "x-frame-options": "DENY",
+          "x-content-type-options": "nosniff",
+          "referrer-policy": "no-referrer",
+          "cross-origin-opener-policy": "same-origin",
+          "cross-origin-resource-policy": "same-origin",
+          "permissions-policy": "camera=(), microphone=(), geolocation=(), clipboard-read=()",
+          "cache-control": "no-cache",
+          "nel": null,
+          "report-to": null
+        }
+      },
+      {
+        "route": "/licenses/NOTICE.txt",
+        "finalUrl": "https://password.vinasig.io.vn/licenses/NOTICE.txt",
+        "status": 200,
+        "bytes": 1046,
+        "sha256": "f6394ae2b876d5d465735221bb123ec832d5bd47a28b4e4c804f0031e9918339",
+        "headers": {
+          "content-security-policy": "default-src 'none'; script-src 'sha256-sJYaLlHJRlg04vfokffzkf1/zaheWN6swCT9MvjHOB8='; style-src 'sha256-ablnwj0dwG+GFWcoIC0Zc5LvDOXZNZCBrm94f4NIN5Y='; img-src data:; font-src data:; connect-src 'none'; worker-src 'none'; child-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'",
+          "strict-transport-security": "max-age=31536000",
+          "x-frame-options": "DENY",
+          "x-content-type-options": "nosniff",
+          "referrer-policy": "no-referrer",
+          "cross-origin-opener-policy": "same-origin",
+          "cross-origin-resource-policy": "same-origin",
+          "permissions-policy": "camera=(), microphone=(), geolocation=(), clipboard-read=()",
+          "cache-control": "no-cache",
+          "nel": null,
+          "report-to": null
+        }
+      },
+      {
+        "route": "/licenses/Apache-2.0.txt",
+        "finalUrl": "https://password.vinasig.io.vn/licenses/Apache-2.0.txt",
+        "status": 200,
+        "bytes": 10280,
+        "sha256": "074e6e32c86a4c0ef8b3ed25b721ca23aca83df277cd88106ef7177c354615ff",
+        "headers": {
+          "content-security-policy": "default-src 'none'; script-src 'sha256-sJYaLlHJRlg04vfokffzkf1/zaheWN6swCT9MvjHOB8='; style-src 'sha256-ablnwj0dwG+GFWcoIC0Zc5LvDOXZNZCBrm94f4NIN5Y='; img-src data:; font-src data:; connect-src 'none'; worker-src 'none'; child-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'",
+          "strict-transport-security": "max-age=31536000",
+          "x-frame-options": "DENY",
+          "x-content-type-options": "nosniff",
+          "referrer-policy": "no-referrer",
+          "cross-origin-opener-policy": "same-origin",
+          "cross-origin-resource-policy": "same-origin",
+          "permissions-policy": "camera=(), microphone=(), geolocation=(), clipboard-read=()",
+          "cache-control": "no-cache",
+          "nel": null,
+          "report-to": null
+        }
+      },
+      {
+        "route": "/licenses/CC-BY-4.0.txt",
+        "finalUrl": "https://password.vinasig.io.vn/licenses/CC-BY-4.0.txt",
+        "status": 200,
+        "bytes": 17023,
+        "sha256": "d557539df68e771cc1eedcc91d13f70fca930e508d11eedcafa4b15db49e3744",
+        "headers": {
+          "content-security-policy": "default-src 'none'; script-src 'sha256-sJYaLlHJRlg04vfokffzkf1/zaheWN6swCT9MvjHOB8='; style-src 'sha256-ablnwj0dwG+GFWcoIC0Zc5LvDOXZNZCBrm94f4NIN5Y='; img-src data:; font-src data:; connect-src 'none'; worker-src 'none'; child-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'",
+          "strict-transport-security": "max-age=31536000",
+          "x-frame-options": "DENY",
+          "x-content-type-options": "nosniff",
+          "referrer-policy": "no-referrer",
+          "cross-origin-opener-policy": "same-origin",
+          "cross-origin-resource-policy": "same-origin",
+          "permissions-policy": "camera=(), microphone=(), geolocation=(), clipboard-read=()",
+          "cache-control": "no-cache",
+          "nel": null,
+          "report-to": null
+        }
+      },
+      {
+        "route": "/licenses/GPL-3.0-or-later.txt",
+        "finalUrl": "https://password.vinasig.io.vn/licenses/GPL-3.0-or-later.txt",
+        "status": 200,
+        "bytes": 34674,
+        "sha256": "fb981668c18a279e285fc4d83fba1e836cc84dd4daa73c9697d3cfd2d8aca6e0",
+        "headers": {
+          "content-security-policy": "default-src 'none'; script-src 'sha256-sJYaLlHJRlg04vfokffzkf1/zaheWN6swCT9MvjHOB8='; style-src 'sha256-ablnwj0dwG+GFWcoIC0Zc5LvDOXZNZCBrm94f4NIN5Y='; img-src data:; font-src data:; connect-src 'none'; worker-src 'none'; child-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'",
+          "strict-transport-security": "max-age=31536000",
+          "x-frame-options": "DENY",
+          "x-content-type-options": "nosniff",
+          "referrer-policy": "no-referrer",
+          "cross-origin-opener-policy": "same-origin",
+          "cross-origin-resource-policy": "same-origin",
+          "permissions-policy": "camera=(), microphone=(), geolocation=(), clipboard-read=()",
+          "cache-control": "no-cache",
+          "nel": null,
+          "report-to": null
+        }
+      },
+      {
+        "route": "/licenses/LGPL-3.0-or-later.txt",
+        "finalUrl": "https://password.vinasig.io.vn/licenses/LGPL-3.0-or-later.txt",
+        "status": 200,
+        "bytes": 42098,
+        "sha256": "996af0513df21f7496288951c41428a03c174e9e4a9d63665c57d670f845ccb1",
+        "headers": {
+          "content-security-policy": "default-src 'none'; script-src 'sha256-sJYaLlHJRlg04vfokffzkf1/zaheWN6swCT9MvjHOB8='; style-src 'sha256-ablnwj0dwG+GFWcoIC0Zc5LvDOXZNZCBrm94f4NIN5Y='; img-src data:; font-src data:; connect-src 'none'; worker-src 'none'; child-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'",
+          "strict-transport-security": "max-age=31536000",
+          "x-frame-options": "DENY",
+          "x-content-type-options": "nosniff",
+          "referrer-policy": "no-referrer",
+          "cross-origin-opener-policy": "same-origin",
+          "cross-origin-resource-policy": "same-origin",
+          "permissions-policy": "camera=(), microphone=(), geolocation=(), clipboard-read=()",
+          "cache-control": "no-cache",
+          "nel": null,
+          "report-to": null
+        }
+      },
+      {
+        "route": "/licenses/Lucide.txt",
+        "finalUrl": "https://password.vinasig.io.vn/licenses/Lucide.txt",
+        "status": 200,
+        "bytes": 3208,
+        "sha256": "b495047bd93a9b06913511076f504daba17d5bbeb3e0650f3bb53a4220329c57",
+        "headers": {
+          "content-security-policy": "default-src 'none'; script-src 'sha256-sJYaLlHJRlg04vfokffzkf1/zaheWN6swCT9MvjHOB8='; style-src 'sha256-ablnwj0dwG+GFWcoIC0Zc5LvDOXZNZCBrm94f4NIN5Y='; img-src data:; font-src data:; connect-src 'none'; worker-src 'none'; child-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'",
+          "strict-transport-security": "max-age=31536000",
+          "x-frame-options": "DENY",
+          "x-content-type-options": "nosniff",
+          "referrer-policy": "no-referrer",
+          "cross-origin-opener-policy": "same-origin",
+          "cross-origin-resource-policy": "same-origin",
+          "permissions-policy": "camera=(), microphone=(), geolocation=(), clipboard-read=()",
+          "cache-control": "no-cache",
+          "nel": null,
+          "report-to": null
+        }
+      },
+      {
+        "route": "/licenses/Tatoeba-CC-BY-2.0-FR.html",
+        "finalUrl": "https://password.vinasig.io.vn/licenses/Tatoeba-CC-BY-2.0-FR",
+        "status": 200,
+        "bytes": 39479,
+        "sha256": "597d4c64f6606c64da65ba6c079e5cc87e4cce2b5187eda908c939b538e7ab9b",
+        "headers": {
+          "content-security-policy": "default-src 'none'; script-src 'sha256-sJYaLlHJRlg04vfokffzkf1/zaheWN6swCT9MvjHOB8='; style-src 'sha256-ablnwj0dwG+GFWcoIC0Zc5LvDOXZNZCBrm94f4NIN5Y='; img-src data:; font-src data:; connect-src 'none'; worker-src 'none'; child-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'",
+          "strict-transport-security": "max-age=31536000",
+          "x-frame-options": "DENY",
+          "x-content-type-options": "nosniff",
+          "referrer-policy": "no-referrer",
+          "cross-origin-opener-policy": "same-origin",
+          "cross-origin-resource-policy": "same-origin",
+          "permissions-policy": "camera=(), microphone=(), geolocation=(), clipboard-read=()",
+          "cache-control": "no-cache",
+          "nel": null,
+          "report-to": null
+        }
+      },
+      {
+        "route": "/licenses/vietphrase-CC-BY-SA-4.0.txt",
+        "finalUrl": "https://password.vinasig.io.vn/licenses/vietphrase-CC-BY-SA-4.0.txt",
+        "status": 200,
+        "bytes": 18375,
+        "sha256": "cde7883b9050a1104f4ac19a1572aafd6e5d7323b68351aaf51fbf4beba54966",
+        "headers": {
+          "content-security-policy": "default-src 'none'; script-src 'sha256-sJYaLlHJRlg04vfokffzkf1/zaheWN6swCT9MvjHOB8='; style-src 'sha256-ablnwj0dwG+GFWcoIC0Zc5LvDOXZNZCBrm94f4NIN5Y='; img-src data:; font-src data:; connect-src 'none'; worker-src 'none'; child-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'",
+          "strict-transport-security": "max-age=31536000",
+          "x-frame-options": "DENY",
+          "x-content-type-options": "nosniff",
+          "referrer-policy": "no-referrer",
+          "cross-origin-opener-policy": "same-origin",
+          "cross-origin-resource-policy": "same-origin",
+          "permissions-policy": "camera=(), microphone=(), geolocation=(), clipboard-read=()",
+          "cache-control": "no-cache",
+          "nel": null,
+          "report-to": null
+        }
+      },
+      {
+        "route": "/licenses/vietphrase-NOTICE.md",
+        "finalUrl": "https://password.vinasig.io.vn/licenses/vietphrase-NOTICE.md",
+        "status": 200,
+        "bytes": 3557,
+        "sha256": "7a9fa443013a20d91aa5eec59264e7b82b723aa300235d411e634ae46b422ffc",
+        "headers": {
+          "content-security-policy": "default-src 'none'; script-src 'sha256-sJYaLlHJRlg04vfokffzkf1/zaheWN6swCT9MvjHOB8='; style-src 'sha256-ablnwj0dwG+GFWcoIC0Zc5LvDOXZNZCBrm94f4NIN5Y='; img-src data:; font-src data:; connect-src 'none'; worker-src 'none'; child-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'",
+          "strict-transport-security": "max-age=31536000",
+          "x-frame-options": "DENY",
+          "x-content-type-options": "nosniff",
+          "referrer-policy": "no-referrer",
+          "cross-origin-opener-policy": "same-origin",
+          "cross-origin-resource-policy": "same-origin",
+          "permissions-policy": "camera=(), microphone=(), geolocation=(), clipboard-read=()",
+          "cache-control": "no-cache",
+          "nel": null,
+          "report-to": null
+        }
+      },
+      {
+        "route": "/licenses/wordfreq-NOTICE.md",
+        "finalUrl": "https://password.vinasig.io.vn/licenses/wordfreq-NOTICE.md",
+        "status": 200,
+        "bytes": 2891,
+        "sha256": "d9b104dafe63886af55e7cea7484824e32e12d4e1f57f319923dd643b36d6b15",
+        "headers": {
+          "content-security-policy": "default-src 'none'; script-src 'sha256-sJYaLlHJRlg04vfokffzkf1/zaheWN6swCT9MvjHOB8='; style-src 'sha256-ablnwj0dwG+GFWcoIC0Zc5LvDOXZNZCBrm94f4NIN5Y='; img-src data:; font-src data:; connect-src 'none'; worker-src 'none'; child-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'",
+          "strict-transport-security": "max-age=31536000",
+          "x-frame-options": "DENY",
+          "x-content-type-options": "nosniff",
+          "referrer-policy": "no-referrer",
+          "cross-origin-opener-policy": "same-origin",
+          "cross-origin-resource-policy": "same-origin",
+          "permissions-policy": "camera=(), microphone=(), geolocation=(), clipboard-read=()",
+          "cache-control": "no-cache",
+          "nel": null,
+          "report-to": null
+        }
+      },
+      {
+        "route": "/licenses/SpaceGrotesk-OFL.txt",
+        "finalUrl": "https://password.vinasig.io.vn/licenses/SpaceGrotesk-OFL.txt",
+        "status": 200,
+        "bytes": 4403,
+        "sha256": "f2e05925e3d5e73aebbe4148639a899876c12e4708eb453682b278a0a6f2a3b2",
+        "headers": {
+          "content-security-policy": "default-src 'none'; script-src 'sha256-sJYaLlHJRlg04vfokffzkf1/zaheWN6swCT9MvjHOB8='; style-src 'sha256-ablnwj0dwG+GFWcoIC0Zc5LvDOXZNZCBrm94f4NIN5Y='; img-src data:; font-src data:; connect-src 'none'; worker-src 'none'; child-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'",
+          "strict-transport-security": "max-age=31536000",
+          "x-frame-options": "DENY",
+          "x-content-type-options": "nosniff",
+          "referrer-policy": "no-referrer",
+          "cross-origin-opener-policy": "same-origin",
+          "cross-origin-resource-policy": "same-origin",
+          "permissions-policy": "camera=(), microphone=(), geolocation=(), clipboard-read=()",
+          "cache-control": "no-cache",
+          "nel": null,
+          "report-to": null
+        }
+      }
+    ],
+    "browser": [
+      {
+        "engine": "chromium",
+        "locale": "vi",
+        "theme": "light",
+        "width": 320,
+        "themeControl": "emulated system preference",
+        "generatedProfiles": 4,
+        "requests": 1,
+        "errors": 0,
+        "siteChrome": "PASS",
+        "brand": "data-URL variant rule unsupported; other findings zero",
+        "controlSurfaces": "PASS",
+        "controlIndicators": "PASS"
+      },
+      {
+        "engine": "chromium",
+        "locale": "vi",
+        "theme": "light",
+        "width": 390,
+        "themeControl": "emulated system preference",
+        "generatedProfiles": 4,
+        "requests": 1,
+        "errors": 0,
+        "siteChrome": "PASS",
+        "brand": "data-URL variant rule unsupported; other findings zero",
+        "controlSurfaces": "PASS",
+        "controlIndicators": "PASS"
+      },
+      {
+        "engine": "chromium",
+        "locale": "vi",
+        "theme": "light",
+        "width": 1440,
+        "themeControl": "emulated system preference",
+        "generatedProfiles": 4,
+        "requests": 1,
+        "errors": 0,
+        "siteChrome": "PASS",
+        "brand": "data-URL variant rule unsupported; other findings zero",
+        "controlSurfaces": "PASS",
+        "controlIndicators": "PASS"
+      },
+      {
+        "engine": "chromium",
+        "locale": "vi",
+        "theme": "dark",
+        "width": 320,
+        "themeControl": "emulated system preference",
+        "generatedProfiles": 4,
+        "requests": 1,
+        "errors": 0,
+        "siteChrome": "PASS",
+        "brand": "data-URL variant rule unsupported; other findings zero",
+        "controlSurfaces": "PASS",
+        "controlIndicators": "PASS"
+      },
+      {
+        "engine": "chromium",
+        "locale": "vi",
+        "theme": "dark",
+        "width": 390,
+        "themeControl": "emulated system preference",
+        "generatedProfiles": 4,
+        "requests": 1,
+        "errors": 0,
+        "siteChrome": "PASS",
+        "brand": "data-URL variant rule unsupported; other findings zero",
+        "controlSurfaces": "PASS",
+        "controlIndicators": "PASS"
+      },
+      {
+        "engine": "chromium",
+        "locale": "vi",
+        "theme": "dark",
+        "width": 1440,
+        "themeControl": "emulated system preference",
+        "generatedProfiles": 4,
+        "requests": 1,
+        "errors": 0,
+        "siteChrome": "PASS",
+        "brand": "data-URL variant rule unsupported; other findings zero",
+        "controlSurfaces": "PASS",
+        "controlIndicators": "PASS"
+      },
+      {
+        "engine": "chromium",
+        "locale": "en",
+        "theme": "light",
+        "width": 320,
+        "themeControl": "emulated system preference",
+        "generatedProfiles": 4,
+        "requests": 1,
+        "errors": 0,
+        "siteChrome": "PASS",
+        "brand": "data-URL variant rule unsupported; other findings zero",
+        "controlSurfaces": "PASS",
+        "controlIndicators": "PASS"
+      },
+      {
+        "engine": "chromium",
+        "locale": "en",
+        "theme": "light",
+        "width": 390,
+        "themeControl": "emulated system preference",
+        "generatedProfiles": 4,
+        "requests": 1,
+        "errors": 0,
+        "siteChrome": "PASS",
+        "brand": "data-URL variant rule unsupported; other findings zero",
+        "controlSurfaces": "PASS",
+        "controlIndicators": "PASS"
+      },
+      {
+        "engine": "chromium",
+        "locale": "en",
+        "theme": "light",
+        "width": 1440,
+        "themeControl": "emulated system preference",
+        "generatedProfiles": 4,
+        "requests": 1,
+        "errors": 0,
+        "siteChrome": "PASS",
+        "brand": "data-URL variant rule unsupported; other findings zero",
+        "controlSurfaces": "PASS",
+        "controlIndicators": "PASS"
+      },
+      {
+        "engine": "chromium",
+        "locale": "en",
+        "theme": "dark",
+        "width": 320,
+        "themeControl": "emulated system preference",
+        "generatedProfiles": 4,
+        "requests": 1,
+        "errors": 0,
+        "siteChrome": "PASS",
+        "brand": "data-URL variant rule unsupported; other findings zero",
+        "controlSurfaces": "PASS",
+        "controlIndicators": "PASS"
+      },
+      {
+        "engine": "chromium",
+        "locale": "en",
+        "theme": "dark",
+        "width": 390,
+        "themeControl": "emulated system preference",
+        "generatedProfiles": 4,
+        "requests": 1,
+        "errors": 0,
+        "siteChrome": "PASS",
+        "brand": "data-URL variant rule unsupported; other findings zero",
+        "controlSurfaces": "PASS",
+        "controlIndicators": "PASS"
+      },
+      {
+        "engine": "chromium",
+        "locale": "en",
+        "theme": "dark",
+        "width": 1440,
+        "themeControl": "emulated system preference",
+        "generatedProfiles": 4,
+        "requests": 1,
+        "errors": 0,
+        "siteChrome": "PASS",
+        "brand": "data-URL variant rule unsupported; other findings zero",
+        "controlSurfaces": "PASS",
+        "controlIndicators": "PASS"
+      },
+      {
+        "engine": "firefox",
+        "locale": "vi",
+        "theme": "light",
+        "width": 320,
+        "themeControl": "emulated system preference",
+        "generatedProfiles": 4,
+        "requests": 1,
+        "errors": 0,
+        "siteChrome": "PASS",
+        "brand": "data-URL variant rule unsupported; other findings zero",
+        "controlSurfaces": "PASS",
+        "controlIndicators": "PASS"
+      },
+      {
+        "engine": "firefox",
+        "locale": "vi",
+        "theme": "light",
+        "width": 390,
+        "themeControl": "emulated system preference",
+        "generatedProfiles": 4,
+        "requests": 1,
+        "errors": 0,
+        "siteChrome": "PASS",
+        "brand": "data-URL variant rule unsupported; other findings zero",
+        "controlSurfaces": "PASS",
+        "controlIndicators": "PASS"
+      },
+      {
+        "engine": "firefox",
+        "locale": "vi",
+        "theme": "light",
+        "width": 1440,
+        "themeControl": "emulated system preference",
+        "generatedProfiles": 4,
+        "requests": 1,
+        "errors": 0,
+        "siteChrome": "PASS",
+        "brand": "data-URL variant rule unsupported; other findings zero",
+        "controlSurfaces": "PASS",
+        "controlIndicators": "PASS"
+      },
+      {
+        "engine": "firefox",
+        "locale": "vi",
+        "theme": "dark",
+        "width": 320,
+        "themeControl": "explicit user toggle; engine ignored media emulation",
+        "generatedProfiles": 4,
+        "requests": 1,
+        "errors": 0,
+        "siteChrome": "PASS",
+        "brand": "data-URL variant rule unsupported; other findings zero",
+        "controlSurfaces": "PASS",
+        "controlIndicators": "PASS"
+      },
+      {
+        "engine": "firefox",
+        "locale": "vi",
+        "theme": "dark",
+        "width": 390,
+        "themeControl": "explicit user toggle; engine ignored media emulation",
+        "generatedProfiles": 4,
+        "requests": 1,
+        "errors": 0,
+        "siteChrome": "PASS",
+        "brand": "data-URL variant rule unsupported; other findings zero",
+        "controlSurfaces": "PASS",
+        "controlIndicators": "PASS"
+      },
+      {
+        "engine": "firefox",
+        "locale": "vi",
+        "theme": "dark",
+        "width": 1440,
+        "themeControl": "explicit user toggle; engine ignored media emulation",
+        "generatedProfiles": 4,
+        "requests": 1,
+        "errors": 0,
+        "siteChrome": "PASS",
+        "brand": "data-URL variant rule unsupported; other findings zero",
+        "controlSurfaces": "PASS",
+        "controlIndicators": "PASS"
+      },
+      {
+        "engine": "firefox",
+        "locale": "en",
+        "theme": "light",
+        "width": 320,
+        "themeControl": "emulated system preference",
+        "generatedProfiles": 4,
+        "requests": 1,
+        "errors": 0,
+        "siteChrome": "PASS",
+        "brand": "data-URL variant rule unsupported; other findings zero",
+        "controlSurfaces": "PASS",
+        "controlIndicators": "PASS"
+      },
+      {
+        "engine": "firefox",
+        "locale": "en",
+        "theme": "light",
+        "width": 390,
+        "themeControl": "emulated system preference",
+        "generatedProfiles": 4,
+        "requests": 1,
+        "errors": 0,
+        "siteChrome": "PASS",
+        "brand": "data-URL variant rule unsupported; other findings zero",
+        "controlSurfaces": "PASS",
+        "controlIndicators": "PASS"
+      },
+      {
+        "engine": "firefox",
+        "locale": "en",
+        "theme": "light",
+        "width": 1440,
+        "themeControl": "emulated system preference",
+        "generatedProfiles": 4,
+        "requests": 1,
+        "errors": 0,
+        "siteChrome": "PASS",
+        "brand": "data-URL variant rule unsupported; other findings zero",
+        "controlSurfaces": "PASS",
+        "controlIndicators": "PASS"
+      },
+      {
+        "engine": "firefox",
+        "locale": "en",
+        "theme": "dark",
+        "width": 320,
+        "themeControl": "explicit user toggle; engine ignored media emulation",
+        "generatedProfiles": 4,
+        "requests": 1,
+        "errors": 0,
+        "siteChrome": "PASS",
+        "brand": "data-URL variant rule unsupported; other findings zero",
+        "controlSurfaces": "PASS",
+        "controlIndicators": "PASS"
+      },
+      {
+        "engine": "firefox",
+        "locale": "en",
+        "theme": "dark",
+        "width": 390,
+        "themeControl": "explicit user toggle; engine ignored media emulation",
+        "generatedProfiles": 4,
+        "requests": 1,
+        "errors": 0,
+        "siteChrome": "PASS",
+        "brand": "data-URL variant rule unsupported; other findings zero",
+        "controlSurfaces": "PASS",
+        "controlIndicators": "PASS"
+      },
+      {
+        "engine": "firefox",
+        "locale": "en",
+        "theme": "dark",
+        "width": 1440,
+        "themeControl": "explicit user toggle; engine ignored media emulation",
+        "generatedProfiles": 4,
+        "requests": 1,
+        "errors": 0,
+        "siteChrome": "PASS",
+        "brand": "data-URL variant rule unsupported; other findings zero",
+        "controlSurfaces": "PASS",
+        "controlIndicators": "PASS"
+      },
+      {
+        "engine": "webkit",
+        "locale": "vi",
+        "theme": "light",
+        "width": 320,
+        "themeControl": "emulated system preference",
+        "generatedProfiles": 4,
+        "requests": 1,
+        "errors": 0,
+        "siteChrome": "PASS",
+        "brand": "data-URL variant rule unsupported; other findings zero",
+        "controlSurfaces": "PASS",
+        "controlIndicators": "PASS"
+      },
+      {
+        "engine": "webkit",
+        "locale": "vi",
+        "theme": "light",
+        "width": 390,
+        "themeControl": "emulated system preference",
+        "generatedProfiles": 4,
+        "requests": 1,
+        "errors": 0,
+        "siteChrome": "PASS",
+        "brand": "data-URL variant rule unsupported; other findings zero",
+        "controlSurfaces": "PASS",
+        "controlIndicators": "PASS"
+      },
+      {
+        "engine": "webkit",
+        "locale": "vi",
+        "theme": "light",
+        "width": 1440,
+        "themeControl": "emulated system preference",
+        "generatedProfiles": 4,
+        "requests": 1,
+        "errors": 0,
+        "siteChrome": "PASS",
+        "brand": "data-URL variant rule unsupported; other findings zero",
+        "controlSurfaces": "PASS",
+        "controlIndicators": "PASS"
+      },
+      {
+        "engine": "webkit",
+        "locale": "vi",
+        "theme": "dark",
+        "width": 320,
+        "themeControl": "emulated system preference",
+        "generatedProfiles": 4,
+        "requests": 1,
+        "errors": 0,
+        "siteChrome": "PASS",
+        "brand": "data-URL variant rule unsupported; other findings zero",
+        "controlSurfaces": "PASS",
+        "controlIndicators": "PASS"
+      },
+      {
+        "engine": "webkit",
+        "locale": "vi",
+        "theme": "dark",
+        "width": 390,
+        "themeControl": "emulated system preference",
+        "generatedProfiles": 4,
+        "requests": 1,
+        "errors": 0,
+        "siteChrome": "PASS",
+        "brand": "data-URL variant rule unsupported; other findings zero",
+        "controlSurfaces": "PASS",
+        "controlIndicators": "PASS"
+      },
+      {
+        "engine": "webkit",
+        "locale": "vi",
+        "theme": "dark",
+        "width": 1440,
+        "themeControl": "emulated system preference",
+        "generatedProfiles": 4,
+        "requests": 1,
+        "errors": 0,
+        "siteChrome": "PASS",
+        "brand": "data-URL variant rule unsupported; other findings zero",
+        "controlSurfaces": "PASS",
+        "controlIndicators": "PASS"
+      },
+      {
+        "engine": "webkit",
+        "locale": "en",
+        "theme": "light",
+        "width": 320,
+        "themeControl": "emulated system preference",
+        "generatedProfiles": 4,
+        "requests": 1,
+        "errors": 0,
+        "siteChrome": "PASS",
+        "brand": "data-URL variant rule unsupported; other findings zero",
+        "controlSurfaces": "PASS",
+        "controlIndicators": "PASS"
+      },
+      {
+        "engine": "webkit",
+        "locale": "en",
+        "theme": "light",
+        "width": 390,
+        "themeControl": "emulated system preference",
+        "generatedProfiles": 4,
+        "requests": 1,
+        "errors": 0,
+        "siteChrome": "PASS",
+        "brand": "data-URL variant rule unsupported; other findings zero",
+        "controlSurfaces": "PASS",
+        "controlIndicators": "PASS"
+      },
+      {
+        "engine": "webkit",
+        "locale": "en",
+        "theme": "light",
+        "width": 1440,
+        "themeControl": "emulated system preference",
+        "generatedProfiles": 4,
+        "requests": 1,
+        "errors": 0,
+        "siteChrome": "PASS",
+        "brand": "data-URL variant rule unsupported; other findings zero",
+        "controlSurfaces": "PASS",
+        "controlIndicators": "PASS"
+      },
+      {
+        "engine": "webkit",
+        "locale": "en",
+        "theme": "dark",
+        "width": 320,
+        "themeControl": "emulated system preference",
+        "generatedProfiles": 4,
+        "requests": 1,
+        "errors": 0,
+        "siteChrome": "PASS",
+        "brand": "data-URL variant rule unsupported; other findings zero",
+        "controlSurfaces": "PASS",
+        "controlIndicators": "PASS"
+      },
+      {
+        "engine": "webkit",
+        "locale": "en",
+        "theme": "dark",
+        "width": 390,
+        "themeControl": "emulated system preference",
+        "generatedProfiles": 4,
+        "requests": 1,
+        "errors": 0,
+        "siteChrome": "PASS",
+        "brand": "data-URL variant rule unsupported; other findings zero",
+        "controlSurfaces": "PASS",
+        "controlIndicators": "PASS"
+      },
+      {
+        "engine": "webkit",
+        "locale": "en",
+        "theme": "dark",
+        "width": 1440,
+        "themeControl": "emulated system preference",
+        "generatedProfiles": 4,
+        "requests": 1,
+        "errors": 0,
+        "siteChrome": "PASS",
+        "brand": "data-URL variant rule unsupported; other findings zero",
+        "controlSurfaces": "PASS",
+        "controlIndicators": "PASS"
+      }
+    ],
+    "status": "PASS"
+  },
+  "readinessFollowup": {
+    "previousHeldTags": [
+      "v0.2.4",
+      "v0.2.5"
+    ],
+    "changedFixture": "tests/browser/navigation.ts",
+    "signal": "one browser location.assign, fresh document at requested URL, readyState complete, main HTTP status 200, fonts ready and images decoded",
+    "localFullBrowserCases": 135,
+    "capabilityBoundaries": "offline file, JavaScript-disabled and foreign ancestor fixtures retain original direct navigation",
+    "preciseIntermittentDriverCause": "undetermined",
+    "assertionsTimeoutsRetriesBrowsers": "unchanged"
+  },
+  "affectedLiveRegressions": {
+    "stats": {
+      "startTime": "2026-10-07T07:51:20.602Z",
+      "duration": 214557.542,
+      "expected": 75,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "reportFile": "output/ux-review/v0.2.6/live-runtime.json",
+    "reportSha256": "7ed81d43d68a0e81c5b81384bae94d00c1990f77919c931d3c33f44f8abdd893"
+  },
+  "openedImages": [
+    {
+      "file": "output/publication-v0.2.6/live-followup/vi-password-128-workspace.png",
+      "sha256": "c0344b61375475405cfc5692ef64624c0029eb582b7983cdce4d52b030de49c2"
+    },
+    {
+      "file": "output/publication-v0.2.6/live-followup/vi-hidden-8.png",
+      "sha256": "eb1d917acd9806116355d3494ae6a582a293fac81f94b84b5320a659910dbacd"
+    },
+    {
+      "file": "output/publication-v0.2.6/live-followup/en-metric-rows.png",
+      "sha256": "c6bc5d6d234d61e289a9bd9f0b7706ff5336108bf3ba152632634844d7503e1d"
+    },
+    {
+      "file": "output/publication-v0.2.6/live-followup/en-low-bits.png",
+      "sha256": "fa9aed05d6e3d53520c9c8c5627e68f9be9b67aa3824c72265ec3acb8ad84d5d"
+    },
+    {
+      "file": "output/publication-v0.2.6/live-followup/motion-128-200.png",
+      "sha256": "7436f8fe384d6540ff34716affc51cd84088cc9897c60d5a4db74f89784b6585"
+    },
+    {
+      "file": "output/publication-v0.2.6/live-acceptance/vi-dark-experimental-agent-vi.png",
+      "sha256": "52ae20ec4eec2c09f8dfb129dc139866f3d37e2b73d98339284175bf2dee1caa"
+    },
+    {
+      "file": "output/publication-v0.2.6/live-acceptance/en-light-mobile-result.png",
+      "sha256": "243ab62e286d0c1ea6c26b51a6f3b22b734a1c8f0c75ae21e896b117cfc6f55d"
+    },
+    {
+      "file": "output/publication-v0.2.6/live-acceptance/en-dark-zoom-result.png",
+      "sha256": "fd541930885a2f7a056c873b6b3ac8f33cf268415e102eea7a08c45858310c00"
+    },
+    {
+      "file": "output/publication-v0.2.6/live-acceptance/vi-dark-midpoint.png",
+      "sha256": "85fd0d570ff9479ea2327efba73320e5c1c68b1d84b4b58a6be54eef911d353c"
+    },
+    {
+      "file": "output/publication-v0.2.6/live-acceptance/vi-light-long-phrase.png",
+      "sha256": "9d8792b12217a1f8dc9f4096bb6a0ec6d4eb7a7d80b1d91d6e1ffbdff3792d20"
+    },
+    {
+      "file": "output/publication-v0.2.6/live-acceptance/vi-dark-pause-pointer.png",
+      "sha256": "c4f057d6b24aed63d4987260e2a6bf49c82dbeb3bc621a948bd9ad341e2f8e99"
+    },
+    {
+      "file": "output/publication-v0.2.6/live-acceptance/vi-light-invalid-words.png",
+      "sha256": "fa3724c9da22a5f0971348cc89ebedc837951b6fb1ff5ec8d01ecfa1d9e254ec"
+    },
+    {
+      "file": "output/publication-v0.2.6/cloudflare-production.jpg",
+      "sha256": "ab62a4137d4129fe89bf677b47cfbeec27798f694591f1287f987ea581076226"
+    }
+  ],
+  "standards": {
+    "sourceCommit": "749503dd45ad99cac3d68ae2e79cfcc733d5293c",
+    "bundleSha256": "e1b35145d8e69d87189248e8812c67d1aed1646ad0485027db16ca2f36e4dd54",
+    "webBrowserCasesPassed": 177,
+    "gate": "WEB-010"
+  },
+  "limits": [
+    "Recorded browser engines and simulated viewports; not physical-device trials",
+    "Manual screen-reader and independent review not performed",
+    "Brand filename inspector cannot classify data URLs; original decoded SVG digests and remaining geometry checks compensate"
+  ]
+}
