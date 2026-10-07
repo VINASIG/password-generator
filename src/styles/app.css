@@ -499,6 +499,10 @@ fieldset:disabled {
   word-break: break-all;
 }
 
+#secret[data-masked="true"] {
+  word-break: normal;
+}
+
 #secret.native-copy {
   clip-path: inset(50%);
 }

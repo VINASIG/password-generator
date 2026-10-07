@@ -84,7 +84,7 @@ const text = {
     pause: "Tạm dừng tự tạo",
     rotation: "Thời gian đến lần tạo mới",
     rotationHint:
-      "Tự tạo sau 60 giây. Chọn kết quả hoặc sao chép sẽ tạm dừng. Bấm tiếp tục để bật lại.",
+      "Tự tạo sau 60 giây khi tab đang hiển thị. Chọn kết quả hoặc sao chép sẽ tạm dừng. Bấm tiếp tục để bật lại.",
     footerHome: "Trang chủ VINASIG",
     footerInfo: "Thông tin website",
     result: "Kết quả",
@@ -100,7 +100,7 @@ const text = {
     starting: "Đang kiểm tra tính toàn vẹn của các bộ từ vựng.",
     nojs: "Công cụ cần JavaScript và Web Crypto. Chức năng sinh bị khóa khi không chạy được mã đã kiểm tra.",
     lifecycle:
-      "Thiết lập thay đổi sẽ tạo kết quả mới. Không lưu lịch sử. Trang xóa kết quả khi rời tab hoặc không thao tác trong 5 phút. Clipboard có thể vẫn giữ nội dung đã sao chép.",
+      "Thiết lập thay đổi sẽ tạo kết quả mới. Chuyển tab giữ kết quả và tạm dừng đếm ngược. Không lưu lịch sử. Trang xóa kết quả khi đóng, tải lại hoặc sau 5 phút không thao tác. Clipboard có thể vẫn giữ nội dung đã sao chép.",
     offline: "Dùng bản offline",
     offlineHint:
       "Bản HTML đã build chứa sẵn mã, font và dữ liệu. Mở trong trình duyệt tương thích rồi ngắt mạng. Kiểm tra chữ ký nguồn và checksum của bản phát hành trước khi dùng.",
@@ -181,7 +181,7 @@ const text = {
     pause: "Pause automatic generation",
     rotation: "Time until the next result",
     rotationHint:
-      "New result every 60 seconds. Selecting or copying the result pauses the timer. Resume to turn it back on.",
+      "New result after 60 seconds while this tab is visible. Selecting or copying the result pauses the timer. Resume to turn it back on.",
     footerHome: "VINASIG home",
     footerInfo: "Website information",
     result: "Result",
@@ -197,7 +197,7 @@ const text = {
     starting: "Checking wordlist integrity.",
     nojs: "JavaScript and Web Crypto are required. Generation stays locked when the checked code cannot run.",
     lifecycle:
-      "Settings changes generate a new result. No history is saved. Leaving the tab or 5 minutes without interaction clears the result. The clipboard may retain copied content.",
+      "Settings changes generate a new result. Switching tabs keeps the result and pauses the countdown. No history is saved. Closing or reloading the page, or 5 minutes without interaction, clears the result. The clipboard may retain copied content.",
     offline: "Use offline",
     offlineHint:
       "The built HTML includes code, fonts and data. Open in a compatible browser, then disconnect. Verify release provenance and checksums before use.",

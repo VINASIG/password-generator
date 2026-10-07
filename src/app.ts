@@ -24,7 +24,7 @@ const copy = {
   vi: {
     ready: "Sẵn sàng tạo kết quả mới.",
     created: "Đã tạo kết quả mới.",
-    expired: "Đã xóa kết quả khi rời tab hoặc không thao tác trong 5 phút.",
+    expired: "Đã xóa kết quả khi rời trang hoặc không thao tác trong 5 phút.",
     lengthError: "Nhập số nguyên từ 8 đến 128 ký tự.",
     wordsError: "Nhập số nguyên từ 4 đến 20 từ.",
     groupsError: "Chọn ít nhất một nhóm ký tự.",
@@ -62,7 +62,7 @@ const copy = {
     ready: "Ready to generate a new result.",
     created: "New result generated.",
     expired:
-      "Result cleared after leaving the tab or 5 minutes without interaction.",
+      "Result cleared after leaving the page or 5 minutes without interaction.",
     lengthError: "Enter a whole number from 8 to 128 characters.",
     wordsError: "Enter a whole number from 4 to 20 words.",
     groupsError: "Select at least one character group.",
@@ -142,7 +142,11 @@ let paused = false;
 let copying = false;
 let active = !document.hidden;
 let lists: readonly VerifiedList[] = [];
+const phraseAlphabets = new Map<string, readonly string[]>();
+let animationAlphabet: readonly string[] = [];
+let animationPreserved = "";
 let readyForGeneration = false;
+let needsInitialResult = true;
 let nativeCopyActive = false;
 let nativeCopyTimer: ReturnType<typeof setTimeout> | undefined;
 
@@ -173,6 +177,8 @@ function stopNativeCopy(): void {
 function clear(message: string): void {
   revision++;
   secret = null;
+  animationAlphabet = [];
+  animationPreserved = "";
   copying = false;
   clearTimeout(idleTimer);
   clearInterval(rotationTimer);
@@ -234,7 +240,7 @@ function fieldError(id: string, message: string): void {
   } else input(id).setAttribute("aria-invalid", "true");
 }
 function fitResult(): void {
-  if (secret === null || nativeCopyActive) return;
+  if (secret === null || nativeCopyActive || !active || document.hidden) return;
   const wasHidden = result.hidden;
   const previousValue = result.value;
   const { selectionStart, selectionEnd, selectionDirection } = result;
@@ -307,6 +313,7 @@ function renderSecret(): void {
   stopScramble();
   result.value = revealed ? (secret ?? "") : maskSecret(secret ?? "");
   result.dataset["mode"] = selected("mode");
+  result.dataset["masked"] = String(!revealed);
   scramble.dataset["mode"] = selected("mode");
   result.hidden = false;
   empty.hidden = true;
@@ -343,6 +350,8 @@ function animateSecret(): void {
           secret,
           Math.max(0, elapsed - SCRAMBLE_HOLD_MILLISECONDS) /
             (SCRAMBLE_MILLISECONDS - SCRAMBLE_HOLD_MILLISECONDS),
+          animationAlphabet,
+          animationPreserved,
         );
         previousPaint = now;
       }
@@ -383,9 +392,10 @@ function updateCountdown(): void {
   element("pause-icon", HTMLElement).hidden = paused;
   element("resume-icon", HTMLElement).hidden = !paused;
 }
-function startRotation(): void {
+function startRotation(reset = true): void {
   if (secret === null) return;
-  remaining = ROTATION_MILLISECONDS;
+  clearInterval(rotationTimer);
+  if (reset) remaining = ROTATION_MILLISECONDS;
   previousTick = Date.now();
   rotation.hidden = false;
   pauseButton.disabled = false;
@@ -400,8 +410,16 @@ function startRotation(): void {
     else updateCountdown();
   }, 250);
 }
-function generate(): void {
-  if (!readyForGeneration || !active || document.hidden) return;
+function generate(deferWhileHidden = false): void {
+  if (!readyForGeneration) return;
+  if (!active || document.hidden) {
+    if (deferWhileHidden) {
+      clear("");
+      needsInitialResult = true;
+    }
+    return;
+  }
+  needsInitialResult = false;
   clear("");
   clearFieldErrors();
   try {
@@ -443,6 +461,7 @@ function generate(): void {
         avoidAmbiguous: input("ambiguous").checked,
       });
       secret = generatePassword(plan);
+      animationAlphabet = Array.from(plan.groups.join(""));
       bits = plan.bits;
     } else {
       const words = boundedCount(input("words").value, 4, 20);
@@ -454,6 +473,10 @@ function generate(): void {
       const separator = selected("separator");
       const plan = phrasePlan(list, words, separator);
       secret = generatePhrase(list, words, separator);
+      const alphabet = phraseAlphabets.get(list.id);
+      if (alphabet === undefined) throw new Error("LIST_NOT_READY");
+      animationAlphabet = alphabet;
+      animationPreserved = "_-" + separator;
       bits = plan.bits;
     }
     const characters = Array.from(secret).length;
@@ -522,7 +545,7 @@ settings.addEventListener("input", (event) => {
     if (["length", "words"].includes(target.id)) syncNumber(target.id);
   }
   updatePanels();
-  generate();
+  generate(true);
 });
 settings.addEventListener("change", (event) => {
   const target = event.target;
@@ -532,14 +555,14 @@ settings.addEventListener("change", (event) => {
   ) {
     const previous = target.value;
     syncNumber(target.id, true);
-    if (target.value !== previous) generate();
+    if (target.value !== previous) generate(true);
   }
 });
 document
   .querySelectorAll<HTMLButtonElement>("[data-bits]")
   .forEach((button) => {
     button.addEventListener("click", () => {
-      if (!readyForGeneration) return;
+      if (!readyForGeneration || !active || document.hidden) return;
       touchActivity();
       setNumber(
         "words",
@@ -550,20 +573,21 @@ document
           ),
         ),
       );
-      generate();
+      generate(true);
     });
   });
 generateButton.addEventListener("click", () => {
+  if (!active || document.hidden) return;
   touchActivity();
   generate();
 });
 revealButton.addEventListener("click", () => {
-  if (secret === null || isExpired()) return;
+  if (secret === null || !active || document.hidden || isExpired()) return;
   revealed = !revealed;
   renderSecret();
 });
 pauseButton.addEventListener("click", () => {
-  if (secret === null || copying) return;
+  if (secret === null || copying || !active || document.hidden) return;
   paused = !paused;
   previousTick = Date.now();
   updateCountdown();
@@ -631,11 +655,20 @@ let outputWidth = 0;
 outputResize.observe(element("result-surface", HTMLElement));
 void document.fonts.ready.then(fitResult);
 motion.addEventListener("change", () => {
-  if (motion.matches && secret !== null) renderSecret();
+  if (motion.matches && secret !== null && active && !document.hidden)
+    renderSecret();
 });
 
 copyButton.addEventListener("click", () => {
-  if (secret === null || frame !== 0 || copying || isExpired()) return;
+  if (
+    secret === null ||
+    frame !== 0 ||
+    copying ||
+    !active ||
+    document.hidden ||
+    isExpired()
+  )
+    return;
   const capturedRevision = revision;
   copying = true;
   paused = true;
@@ -664,29 +697,58 @@ copyButton.addEventListener("click", () => {
     complete(copy.denied);
   }
 });
+function suspendResult(): void {
+  if (secret !== null && !countdownPaused())
+    remaining = Math.max(0, remaining - Math.max(0, Date.now() - previousTick));
+  revision++;
+  copying = false;
+  clearInterval(rotationTimer);
+  rotationTimer = undefined;
+  stopScramble();
+  stopNativeCopy();
+  result.value = "";
+  result.hidden = true;
+  empty.hidden = false;
+  rotation.hidden = true;
+  metrics.hidden = true;
+  revealButton.disabled = true;
+  copyButton.disabled = true;
+  pauseButton.disabled = true;
+}
+function restoreResult(): void {
+  if (needsInitialResult) {
+    touchActivity();
+    generate();
+    return;
+  }
+  if (secret === null || isExpired()) return;
+  if (remaining === 0) {
+    generate();
+    return;
+  }
+  renderSecret();
+  metrics.hidden = false;
+  revealButton.disabled = false;
+  armIdleTimer();
+  startRotation(false);
+}
 window.addEventListener("pagehide", () => {
   active = false;
+  needsInitialResult = true;
   clear(copy.expired);
 });
 window.addEventListener("pageshow", (event) => {
-  if (event.persisted && !document.hidden) {
-    active = true;
-    touchActivity();
-    generate();
+  if (event.persisted) {
+    active = !document.hidden;
+    if (active) restoreResult();
   }
 });
 document.addEventListener("visibilitychange", () => {
-  active = !document.hidden;
-  if (!active) clear(copy.expired);
-  else {
-    touchActivity();
-    generate();
-  }
-});
-document.querySelectorAll<HTMLAnchorElement>("a").forEach((link) => {
-  link.addEventListener("click", () => {
-    if (secret !== null) clear(copy.expired);
-  });
+  const visible = !document.hidden;
+  if (visible === active) return;
+  active = visible;
+  if (active) restoreResult();
+  else suspendResult();
 });
 
 async function initialize(): Promise<void> {
@@ -710,6 +772,15 @@ async function initialize(): Promise<void> {
   }
   try {
     lists = await Promise.all(SOURCES.map(prepareList));
+    for (const list of lists)
+      phraseAlphabets.set(
+        list.id,
+        Object.freeze(
+          Array.from(new Set(Array.from(list.tokens.join("")))).filter(
+            (character) => character !== "_" && character !== "-",
+          ),
+        ),
+      );
     readyForGeneration = true;
     settings.disabled = false;
     generateButton.disabled = false;

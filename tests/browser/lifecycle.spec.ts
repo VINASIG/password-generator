@@ -15,12 +15,13 @@ test("the first settings edit after an elapsed inactivity deadline generates a f
   await expect(page.locator("#rotation")).toBeVisible();
 });
 
-test("returning to a visible page creates a fresh result while preserving the session visibility choice", async ({
+test("visibility restores the same result, while actual page departure clears the session result", async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await navigateApp(page, "/en/");
   await expect(page.locator("#secret")).toBeVisible();
+  const initial = await page.locator("#secret").inputValue();
   await page.locator("#reveal").click();
   await page.evaluate(() => {
     Object.defineProperty(document, "hidden", {
@@ -43,6 +44,9 @@ test("returning to a visible page creates a fresh result while preserving the se
     "aria-pressed",
     "false",
   );
+  await page.locator("#reveal").click();
+  await expect(page.locator("#secret")).toHaveValue(initial);
+  await page.locator("#reveal").click();
   await page.evaluate(() => {
     dispatchEvent(new PageTransitionEvent("pagehide"));
   });
@@ -62,7 +66,7 @@ test("an animation random-source failure clears the completed secret and never r
     const draw = crypto.getRandomValues.bind(crypto);
     Object.defineProperty(crypto, "getRandomValues", {
       value: (view: Uint8Array<ArrayBuffer> | Uint32Array<ArrayBuffer>) => {
-        if (view instanceof Uint8Array && view.byteLength === 20)
+        if (view instanceof Uint8Array && view.byteLength === 1)
           throw new Error("synthetic animation provider failure");
         return draw(view);
       },

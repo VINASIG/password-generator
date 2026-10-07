@@ -240,6 +240,14 @@ test("password lines fill their available width without inserted newlines and ma
       ).toBeLessThanOrEqual(1);
       await page.locator("#reveal").click();
       await expect(page.locator("#secret")).toHaveValue("•".repeat(length));
+      await expect
+        .poll(() =>
+          page.locator("#secret").evaluate((node) => ({
+            horizontalOverflow: node.scrollWidth > node.clientWidth + 1,
+            verticalOverflow: node.scrollHeight > node.clientHeight + 1,
+          })),
+        )
+        .toEqual({ horizontalOverflow: false, verticalOverflow: false });
       await page.locator("#generate").click();
       await expect(page.locator("#secret")).toHaveValue("•".repeat(length));
       await page.locator("#reveal").click();
@@ -253,14 +261,23 @@ test("128-character animation holds an initial scramble, settles progressively a
   await ready(page, "en", "no-preference");
   await page.clock.install();
   await page.clock.pauseAt(new Date(Date.now() + 2000));
+  await page.evaluate(() => {
+    Object.defineProperty(crypto, "getRandomValues", {
+      configurable: true,
+      value: (view: Uint8Array | Uint32Array) => {
+        view.fill(view instanceof Uint8Array && view.byteLength === 1 ? 1 : 0);
+        return view;
+      },
+    });
+  });
   await page.locator("#length").fill("128");
   await expect(page.locator("#copy")).toBeDisabled();
-  await expect(page.locator("#scramble")).toHaveText("A".repeat(128));
+  await expect(page.locator("#scramble")).toHaveText("b".repeat(128));
   await page.clock.runFor(200);
-  await expect(page.locator("#scramble")).toHaveText("A".repeat(128));
+  await expect(page.locator("#scramble")).toHaveText("b".repeat(128));
   await page.clock.runFor(400);
   const halfway = await page.locator("#scramble").innerText();
-  expect(halfway).toMatch(/^a{40,48}A+$/);
+  expect(halfway).toMatch(/^a{40,48}b+$/);
   await expect(page.locator("#copy")).toBeDisabled();
   await page.clock.runFor(650);
   await expect(page.locator("#scramble")).toBeHidden();

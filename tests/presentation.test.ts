@@ -47,14 +47,18 @@ void test("count bounds reject malformed and incomplete input instead of choosin
 
 void test("scramble preserves Unicode codepoints and delimiters, while the finished frame is exact", () => {
   const secret = "bánh_mì-công_viên.mặt trời";
-  const first = scrambleFrame(secret, 0);
+  const alphabet = Array.from("abcđêơư");
+  const first = scrambleFrame(secret, 0, alphabet, "_ .-");
   assert.equal(Array.from(first).length, Array.from(secret).length);
-  assert.match(first, /^[A-HJ-NP-Z2-9_ .-]+$/);
+  assert.match(first, /^[abcđêơư_ .-]+$/);
   const source = Array.from(secret);
-  const halfway = Array.from(scrambleFrame(secret, 0.5));
+  const halfway = Array.from(scrambleFrame(secret, 0.5, alphabet, "_ .-"));
   assert.deepEqual(
     halfway.slice(0, Math.floor(source.length / 2)),
     source.slice(0, Math.floor(source.length / 2)),
   );
-  assert.equal(scrambleFrame(secret, 1), secret);
+  assert.equal(scrambleFrame(secret, 1, alphabet, "_ .-"), secret);
+  for (const character of ["7", "!", "z"])
+    assert.equal(scrambleFrame("-_a.", 0, [character]), character.repeat(4));
+  assert.throws(() => scrambleFrame("a", 0, []));
 });
