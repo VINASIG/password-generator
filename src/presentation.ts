@@ -1,6 +1,22 @@
 export const ROTATION_MILLISECONDS = 60_000;
 export const IDLE_MILLISECONDS = 300_000;
-export const SCRAMBLE_MILLISECONDS = 480;
+export const SCRAMBLE_MILLISECONDS = 1_200;
+export const SCRAMBLE_HOLD_MILLISECONDS = 240;
+
+export function maskSecret(secret: string): string {
+  return "•".repeat(Array.from(secret).length);
+}
+
+export function selectedSecret(
+  secret: string,
+  start: number,
+  end: number,
+  masked: boolean,
+): string {
+  return masked
+    ? Array.from(secret).slice(start, end).join("")
+    : secret.slice(start, end);
+}
 
 export function boundedCount(
   text: string,

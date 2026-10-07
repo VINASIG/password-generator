@@ -1,0 +1,805 @@
+{
+  "status": "PASS",
+  "version": "0.2.4",
+  "reviewedAt": "2026-10-07",
+  "evidenceClass": "project-authored automated tests and visual observations, not independent security or participant validation",
+  "sourceBinding": {
+    "kind": "working tree before release commit",
+    "baseCommit": "5e210766686e82bc980196a257b40a683681af13",
+    "testedHtmlSha256": "e1f179cf3f55cf8c5dfa072d2695d0cc0f6498a1d536967aa5baeffc9515f54b",
+    "files": {
+      "src/app.ts": "7fff1d5a86d4a1f48b171b0c1b1b53170e760ec7d1a22bf751249d714fe92dff",
+      "src/presentation.ts": "a6e3b40c19345b6247587aeca2feb39b519399a586ebb5613c28e65eed9f3367",
+      "src/styles/app.css": "4245b9c381781529065087df1eb83f4e89eb1866949385120ee0534652600e6d",
+      "scripts/page.ts": "3bf8fdafd3d722d2c40ed0a3bea7fbbefa9e5938f3357e2d34abdfe9a4a981bc",
+      "src/random.ts": "4c0925365029d29e5a9bd4094eedf658718c1452fc64b345dd4928de09bdd382",
+      "src/password.ts": "3c98f3ba1d1b4d28f7c6c0b0cb695664264e269463330ff6a35a96c7ddee1331",
+      "src/phrase.ts": "3a6e8291a09926d8fbd2332be30a673dde86d16c8f07fabab7bc2484f0cb91e5",
+      "src/styles/site-chrome.css": "0443593d2b4e9dbd5e9341e444a52d823900fd534e9b80edcbcddb6b54d0f2a3",
+      "src/styles/preferences.css": "a68b18001fc54dd6b5b11cb2a659cccced92797103317e62cfe5bc627a0665e5",
+      "src/styles/control-surfaces.css": "3114cc613a3dfaabfb0c9458ca9384ae43da6ea1a9e9be0e502a07d3ed3a8808",
+      "tests/browser/output-interactions.spec.ts": "f17a0b67d1adc25fe4d096b8d29bc6bda796b5a71c1d4921e601105dfb1a3599",
+      "tests/browser/ui-contract.spec.ts": "b6c57cc79d34bb6db2794b4b55d96bab536dd2afc141a7a570855132fc43a960",
+      "tests/browser/automatic.spec.ts": "8be5a8cafbf4c0aa0d86bd24c7e3e4369f62b900920d0bbd4bf165d4112c63ac",
+      "tests/browser/generator.spec.ts": "b159b11219c0cac30d40cc8d5c68796e271180189ad7a3833b4ec1b92e391643",
+      "tests/presentation.test.ts": "93b66d97483671d268deaa6ec6c0f2e5d664d22b75d29bcbce1c35aa910af009",
+      "data/lists/eff-long.txt": "6d557f0693958fb5e650b68b5bee585eb82cf4da32965505c789e924743bc522",
+      "data/lists/experimental-agent-vi.txt": "a027da36027ead2da0e80133b3bce6edca28fef01fae867551647767cf79331e",
+      "data/lists/experimental-agent-ascii.txt": "5c3777850faf4d5b95e8d98d990bb3c5f7498a223d31d0ccc7ef855e2502b9a3"
+    }
+  },
+  "unitTests": {
+    "passed": 26,
+    "failed": 0
+  },
+  "browserStats": {
+    "startTime": "2026-10-07T06:42:57.936Z",
+    "duration": 234286.05099999998,
+    "expected": 132,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "environment": {
+    "schema": 1,
+    "platform": "win32",
+    "arch": "x64",
+    "osRelease": "10.0.26300",
+    "osVersion": "Windows 11 Pro",
+    "node": "v24.21.0",
+    "nodeComponents": {
+      "node": "24.21.0",
+      "acorn": "8.18.0",
+      "ada": "4.0.0",
+      "amaro": "1.1.11",
+      "ares": "1.34.8",
+      "brotli": "1.2.0",
+      "cldr": "48.0",
+      "icu": "78.3",
+      "llhttp": "9.4.3",
+      "merve": "1.2.2",
+      "modules": "137",
+      "napi": "10",
+      "nbytes": "0.1.4",
+      "ncrypto": "0.0.1",
+      "nghttp2": "1.70.0",
+      "nghttp3": "",
+      "ngtcp2": "",
+      "openssl": "3.5.8",
+      "simdjson": "4.6.7",
+      "simdutf": "6.4.0",
+      "sqlite": "3.53.4",
+      "tz": "2026c",
+      "undici": "7.29.1",
+      "unicode": "17.0",
+      "uv": "1.52.1",
+      "uvwasi": "0.0.23",
+      "v8": "13.6.233.17-node.53",
+      "zlib": "1.3.2.1-motley-8002e91",
+      "zstd": "1.5.7"
+    },
+    "npmUserAgent": "npm/12.2.0 node/v24.21.0 win32 x64 workspaces/false",
+    "runnerLabel": null,
+    "runnerImageOS": null,
+    "runnerImageVersion": null,
+    "runnerEnvironment": null,
+    "gitCommit": "5e210766686e82bc980196a257b40a683681af13",
+    "gitTree": "83f771ea2aec3cb0e1a68013c1ea6bc745711b5b",
+    "packageLockSha256": "29b1fd702f64117c1079fbf4a175c97a31faae7215ef799fa76bb38595b7a3eb",
+    "deterministicBuildRecord": {
+      "schema": 1,
+      "csp": "default-src 'none'; script-src 'sha256-sJYaLlHJRlg04vfokffzkf1/zaheWN6swCT9MvjHOB8='; style-src 'sha256-ablnwj0dwG+GFWcoIC0Zc5LvDOXZNZCBrm94f4NIN5Y='; img-src data:; font-src data:; connect-src 'none'; worker-src 'none'; child-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'",
+      "sourceCommit": null,
+      "publicOrigin": null,
+      "sourcePins": {
+        "vietnamese": "147c3791dd686b4eda5893b0eedb2d9b5f8f95e7",
+        "design": "f0fc7e5d04bbc2d70499a2aece59d6992b36d03e",
+        "brand": "83ed7515c81c3b2a28888a75c754e44562d5b107"
+      },
+      "wordlists": [
+        {
+          "id": "eff",
+          "sha256": "6d557f0693958fb5e650b68b5bee585eb82cf4da32965505c789e924743bc522",
+          "count": 7776
+        },
+        {
+          "id": "experimental-agent-vi",
+          "sha256": "a027da36027ead2da0e80133b3bce6edca28fef01fae867551647767cf79331e",
+          "count": 2966
+        },
+        {
+          "id": "experimental-agent-ascii",
+          "sha256": "5c3777850faf4d5b95e8d98d990bb3c5f7498a223d31d0ccc7ef855e2502b9a3",
+          "count": 2389
+        }
+      ],
+      "artifacts": {
+        "index.html": {
+          "sha256": "d32ea46004af056bbba351ac6b3683aaa9165264edcddea313fe138c76653e0a",
+          "bytes": 295759
+        },
+        "offline/vi.html": {
+          "sha256": "d8b959a74d193c872ec62f7f6583440b14b1dc2daf169e03e2012351c4207315",
+          "bytes": 421964
+        },
+        "en/index.html": {
+          "sha256": "82fa1aa6ea44c82965b4da9618238c46c9c10b543cdb001506d0f828cc44eb5e",
+          "bytes": 294645
+        },
+        "offline/en.html": {
+          "sha256": "49b300f0d8f5d55e8b1fe29f8e7d8f2a1cec6f0123da1c71693114965d620a00",
+          "bytes": 420914
+        },
+        "_headers": {
+          "sha256": "abbd33bb974db6959a67c19096b3ff32a625ca0e96087386266d7ba5ed19110d",
+          "bytes": 695
+        },
+        "robots.txt": {
+          "sha256": "89c8d8f735a577c4f189c1c6076b00a9104da8643f88b594e6891456b955fd38",
+          "bytes": 43
+        },
+        "licenses/AGPL-3.0-or-later.txt": {
+          "sha256": "d8a6cc31abc16b6748c7a21f21611f5a1ec33f67d22ca23d7da1c19b95496bee",
+          "bytes": 34020
+        },
+        "licenses/BRAND_POLICY.md": {
+          "sha256": "ec06977f2015ccf269b94865e000d981b967c1b7b1787bf0b0f739dc75632a5e",
+          "bytes": 4184
+        },
+        "licenses/CC-BY-SA-4.0.txt": {
+          "sha256": "28a9529c7d0bb4dc51f4bf5c116a3d16ef247a052f7591466768ddf563fd1cf5",
+          "bytes": 20138
+        },
+        "licenses/NOTICE.txt": {
+          "sha256": "f6394ae2b876d5d465735221bb123ec832d5bd47a28b4e4c804f0031e9918339",
+          "bytes": 1046
+        },
+        "licenses/Apache-2.0.txt": {
+          "sha256": "074e6e32c86a4c0ef8b3ed25b721ca23aca83df277cd88106ef7177c354615ff",
+          "bytes": 10280
+        },
+        "licenses/CC-BY-4.0.txt": {
+          "sha256": "d557539df68e771cc1eedcc91d13f70fca930e508d11eedcafa4b15db49e3744",
+          "bytes": 17023
+        },
+        "licenses/GPL-3.0-or-later.txt": {
+          "sha256": "fb981668c18a279e285fc4d83fba1e836cc84dd4daa73c9697d3cfd2d8aca6e0",
+          "bytes": 34674
+        },
+        "licenses/LGPL-3.0-or-later.txt": {
+          "sha256": "996af0513df21f7496288951c41428a03c174e9e4a9d63665c57d670f845ccb1",
+          "bytes": 42098
+        },
+        "licenses/Lucide.txt": {
+          "sha256": "b495047bd93a9b06913511076f504daba17d5bbeb3e0650f3bb53a4220329c57",
+          "bytes": 3208
+        },
+        "licenses/Tatoeba-CC-BY-2.0-FR.html": {
+          "sha256": "597d4c64f6606c64da65ba6c079e5cc87e4cce2b5187eda908c939b538e7ab9b",
+          "bytes": 39479
+        },
+        "licenses/vietphrase-CC-BY-SA-4.0.txt": {
+          "sha256": "cde7883b9050a1104f4ac19a1572aafd6e5d7323b68351aaf51fbf4beba54966",
+          "bytes": 18375
+        },
+        "licenses/vietphrase-NOTICE.md": {
+          "sha256": "7a9fa443013a20d91aa5eec59264e7b82b723aa300235d411e634ae46b422ffc",
+          "bytes": 3557
+        },
+        "licenses/wordfreq-NOTICE.md": {
+          "sha256": "d9b104dafe63886af55e7cea7484824e32e12d4e1f57f319923dd643b36d6b15",
+          "bytes": 2891
+        },
+        "licenses/SpaceGrotesk-OFL.txt": {
+          "sha256": "f2e05925e3d5e73aebbe4148639a899876c12e4708eb453682b278a0a6f2a3b2",
+          "bytes": 4403
+        }
+      },
+      "version": "0.2.4"
+    }
+  },
+  "performance": {
+    "before": {
+      "schema": 1,
+      "evidenceClass": "local lab measurements, not field or human usability evidence",
+      "lighthouse": "13.5.0",
+      "browserVersion": "153.0.8010.12",
+      "testedHtmlSha256": "e6211698d20f9a1bfc89079ed4a08a98f71a1808c3186f38180d9ea86d6d917c",
+      "host": {
+        "platform": "win32",
+        "osRelease": "10.0.26300",
+        "cpuModel": "AMD Ryzen 5 PRO 7530U with Radeon Graphics     ",
+        "logicalCpus": 12,
+        "memoryBytes": 15886143488
+      },
+      "robotsHttp": {
+        "status": 200,
+        "sha256": "4c70ed71e1e35b72a89a6655281b7d3c60c24032b5f8c85a5a814b1bd794dbce",
+        "content": "User-agent: *\nAllow: /\nDisallow: /offline/\nSitemap: https://password.vinasig.io.vn/sitemap.xml\n"
+      },
+      "coldRuns": [
+        {
+          "mode": "mobile",
+          "performance": 95,
+          "accessibility": 100,
+          "bestPractices": 100,
+          "seo": 92,
+          "fcp": 2335,
+          "lcp": 2346.5,
+          "tbt": 109.5,
+          "cls": 0.0002982159205676059
+        },
+        {
+          "mode": "mobile",
+          "performance": 94,
+          "accessibility": 100,
+          "bestPractices": 100,
+          "seo": 92,
+          "fcp": 2349,
+          "lcp": 2361,
+          "tbt": 115,
+          "cls": 0.0002982159205676059
+        },
+        {
+          "mode": "mobile",
+          "performance": 94,
+          "accessibility": 100,
+          "bestPractices": 100,
+          "seo": 92,
+          "fcp": 2338,
+          "lcp": 2349.5,
+          "tbt": 113,
+          "cls": 0.0002982159205676059
+        },
+        {
+          "mode": "desktop",
+          "performance": 100,
+          "accessibility": 100,
+          "bestPractices": 100,
+          "seo": 92,
+          "fcp": 483,
+          "lcp": 486.5,
+          "tbt": 0,
+          "cls": 0.02574745765518377
+        },
+        {
+          "mode": "desktop",
+          "performance": 100,
+          "accessibility": 100,
+          "bestPractices": 100,
+          "seo": 92,
+          "fcp": 480,
+          "lcp": 506,
+          "tbt": 0,
+          "cls": 0.039216715427998
+        },
+        {
+          "mode": "desktop",
+          "performance": 100,
+          "accessibility": 100,
+          "bestPractices": 100,
+          "seo": 92,
+          "fcp": 483,
+          "lcp": 486.5,
+          "tbt": 0,
+          "cls": 0.02574745765518377
+        }
+      ],
+      "modes": [
+        {
+          "mode": "mobile",
+          "performance": {
+            "samples": [95, 94, 94],
+            "median": 94,
+            "min": 94,
+            "max": 95
+          },
+          "lcpMilliseconds": {
+            "samples": [2346.5, 2361, 2349.5],
+            "median": 2349.5,
+            "min": 2346.5,
+            "max": 2361
+          },
+          "tbtMilliseconds": {
+            "samples": [109.5, 115, 113],
+            "median": 113,
+            "min": 109.5,
+            "max": 115
+          }
+        },
+        {
+          "mode": "desktop",
+          "performance": {
+            "samples": [100, 100, 100],
+            "median": 100,
+            "min": 100,
+            "max": 100
+          },
+          "lcpMilliseconds": {
+            "samples": [486.5, 506, 486.5],
+            "median": 486.5,
+            "min": 486.5,
+            "max": 506
+          },
+          "tbtMilliseconds": {
+            "samples": [0, 0, 0],
+            "median": 0,
+            "min": 0,
+            "max": 0
+          }
+        }
+      ],
+      "readyMilliseconds": {
+        "samples": [174.59999999403954, 196.10000000149012, 178.30000000447035],
+        "median": 178.30000000447035,
+        "min": 174.59999999403954,
+        "max": 196.10000000149012
+      },
+      "repeatReadyMilliseconds": {
+        "samples": [63.5, 95.60000000149012, 66.20000000298023],
+        "median": 66.20000000298023,
+        "min": 63.5,
+        "max": 95.60000000149012
+      },
+      "synchronousGenerateMilliseconds": {
+        "default-password": {
+          "samples": [
+            0.8999999985098839, 0.6999999955296516, 1.5, 1.2000000029802322,
+            0.7000000029802322, 0.7000000029802322, 0.7000000029802322,
+            0.5999999940395355, 0.6000000014901161, 0.6000000014901161,
+            0.3999999985098839, 0.7000000029802322, 0.6000000014901161, 0.5,
+            0.3999999985098839, 0.6999999955296516, 0.8000000044703484, 0.5,
+            0.5, 1.7999999970197678, 0.3999999985098839, 0.4000000059604645,
+            0.3999999985098839, 0.5, 0.3999999985098839, 0.29999999701976776,
+            0.3999999985098839, 0.8000000044703484, 0.8999999985098839,
+            0.7999999970197678
+          ],
+          "median": 0.6000000014901161,
+          "min": 0.29999999701976776,
+          "max": 1.7999999970197678
+        },
+        "128-required-password": {
+          "samples": [
+            1.3000000044703484, 1.1000000014901161, 1, 0.8999999985098839,
+            1.1999999955296516, 0.8000000044703484, 1, 1.2999999970197678,
+            2.399999998509884, 1.1000000014901161, 0.8999999985098839,
+            1.1000000014901161, 0.8999999985098839, 1, 0.8000000044703484,
+            0.8999999985098839, 0.8999999985098839, 0.7999999970197678,
+            0.8999999985098839, 0.8000000044703484, 0.8999999985098839, 1,
+            0.7000000029802322, 1.1999999955296516, 1.3999999985098839,
+            1.3000000044703484, 0.8999999985098839, 0.7999999970197678,
+            1.1000000014901161, 1
+          ],
+          "median": 1,
+          "min": 0.7000000029802322,
+          "max": 2.399999998509884
+        },
+        "eff": {
+          "samples": [
+            1.6000000014901161, 1.7999999970197678, 1.8000000044703484,
+            1.6999999955296516, 1.6000000014901161, 1.5, 2.7999999970197678,
+            1.7000000029802322, 1.5, 1.7999999970197678, 1.6000000014901161,
+            1.7000000029802322, 1.5999999940395355, 1.5, 1.6000000014901161,
+            2.5, 2.100000001490116, 1.6000000014901161, 1.5, 1.6000000014901161,
+            1.5, 2, 1.5999999940395355, 1.6000000014901161, 1.5,
+            2.7000000029802322, 1.8999999985098839, 1.8999999985098839, 1.5,
+            1.6000000014901161
+          ],
+          "median": 1.6000000014901161,
+          "min": 1.5,
+          "max": 2.7999999970197678
+        },
+        "experimental-agent-vi": {
+          "samples": [
+            1.9000000059604645, 1.6999999955296516, 1.2000000029802322,
+            1.1000000014901161, 1, 1.3999999985098839, 1.1999999955296516,
+            0.8000000044703484, 1, 0.8999999985098839, 0.8999999985098839,
+            1.1000000014901161, 0.8999999985098839, 0.8000000044703484, 1,
+            1.2999999970197678, 1, 0.8999999985098839, 1.3000000044703484,
+            0.7999999970197678, 1, 0.8999999985098839, 1, 0.8999999985098839,
+            0.9000000059604645, 0.7999999970197678, 0.7999999970197678, 1,
+            0.9000000059604645, 0.7999999970197678
+          ],
+          "median": 1,
+          "min": 0.7999999970197678,
+          "max": 1.9000000059604645
+        },
+        "experimental-agent-ascii": {
+          "samples": [
+            0.6000000014901161, 0.7999999970197678, 0.8000000044703484,
+            0.6999999955296516, 0.7000000029802322, 0.7999999970197678,
+            0.7000000029802322, 0.7999999970197678, 0.6000000014901161,
+            0.7999999970197678, 0.9000000059604645, 1.0999999940395355,
+            0.8000000044703484, 0.7999999970197678, 0.8000000044703484,
+            0.6999999955296516, 0.8000000044703484, 0.6999999955296516,
+            0.7000000029802322, 0.6999999955296516, 0.8000000044703484,
+            0.6999999955296516, 0.7000000029802322, 1, 0.7999999970197678,
+            0.7000000029802322, 1.2000000029802322, 0.6999999955296516,
+            0.7000000029802322, 0.7999999970197678
+          ],
+          "median": 0.7999999970197678,
+          "min": 0.6000000014901161,
+          "max": 1.2000000029802322
+        }
+      }
+    },
+    "after": {
+      "schema": 1,
+      "evidenceClass": "local lab measurements, not field or human usability evidence",
+      "lighthouse": "13.5.0",
+      "browserVersion": "153.0.8010.12",
+      "testedHtmlSha256": "e1f179cf3f55cf8c5dfa072d2695d0cc0f6498a1d536967aa5baeffc9515f54b",
+      "host": {
+        "platform": "win32",
+        "osRelease": "10.0.26300",
+        "cpuModel": "AMD Ryzen 5 PRO 7530U with Radeon Graphics     ",
+        "logicalCpus": 12,
+        "memoryBytes": 15886143488
+      },
+      "robotsHttp": {
+        "status": 200,
+        "sha256": "4c70ed71e1e35b72a89a6655281b7d3c60c24032b5f8c85a5a814b1bd794dbce",
+        "content": "User-agent: *\nAllow: /\nDisallow: /offline/\nSitemap: https://password.vinasig.io.vn/sitemap.xml\n"
+      },
+      "coldRuns": [
+        {
+          "mode": "mobile",
+          "performance": 95,
+          "accessibility": 100,
+          "bestPractices": 100,
+          "seo": 92,
+          "fcp": 2343,
+          "lcp": 2354.5,
+          "tbt": 86.5,
+          "cls": 0.001074202180675789
+        },
+        {
+          "mode": "mobile",
+          "performance": 95,
+          "accessibility": 100,
+          "bestPractices": 100,
+          "seo": 92,
+          "fcp": 2342,
+          "lcp": 2355,
+          "tbt": 96.5,
+          "cls": 0.001074202180675789
+        },
+        {
+          "mode": "mobile",
+          "performance": 94,
+          "accessibility": 100,
+          "bestPractices": 100,
+          "seo": 92,
+          "fcp": 2345,
+          "lcp": 2356.5,
+          "tbt": 110.5,
+          "cls": 0.001074202180675789
+        },
+        {
+          "mode": "desktop",
+          "performance": 100,
+          "accessibility": 100,
+          "bestPractices": 100,
+          "seo": 92,
+          "fcp": 495,
+          "lcp": 499,
+          "tbt": 1.5,
+          "cls": 0.02966831966291876
+        },
+        {
+          "mode": "desktop",
+          "performance": 100,
+          "accessibility": 100,
+          "bestPractices": 100,
+          "seo": 92,
+          "fcp": 486,
+          "lcp": 489,
+          "tbt": 0,
+          "cls": 0.02966831966291876
+        },
+        {
+          "mode": "desktop",
+          "performance": 100,
+          "accessibility": 100,
+          "bestPractices": 100,
+          "seo": 92,
+          "fcp": 483,
+          "lcp": 486,
+          "tbt": 0,
+          "cls": 0.02966831966291876
+        }
+      ],
+      "modes": [
+        {
+          "mode": "mobile",
+          "performance": {
+            "samples": [95, 95, 94],
+            "median": 95,
+            "min": 94,
+            "max": 95
+          },
+          "lcpMilliseconds": {
+            "samples": [2354.5, 2355, 2356.5],
+            "median": 2355,
+            "min": 2354.5,
+            "max": 2356.5
+          },
+          "tbtMilliseconds": {
+            "samples": [86.5, 96.5, 110.5],
+            "median": 96.5,
+            "min": 86.5,
+            "max": 110.5
+          }
+        },
+        {
+          "mode": "desktop",
+          "performance": {
+            "samples": [100, 100, 100],
+            "median": 100,
+            "min": 100,
+            "max": 100
+          },
+          "lcpMilliseconds": {
+            "samples": [499, 489, 486],
+            "median": 489,
+            "min": 486,
+            "max": 499
+          },
+          "tbtMilliseconds": {
+            "samples": [1.5, 0, 0],
+            "median": 0,
+            "min": 0,
+            "max": 1.5
+          }
+        }
+      ],
+      "readyMilliseconds": {
+        "samples": [172, 162.29999999701977, 164.60000000149012],
+        "median": 164.60000000149012,
+        "min": 162.29999999701977,
+        "max": 172
+      },
+      "repeatReadyMilliseconds": {
+        "samples": [61.79999999701977, 63.69999999552965, 63.5],
+        "median": 63.5,
+        "min": 61.79999999701977,
+        "max": 63.69999999552965
+      },
+      "synchronousGenerateMilliseconds": {
+        "default-password": {
+          "samples": [
+            1.1000000014901161, 1.1000000014901161, 0.8999999985098839,
+            0.8999999985098839, 0.5, 0.7000000029802322, 0.5,
+            0.6000000014901161, 0.6999999955296516, 0.4000000059604645,
+            0.5999999940395355, 0.5, 0.6000000014901161, 0.5,
+            0.3999999985098839, 0.6000000014901161, 0.5, 0.3999999985098839,
+            2.3000000044703484, 0.5, 0.5, 0.3999999985098839,
+            0.3999999985098839, 0.7000000029802322, 0.29999999701976776,
+            0.3999999985098839, 0.4000000059604645, 0.3999999985098839, 0.5,
+            0.3999999985098839
+          ],
+          "median": 0.5,
+          "min": 0.29999999701976776,
+          "max": 2.3000000044703484
+        },
+        "128-required-password": {
+          "samples": [
+            1.3999999985098839, 1.1999999955296516, 1.4000000059604645,
+            0.8999999985098839, 1.1000000014901161, 0.6999999955296516,
+            1.1000000014901161, 0.7999999970197678, 1, 0.8999999985098839,
+            0.8000000044703484, 0.8999999985098839, 0.7999999970197678,
+            1.1000000014901161, 0.7000000029802322, 0.8999999985098839, 1,
+            0.8999999985098839, 1, 0.8000000044703484, 0.7999999970197678,
+            0.8999999985098839, 0.8999999985098839, 0.8000000044703484,
+            0.7999999970197678, 0.8000000044703484, 0.7999999970197678,
+            0.7999999970197678, 0.8999999985098839, 0.8000000044703484
+          ],
+          "median": 0.8999999985098839,
+          "min": 0.6999999955296516,
+          "max": 1.4000000059604645
+        },
+        "eff": {
+          "samples": [
+            1.6000000014901161, 1.5, 1.6000000014901161, 1.3999999985098839,
+            1.8999999985098839, 1.6000000014901161, 1.6000000014901161, 1.5,
+            1.6000000014901161, 1.5, 1.6999999955296516, 1.5,
+            1.7000000029802322, 1.6000000014901161, 1.5999999940395355,
+            1.8000000044703484, 1.7999999970197678, 1.5, 1.6000000014901161,
+            1.5, 1.5, 1.5, 1.8999999985098839, 1.6000000014901161, 1.5,
+            1.7000000029802322, 1.5, 1.5999999940395355, 1.7000000029802322,
+            1.6000000014901161
+          ],
+          "median": 1.6000000014901161,
+          "min": 1.3999999985098839,
+          "max": 1.8999999985098839
+        },
+        "experimental-agent-vi": {
+          "samples": [
+            1.5, 1, 1.0999999940395355, 1.2000000029802322, 1.1000000014901161,
+            1.1999999955296516, 1, 1.2000000029802322, 1.1000000014901161,
+            0.8999999985098839, 1.1000000014901161, 1.1000000014901161,
+            1.0999999940395355, 0.9000000059604645, 0.8999999985098839, 1, 1,
+            0.7999999970197678, 0.8999999985098839, 0.9000000059604645,
+            1.1999999955296516, 0.8000000044703484, 1, 0.8999999985098839,
+            0.7999999970197678, 0.8999999985098839, 0.9000000059604645,
+            0.8999999985098839, 0.8999999985098839, 0.8999999985098839
+          ],
+          "median": 1,
+          "min": 0.7999999970197678,
+          "max": 1.5
+        },
+        "experimental-agent-ascii": {
+          "samples": [
+            0.8000000044703484, 1.2999999970197678, 0.7000000029802322,
+            0.7999999970197678, 0.6000000014901161, 0.7999999970197678,
+            0.7000000029802322, 0.7999999970197678, 0.8000000044703484,
+            0.5999999940395355, 0.8000000044703484, 0.6999999955296516,
+            0.7000000029802322, 0.7999999970197678, 0.8000000044703484,
+            0.7999999970197678, 1, 0.7000000029802322, 0.7999999970197678,
+            0.8000000044703484, 0.7999999970197678, 0.7000000029802322,
+            0.7999999970197678, 0.7000000029802322, 0.7999999970197678,
+            0.7000000029802322, 0.7999999970197678, 0.7000000029802322,
+            0.6999999955296516, 0.7000000029802322
+          ],
+          "median": 0.7999999970197678,
+          "min": 0.5999999940395355,
+          "max": 1.2999999970197678
+        }
+      }
+    },
+    "comparison": "same pinned Chromium, host, viewport, throttling, cache policy and test settings; three cold runs per mode, three startup/repeat samples and 30 generation samples per scenario; no concurrent heavy tests",
+    "readinessDefinition": "Generate control enabled, not the completion of the decorative animation; synchronous generation measurements exclude its display duration",
+    "fieldINP": "NOT_MEASURED; lab TBT does not establish real-user INP"
+  },
+  "openedAfterImages": [
+    {
+      "file": "output/ux-review/v0.2.4/after-final/vi-password-128-workspace.png",
+      "sha256": "f2d979d1ee3b7ef42e045afb9476175fe4036b85b58b4c3b7514dbf6f9927dba"
+    },
+    {
+      "file": "output/ux-review/v0.2.4/after-final/vi-hidden-8.png",
+      "sha256": "eb1d917acd9806116355d3494ae6a582a293fac81f94b84b5320a659910dbacd"
+    },
+    {
+      "file": "output/ux-review/v0.2.4/after-final/en-metric-rows.png",
+      "sha256": "c6bc5d6d234d61e289a9bd9f0b7706ff5336108bf3ba152632634844d7503e1d"
+    },
+    {
+      "file": "output/ux-review/v0.2.4/after-final/en-low-bits.png",
+      "sha256": "fa9aed05d6e3d53520c9c8c5627e68f9be9b67aa3824c72265ec3acb8ad84d5d"
+    },
+    {
+      "file": "output/ux-review/v0.2.4/after-final-inventory/vi-dark-experimental-agent-vi.png",
+      "sha256": "52ae20ec4eec2c09f8dfb129dc139866f3d37e2b73d98339284175bf2dee1caa"
+    },
+    {
+      "file": "output/ux-review/v0.2.4/after-final-inventory/en-light-mobile-result.png",
+      "sha256": "243ab62e286d0c1ea6c26b51a6f3b22b734a1c8f0c75ae21e896b117cfc6f55d"
+    },
+    {
+      "file": "output/ux-review/v0.2.4/after-final-inventory/en-dark-zoom-result.png",
+      "sha256": "fd541930885a2f7a056c873b6b3ac8f33cf268415e102eea7a08c45858310c00"
+    },
+    {
+      "file": "output/ux-review/v0.2.4/after-final-inventory/vi-dark-midpoint.png",
+      "sha256": "85fd0d570ff9479ea2327efba73320e5c1c68b1d84b4b58a6be54eef911d353c"
+    }
+  ],
+  "retainedRawFiles": [
+    {
+      "file": "output/ux-review/v0.2.4/browser-132.json",
+      "sha256": "f1cca6819b5089b5ad5846d658d4bd59065b44345130303ad7b8458be781d300"
+    },
+    {
+      "file": "output/ux-review/v0.2.4/fifth-131-pass-navigation-timeout.json",
+      "sha256": "94c5d03247a40ce9a477c7a7b2d7ba61ba7e5862e9a2a167ad752a0c5ad8a7a1"
+    },
+    {
+      "file": "output/ux-review/v0.2.4/firefox-navigation-probe.json",
+      "sha256": "751311a80264af6fec57a7e65f5c46f0fbd90eb549dfb001f821e5c219409bc2"
+    },
+    {
+      "file": "output/ux-review/v0.2.4/fourth-22-pass-2-firefox.json",
+      "sha256": "5d8770e1acc9f85ec6c240431d2f22e832952cb2c6def277f10f533997de5a1b"
+    },
+    {
+      "file": "output/ux-review/v0.2.4/initial-126-pass-3-webkit.json",
+      "sha256": "8f219a38d8ab02a0575b9db3932880191b5e0f971e5204b8984f6eec3c93d26e"
+    },
+    {
+      "file": "output/ux-review/v0.2.4/masked-copy-layout-probe.json",
+      "sha256": "cbbf24e951d12dcb4c16c107d88846c6aa1b45ddbb9b9b63349e199dd19ee485"
+    },
+    {
+      "file": "output/ux-review/v0.2.4/motion-targeted-rerun.json",
+      "sha256": "68bd92a768864cfb2e0d060f23a970d5292fd518f9b836ea30215709c7c9548e"
+    },
+    {
+      "file": "output/ux-review/v0.2.4/native-copy-cross-engine-probe.json",
+      "sha256": "6f7c7d4221223d5883575ad0bd93a3d57c852232c09d25ed4be39197f368ee0a"
+    },
+    {
+      "file": "output/ux-review/v0.2.4/navigation-targeted-rerun.json",
+      "sha256": "9b925317dfcd208eca5603f8379bd6630aa9b9cbbe28972b9d50af45775ba756"
+    },
+    {
+      "file": "output/ux-review/v0.2.4/second-webkit-5-pass-2-fail.json",
+      "sha256": "340f616fa88919a56c23ee52ddc0ca84f031e89927f647257a122df7a854cdb2"
+    },
+    {
+      "file": "output/ux-review/v0.2.4/seventh-131-pass-navigation-timeout.json",
+      "sha256": "30893c7ca702d95612ac879db4287acca8803f96b8b1399e29800b3d96793137"
+    },
+    {
+      "file": "output/ux-review/v0.2.4/sixth-131-pass-motion-precondition.json",
+      "sha256": "1cc7f903957bb73c0b5dc6a0e360523a02e0d10b2fcd63d686e528619e5bcf00"
+    },
+    {
+      "file": "output/ux-review/v0.2.4/third-130-pass-2-firefox.json",
+      "sha256": "85436bf72497e26850b50fd1b1902d976635dbe8acbab6e2be5553dc36ddd113"
+    },
+    {
+      "file": "output/ux-review/v0.2.4/webkit-layout-motion-probe.json",
+      "sha256": "e8cce4cdb0d66f249f5b304dca02cd5daef0c80f7e48a5d2dd14acbd71f5c893"
+    },
+    {
+      "file": "output/ux-review/v0.2.4/performance-before/desktop-1.json",
+      "sha256": "64db8033ff89d3bbf9556a606077f568c0a759839a6d4bada18f463f5f347ebe"
+    },
+    {
+      "file": "output/ux-review/v0.2.4/performance-before/desktop-2.json",
+      "sha256": "a669bf7f10a05cb821ef3b73a7b6145e932788dd3fcddc27f088a1acc0b9fc9c"
+    },
+    {
+      "file": "output/ux-review/v0.2.4/performance-before/desktop-3.json",
+      "sha256": "84447d2726c4d36eaba4ed1f9a4fd6eb7fb44cc1e865028ffd8155d2ba9b4132"
+    },
+    {
+      "file": "output/ux-review/v0.2.4/performance-before/mobile-1.json",
+      "sha256": "4d9a191b3844db6d4d20288835b24a4ca52c300c111e5ebaa429b3762c608b9f"
+    },
+    {
+      "file": "output/ux-review/v0.2.4/performance-before/mobile-2.json",
+      "sha256": "ac2c10695a5982b8917d68956af94da9702aa720853901b91ecac42561177399"
+    },
+    {
+      "file": "output/ux-review/v0.2.4/performance-before/mobile-3.json",
+      "sha256": "5de8f9da80063420c3919fead2045bb8840f733006f4505040dad6b00fa6451f"
+    },
+    {
+      "file": "output/ux-review/v0.2.4/performance-before/summary.json",
+      "sha256": "66c8c4d5165e6e4abb898bf85ec462c56d3579123472b5d85c272ea3346c79fd"
+    },
+    {
+      "file": "output/ux-review/v0.2.4/performance-after/desktop-1.json",
+      "sha256": "8f94c8abfe0649c710206865657e5da8d93b97abcb9f39e3cbf18e4929fec996"
+    },
+    {
+      "file": "output/ux-review/v0.2.4/performance-after/desktop-2.json",
+      "sha256": "71eca272fa327f8688c140921c4d1d0f6b528c04ef87d45b58fbc4abe8a68c24"
+    },
+    {
+      "file": "output/ux-review/v0.2.4/performance-after/desktop-3.json",
+      "sha256": "bb3baa09f9337db9627ee466308f0f7292d6b0cb42d08892333a5adb604c1c3d"
+    },
+    {
+      "file": "output/ux-review/v0.2.4/performance-after/mobile-1.json",
+      "sha256": "918680e43962ad1bdf64a13530874dc89fe84fedc54395147815259daf12a241"
+    },
+    {
+      "file": "output/ux-review/v0.2.4/performance-after/mobile-2.json",
+      "sha256": "cd461556e78b8aad5ffccbaf9de5b631e57311779842f34d2495725466f75965"
+    },
+    {
+      "file": "output/ux-review/v0.2.4/performance-after/mobile-3.json",
+      "sha256": "d7ecf8ee3dc3acd8c84e8d4490b818cff13fd0d22da7ed10f4c3d104db1bb50e"
+    },
+    {
+      "file": "output/ux-review/v0.2.4/performance-after/summary.json",
+      "sha256": "6277244c52a4d93168fbbf40ab63d44d08206ffe30fcef26235e5b480e021b8d"
+    }
+  ],
+  "failureHistory": "UI-ACCEPTANCE-v0.2.4.md retains implementation failures, corrected test preconditions, a correctly rejected stale package and two intermittent Firefox navigation timeouts. A 100-navigation probe did not reproduce the latter; its cause remains undetermined. No retry, skip, relaxed assertion or dependency change was used.",
+  "releaseCI": "separate exact-tag Ubuntu/Windows execution required before publication",
+  "liveDeployment": "separate exact-byte, header and affected interaction verification required"
+}

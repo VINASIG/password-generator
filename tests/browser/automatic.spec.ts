@@ -77,7 +77,7 @@ test("rotation has a countdown, preserves show/hide and never extends inactivity
     "false",
   );
   await page.locator("#length").fill("24");
-  await expect(page.locator("#secret")).toHaveValue("••••••••••••••••••••");
+  await expect(page.locator("#secret")).toHaveValue("•".repeat(24));
   await page.clock.fastForward(300_001);
   await expect(page.locator("#secret")).toHaveValue("");
   await expect(page.locator("#rotation")).toBeHidden();
@@ -91,7 +91,7 @@ test("rotation has a countdown, preserves show/hide and never extends inactivity
   await expect(page.locator("#secret")).not.toHaveValue("••••••••••••••••••••");
 });
 
-test("selection and explicit pause share one state, Resume works under the pointer and clear stays clear", async ({
+test("selection and explicit pause share one state, Resume works under the pointer and invalid input stays cleared", async ({
   page,
 }) => {
   await page.clock.install();
@@ -120,7 +120,7 @@ test("selection and explicit pause share one state, Resume works under the point
   await page.locator("#secret").hover();
   await page.clock.fastForward(61_000);
   await expect(page.locator("#secret")).not.toHaveValue(initial);
-  await page.locator("#clear").click();
+  await page.locator("#length").fill("");
   await page.clock.fastForward(61_000);
   await expect(page.locator("#secret")).toHaveValue("");
   await expect(page.locator("#rotation")).toBeHidden();
@@ -144,14 +144,14 @@ test("scramble is decorative, noncopyable, cancellable and respects reduced moti
   );
   await page.clock.runFor(200);
   await page.locator("#length").fill("32");
-  await page.clock.runFor(600);
+  await page.clock.runFor(1_300);
   await expect(page.locator("#secret")).toBeVisible();
   expect(await page.locator("#secret").inputValue()).toHaveLength(32);
   await page.locator("#generate").click();
   await page.locator("#reveal").click();
-  await page.clock.runFor(600);
+  await page.clock.runFor(1_300);
   await expect(page.locator("#scramble")).toHaveText("");
-  await expect(page.locator("#secret")).toHaveValue("••••••••••••••••••••");
+  await expect(page.locator("#secret")).toHaveValue("•".repeat(32));
   await page.locator("#reveal").click();
   await page.locator("#generate").click();
   await page.emulateMedia({ reducedMotion: "reduce" });
@@ -212,8 +212,9 @@ test("a maximum-length phrase scramble stays inside the output surface on a narr
   const before = await geometry();
   expect(before.animationTop).toBeGreaterThanOrEqual(before.boxTop);
   expect(before.animationBottom).toBeLessThanOrEqual(before.boxBottom);
-  expect(before.buttonTop - before.boxBottom).toBeGreaterThanOrEqual(24 - 0.01);
-  await page.clock.runFor(600);
+  expect(before.buttonTop - before.boxBottom).toBeGreaterThanOrEqual(12 - 0.01);
+  expect(before.buttonTop - before.boxBottom).toBeLessThanOrEqual(16);
+  await page.clock.runFor(1_300);
   await expect(page.locator("#secret")).toHaveValue(
     Array.from({ length: 20 }, () => tokens[longest]).join("-"),
   );
@@ -252,7 +253,8 @@ test("theme icons, target names, persistence, system changes and footer follow s
           previous.getBoundingClientRect().bottom
       : 0;
   });
-  expect(gap).toBeGreaterThanOrEqual(24 - 0.01);
+  expect(gap).toBeGreaterThanOrEqual(12 - 0.01);
+  expect(gap).toBeLessThanOrEqual(16);
   const surfaceColors = await page.evaluate(() => {
     const box = document.querySelector(".secret-box");
     const surface = document.getElementById("result-surface");

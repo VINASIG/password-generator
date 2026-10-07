@@ -13,6 +13,9 @@ import {
   ROTATION_MILLISECONDS,
   IDLE_MILLISECONDS,
   SCRAMBLE_MILLISECONDS,
+  SCRAMBLE_HOLD_MILLISECONDS,
+  maskSecret,
+  selectedSecret,
 } from "./presentation.ts";
 
 const lang = document.documentElement.lang === "vi" ? "vi" : "en";
@@ -20,8 +23,6 @@ const copy = {
   vi: {
     ready: "Sẵn sàng tạo kết quả mới.",
     created: "Đã tạo kết quả mới.",
-    cleared:
-      "Đã xóa kết quả khỏi trang. Nội dung đã sao chép có thể vẫn còn trong clipboard.",
     expired: "Đã xóa kết quả khi rời tab hoặc không thao tác trong 5 phút.",
     lengthError: "Nhập số nguyên từ 8 đến 128 ký tự.",
     wordsError: "Nhập số nguyên từ 4 đến 20 từ.",
@@ -40,6 +41,8 @@ const copy = {
     pause: "Tạm dừng tự tạo",
     resume: "Tiếp tục tự tạo",
     countdown: (seconds: number) => `Tạo mới sau ${seconds} giây`,
+    countdownStart: "Tạo mới sau ",
+    countdownEnd: " giây",
     paused: "Đếm ngược đang tạm dừng",
     light: "Chuyển sang giao diện sáng",
     dark: "Chuyển sang giao diện tối",
@@ -48,15 +51,15 @@ const copy = {
     bits: "bit không gian sinh",
     characters: "ký tự Unicode",
     bytes: "byte UTF-8",
-    low: "Không gian sinh dưới 80 bit. Tăng độ dài hoặc số từ nếu tình huống của bạn cần sức chống đoán lớn hơn. 80 bit là mốc tham khảo của công cụ, không phải chứng nhận bảo mật.",
+    low: "Không gian sinh dưới 80 bit. Bạn có thể tăng số ký tự. 80 bit là mốc tham khảo của công cụ, không phải chứng nhận bảo mật.",
+    lowWords:
+      "Không gian sinh dưới 80 bit. Bấm 80 bit hoặc 128 bit ở trên để tăng số từ. Đây là mốc tham khảo của công cụ, không phải chứng nhận bảo mật.",
     short:
       "Dưới 15 ký tự. NIST yêu cầu tối thiểu 15 cho mật khẩu xác thực một yếu tố ở phía dịch vụ. Chỉ giảm độ dài để tương thích với yêu cầu đã hiểu rõ.",
   },
   en: {
     ready: "Ready to generate a new result.",
     created: "New result generated.",
-    cleared:
-      "Result cleared from this page. Copied content may still remain in the clipboard.",
     expired:
       "Result cleared after leaving the tab or 5 minutes without interaction.",
     lengthError: "Enter a whole number from 8 to 128 characters.",
@@ -78,6 +81,8 @@ const copy = {
     pause: "Pause automatic generation",
     resume: "Resume automatic generation",
     countdown: (seconds: number) => `New result in ${seconds} seconds`,
+    countdownStart: "New result in ",
+    countdownEnd: " seconds",
     paused: "Countdown paused",
     light: "Switch to light theme",
     dark: "Switch to dark theme",
@@ -86,7 +91,9 @@ const copy = {
     bits: "bits of generation space",
     characters: "Unicode characters",
     bytes: "UTF-8 bytes",
-    low: "Generation space is below 80 bits. Increase length or word count if your use needs more guessing resistance. 80 bits is a tool reference point, not a security certification.",
+    low: "Generation space is below 80 bits. You can increase the character count. 80 bits is a tool reference point, not a security certification.",
+    lowWords:
+      "Generation space is below 80 bits. Choose 80 bits or 128 bits above to increase the word count. These are tool reference points, not security certifications.",
     short:
       "Below 15 characters. NIST requires a minimum of 15 for service-side single-factor passwords. Use a shorter length only for an understood compatibility requirement.",
   },
@@ -104,7 +111,6 @@ const settings = element("settings", HTMLFieldSetElement);
 const generateButton = element("generate", HTMLButtonElement);
 const revealButton = element("reveal", HTMLButtonElement);
 const copyButton = element("copy", HTMLButtonElement);
-const clearButton = element("clear", HTMLButtonElement);
 const pauseButton = element("pause", HTMLButtonElement);
 const result = element("secret", HTMLTextAreaElement);
 const scramble = element("scramble", HTMLDivElement);
@@ -113,7 +119,8 @@ const metrics = element("metrics", HTMLDListElement);
 const bitCount = element("bit-count", HTMLElement);
 const characterCount = element("character-count", HTMLElement);
 const byteCount = element("byte-count", HTMLElement);
-const warning = element("warning", HTMLParagraphElement);
+const lengthWarning = element("length-warning", HTMLParagraphElement);
+const wordsWarning = element("words-warning", HTMLParagraphElement);
 const empty = element("empty-result", HTMLParagraphElement);
 const passwordPanel = element("password-panel", HTMLDivElement);
 const phrasePanel = element("phrase-panel", HTMLDivElement);
@@ -135,6 +142,8 @@ let copying = false;
 let active = !document.hidden;
 let lists: readonly VerifiedList[] = [];
 let readyForGeneration = false;
+let nativeCopyActive = false;
+let nativeCopyTimer: ReturnType<typeof setTimeout> | undefined;
 
 function selected(name: string): string {
   const checked = document.querySelector('input[name="' + name + '"]:checked');
@@ -151,6 +160,15 @@ function stopScramble(): void {
   scramble.textContent = "";
   scramble.hidden = true;
 }
+function stopNativeCopy(): void {
+  clearTimeout(nativeCopyTimer);
+  nativeCopyTimer = undefined;
+  if (nativeCopyActive) {
+    result.value = "";
+    result.classList.remove("native-copy");
+    nativeCopyActive = false;
+  }
+}
 function clear(message: string): void {
   revision++;
   secret = null;
@@ -160,6 +178,7 @@ function clear(message: string): void {
   idleTimer = undefined;
   rotationTimer = undefined;
   stopScramble();
+  stopNativeCopy();
   result.value = "";
   result.hidden = true;
   empty.hidden = false;
@@ -168,10 +187,12 @@ function clear(message: string): void {
   bitCount.textContent = "";
   characterCount.textContent = "";
   byteCount.textContent = "";
-  warning.textContent = "";
+  for (const warning of [lengthWarning, wordsWarning]) {
+    warning.textContent = "";
+    warning.hidden = true;
+  }
   revealButton.disabled = true;
   copyButton.disabled = true;
-  clearButton.disabled = true;
   pauseButton.disabled = true;
   updateReveal();
   status.textContent = message;
@@ -212,16 +233,18 @@ function fieldError(id: string, message: string): void {
   } else input(id).setAttribute("aria-invalid", "true");
 }
 function fitResult(): void {
-  if (secret === null) return;
+  if (secret === null || nativeCopyActive) return;
   const wasHidden = result.hidden;
   const previousValue = result.value;
-  result.value = revealed ? secret : "••••••••••••••••••••";
+  const { selectionStart, selectionEnd, selectionDirection } = result;
+  result.value = revealed ? secret : maskSecret(secret);
   result.hidden = false;
   result.style.height = "0px";
   const height = `${Math.ceil(result.scrollHeight)}px`;
   result.style.height = height;
   scramble.style.height = height;
   result.value = previousValue;
+  result.setSelectionRange(selectionStart, selectionEnd, selectionDirection);
   result.hidden = wasHidden;
 }
 function armIdleTimer(): void {
@@ -279,8 +302,11 @@ function syncNumber(id: string, commit = false): void {
   );
 }
 function renderSecret(): void {
+  stopNativeCopy();
   stopScramble();
-  result.value = revealed ? (secret ?? "") : "••••••••••••••••••••";
+  result.value = revealed ? (secret ?? "") : maskSecret(secret ?? "");
+  result.dataset["mode"] = selected("mode");
+  scramble.dataset["mode"] = selected("mode");
   result.hidden = false;
   empty.hidden = true;
   fitResult();
@@ -314,7 +340,8 @@ function animateSecret(): void {
       if (now - previousPaint >= 40) {
         scramble.textContent = scrambleFrame(
           secret,
-          elapsed / SCRAMBLE_MILLISECONDS,
+          Math.max(0, elapsed - SCRAMBLE_HOLD_MILLISECONDS) /
+            (SCRAMBLE_MILLISECONDS - SCRAMBLE_HOLD_MILLISECONDS),
         );
         previousPaint = now;
       }
@@ -333,7 +360,18 @@ function updateCountdown(): void {
   const label = countdownPaused()
     ? copy.paused
     : copy.countdown(Math.ceil(remaining / 1000));
-  if (countdownText.textContent !== label) countdownText.textContent = label;
+  if (countdownText.textContent !== label) {
+    if (countdownPaused()) countdownText.textContent = label;
+    else {
+      const seconds = document.createElement("strong");
+      seconds.textContent = String(Math.ceil(remaining / 1000));
+      countdownText.replaceChildren(
+        copy.countdownStart,
+        seconds,
+        copy.countdownEnd,
+      );
+    }
+  }
   progress.value = remaining / 1000;
   progress.setAttribute("aria-valuetext", label);
   pauseButton.disabled = copying;
@@ -422,10 +460,18 @@ function generate(): void {
     characterCount.textContent = String(characters);
     byteCount.textContent = String(new TextEncoder().encode(secret).length);
     metrics.hidden = false;
+    const isPassword = selected("mode") === "password";
+    const warning = isPassword ? lengthWarning : wordsWarning;
     warning.textContent =
-      bits < 80 ? copy.low : characters < 15 ? copy.short : "";
+      bits < 80
+        ? isPassword
+          ? copy.low
+          : copy.lowWords
+        : isPassword && characters < 15
+          ? copy.short
+          : "";
+    warning.hidden = warning.textContent === "";
     revealButton.disabled = false;
-    clearButton.disabled = false;
     status.textContent = copy.created;
     animateSecret();
     armIdleTimer();
@@ -548,9 +594,6 @@ generateButton.addEventListener("click", () => {
   touchActivity();
   generate();
 });
-clearButton.addEventListener("click", () => {
-  clear(copy.cleared);
-});
 revealButton.addEventListener("click", () => {
   if (secret === null || isExpired()) return;
   revealed = !revealed;
@@ -566,6 +609,52 @@ result.addEventListener("focus", () => {
   if (secret === null) return;
   paused = true;
   updateCountdown();
+});
+result.addEventListener("copy", (event) => {
+  if (!event.isTrusted) return;
+  if (secret === null || frame !== 0 || !active || isExpired()) {
+    event.preventDefault();
+    return;
+  }
+  const text = selectedSecret(
+    secret,
+    result.selectionStart,
+    result.selectionEnd,
+    !revealed,
+  );
+  if (text === "") return;
+  paused = true;
+  updateCountdown();
+  if (!revealed) {
+    stopNativeCopy();
+    const capturedRevision = revision;
+    const { selectionStart, selectionEnd, selectionDirection } = result;
+    scramble.textContent = maskSecret(secret);
+    scramble.hidden = false;
+    result.classList.add("native-copy");
+    result.value = text;
+    result.setSelectionRange(0, text.length);
+    nativeCopyActive = true;
+    nativeCopyTimer = setTimeout(() => {
+      const restoreFocus = document.activeElement === result;
+      stopNativeCopy();
+      if (
+        revision === capturedRevision &&
+        secret !== null &&
+        active &&
+        !document.hidden
+      ) {
+        renderSecret();
+        if (restoreFocus) result.focus({ preventScroll: true });
+        result.setSelectionRange(
+          selectionStart,
+          selectionEnd,
+          selectionDirection,
+        );
+      }
+    }, 0);
+  }
+  status.textContent = copy.copied;
 });
 const outputResize = new ResizeObserver((entries) => {
   for (const entry of entries) {

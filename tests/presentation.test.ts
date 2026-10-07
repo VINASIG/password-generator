@@ -1,6 +1,30 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { boundedCount, scrambleFrame } from "../src/presentation.ts";
+import {
+  boundedCount,
+  scrambleFrame,
+  maskSecret,
+  selectedSecret,
+} from "../src/presentation.ts";
+
+void test("mask lengths and copied selections preserve Unicode codepoints without copying bullets", () => {
+  for (const secret of [
+    "12345678",
+    "x".repeat(128),
+    "bánh_mì-🌙-mặt_trời",
+    "a\u0301",
+  ])
+    assert.equal(maskSecret(secret).length, Array.from(secret).length);
+  const secret = "a🌙bánh_mì";
+  assert.equal(selectedSecret(secret, 1, 2, true), "🌙");
+  assert.equal(selectedSecret(secret, 1, 3, false), "🌙");
+  assert.equal(selectedSecret(secret, 2, 6, true), "bánh");
+  assert.equal(
+    selectedSecret(secret, 0, maskSecret(secret).length, true),
+    secret,
+  );
+  assert.equal(selectedSecret(secret, 3, 3, true), "");
+});
 
 void test("count bounds reject malformed and incomplete input instead of choosing another policy", () => {
   for (const text of [

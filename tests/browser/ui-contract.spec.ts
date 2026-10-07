@@ -116,7 +116,7 @@ test("word-count errors are localized, linked and next to the field, then clear 
       );
       await expect(page.locator("#words")).toHaveAttribute(
         "aria-describedby",
-        "words-hint words-error",
+        "words-hint words-error words-warning",
       );
       await expect(page.locator("#words")).toHaveAttribute(
         "aria-invalid",

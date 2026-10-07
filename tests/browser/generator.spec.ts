@@ -201,7 +201,7 @@ test("no network, secret storage, history, service worker or weak randomness is 
     await page.locator("#generate").click();
     await page.locator("#reveal").click();
     await page.locator("#copy").click();
-    await page.locator("#clear").click();
+    await page.locator("#generate").click();
   }
   await page.locator("#theme").click();
   expect(requests).toEqual(["http://127.0.0.1:4179/en/"]);
@@ -221,7 +221,7 @@ test("no network, secret storage, history, service worker or weak randomness is 
   ]);
   expect(page.url()).toBe("http://127.0.0.1:4179/en/");
 });
-test("clipboard is explicit, denied writes explain manual copy, and late completion cannot resurrect cleared state", async ({
+test("clipboard is explicit, denied writes explain manual copy, and late completion cannot resurrect an expired state", async ({
   page,
 }) => {
   await page.addInitScript(() => {
@@ -261,11 +261,13 @@ test("clipboard is explicit, denied writes explain manual copy, and late complet
   );
   await page.locator("#pause").dispatchEvent("click");
   await expect(page.locator("#pause")).toHaveAttribute("aria-pressed", "true");
-  await page.locator("#clear").click();
+  await page.evaluate(() => {
+    dispatchEvent(new PageTransitionEvent("pagehide"));
+  });
   await page.evaluate(() => {
     (globalThis as { __completeWrite?: () => void }).__completeWrite?.();
   });
-  await expect(page.locator("#status")).toContainText("Result cleared");
+  await expect(page.locator("#status")).toContainText("Result cleared after");
   await expect(page.locator("#copy")).toBeDisabled();
   await expect(page.locator("#secret")).toHaveValue("");
 });
@@ -630,7 +632,7 @@ test("long results, 200 percent text, forced colors and keyboard controls remain
     .check();
   await page.locator("#words").fill("7");
   await reveal(page);
-  await expect(page.locator("#warning")).not.toBeEmpty();
+  await expect(page.locator("#words-warning")).not.toBeEmpty();
   const darkAxe = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
     .analyze();
