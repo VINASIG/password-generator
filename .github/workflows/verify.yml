@@ -46,6 +46,16 @@ jobs:
       - run: git diff --exit-code -- docs/research data/lists src/vendor
       - run: npm exec -- playwright install --with-deps chromium firefox webkit
       - run: npm run test:browser
+      - name: Retain failed browser execution evidence
+        if: failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: browser-failure-${{ matrix.os }}
+          path: |
+            output/browser-results.json
+            output/playwright/
+          if-no-files-found: warn
+          retention-days: 30
       - run: npm run release
       - run: python scripts/verify-package.py
       - run: npm run environment

@@ -1,3 +1,4 @@
+import { navigateApp } from "./navigation.ts";
 import { test, expect } from "@playwright/test";
 import { readFileSync } from "node:fs";
 
@@ -5,7 +6,7 @@ test("counts synchronize, clamp the shared upper bound and reject incomplete inp
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto("/en/");
+  await navigateApp(page, "/en/");
   await expect(page.locator("#generate")).toBeEnabled();
   await page.locator('input[name="mode"][value="phrase"]').check();
   await page.locator("#words").fill("22");
@@ -57,7 +58,7 @@ test("rotation has a countdown, preserves show/hide and never extends inactivity
       },
     });
   });
-  await page.goto("/en/");
+  await navigateApp(page, "/en/");
   await expect(page.locator("#secret")).toBeVisible();
   await page.clock.pauseAt(new Date(Date.now() + 2_000));
   await page.locator("#generate").click();
@@ -96,7 +97,7 @@ test("selection and explicit pause share one state, Resume works under the point
 }) => {
   await page.clock.install();
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto("/en/");
+  await navigateApp(page, "/en/");
   await expect(page.locator("#secret")).toBeVisible();
   await page.clock.pauseAt(new Date(Date.now() + 2_000));
   await page.locator("#generate").click();
@@ -131,7 +132,7 @@ test("scramble is decorative, noncopyable, cancellable and respects reduced moti
 }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.clock.install();
-  await page.goto("/en/");
+  await navigateApp(page, "/en/");
   await expect(page.locator("#generate")).toBeEnabled();
   await page.clock.pauseAt(new Date(Date.now() + 2_000));
   await page.locator("#generate").click();
@@ -183,7 +184,7 @@ test("a maximum-length phrase scramble stays inside the output surface on a narr
     });
   }, longest);
   await page.clock.install();
-  await page.goto("/en/");
+  await navigateApp(page, "/en/");
   await expect(page.locator("#generate")).toBeEnabled();
   await page.evaluate(() => document.fonts.ready.then(() => {}));
   await page.clock.pauseAt(new Date(Date.now() + 2_000));
@@ -232,7 +233,7 @@ test("theme icons, target names, persistence, system changes and footer follow s
   page,
 }) => {
   await page.emulateMedia({ colorScheme: "light", reducedMotion: "reduce" });
-  await page.goto("/en/");
+  await navigateApp(page, "/en/");
   await expect(page.locator("#theme")).toHaveAccessibleName(
     "Switch to dark theme",
   );

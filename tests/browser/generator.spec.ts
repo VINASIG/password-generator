@@ -1,3 +1,4 @@
+import { navigateApp } from "./navigation.ts";
 import { test, expect } from "@playwright/test";
 import { AxeBuilder } from "@axe-core/playwright";
 import { readFileSync, mkdirSync } from "node:fs";
@@ -15,7 +16,8 @@ import type { Page } from "@playwright/test";
 
 async function ready(page: Page, path = "/en/"): Promise<void> {
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto(path);
+  if (path.startsWith("file:")) await page.goto(path);
+  else await navigateApp(page, path);
   await expect(page.locator("#generate")).toBeEnabled();
 }
 async function zeroRandom(page: Page): Promise<void> {
@@ -331,7 +333,7 @@ for (const capability of [
           value: {},
         });
     }, capability);
-    await page.goto("/en/");
+    await navigateApp(page, "/en/");
     await expect(page.locator("#status")).toHaveAttribute(
       "data-state",
       "error",

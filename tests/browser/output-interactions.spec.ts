@@ -1,3 +1,4 @@
+import { navigateApp } from "./navigation.ts";
 import { test, expect, type Page } from "@playwright/test";
 import { readFileSync } from "node:fs";
 
@@ -16,7 +17,7 @@ async function ready(
       },
     });
   });
-  await page.goto(locale === "vi" ? "/" : "/en/");
+  await navigateApp(page, locale === "vi" ? "/" : "/en/");
   await expect(page.locator("#copy")).toBeEnabled();
   await page.evaluate(() => document.fonts.ready.then(() => {}));
 }

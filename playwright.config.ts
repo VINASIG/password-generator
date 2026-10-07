@@ -8,7 +8,7 @@ export default defineConfig({
   reporter: [["line"], ["json", { outputFile: "output/browser-results.json" }]],
   use: {
     baseURL: "http://127.0.0.1:4179",
-    trace: "off",
+    trace: "retain-on-failure",
     screenshot: "off",
     video: "off",
   },
