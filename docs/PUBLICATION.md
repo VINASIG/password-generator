@@ -2,6 +2,16 @@
 
 The owner authorized full publication on 7 October 2026 at `VINASIG/password-generator` and `password.vinasig.io.vn`, including Repo details, private vulnerability reporting, CI, release provenance, Cloudflare/DNS, Search Console and related public inventories. Executed observations below remain bound to their actual revision. Later release gates must run against the tag being published.
 
+## Published interface correction: v0.2.3
+
+The [v0.2.3 research release](https://github.com/VINASIG/password-generator/releases/tag/v0.2.3) is deployed from signed revision `45f832779c6eadeb4c1c5fb0b14cfc1a2e07f05e`. Both [main verification](https://github.com/VINASIG/password-generator/actions/runs/37572891237) and [tagged release verification/publication](https://github.com/VINASIG/password-generator/actions/runs/37572895292) succeeded. Each Ubuntu and Windows job passed 108 browser cases with zero retries, skips or unexpected outcomes. Five deterministic assets matched both main CI environments and the downloaded public release. All seven assets, including the two environment records, passed provenance verification against the exact tag, source digest, GitHub workflow identity, OIDC issuer and transparency-log timestamp.
+
+The independently read public ZIP has 22 site entries. Cloudflare reported Production deployment `bea6b482-849d-4c5d-899b-2bc3d64404e4` successful, with `password.vinasig.io.vn` as its alias. A Custom Purge was submitted for that hostname. The 21 served documents then matched release bytes on ordinary canonical URLs. All nine declared security/cache headers matched on every document; `NEL` and `Report-To` were absent. `_headers` is consumed as configuration and is not counted as a public document.
+
+The deployed browser matrix passed 36 delivery cases and a separate set of 51 affected UI/automatic-generation/lifecycle regressions across Chromium, Firefox and WebKit. The latter retains the full mode, language, theme, short/maximum-output, malformed-input and enlarged-text acceptance matrix. Deployed synthetic images were opened for both themes, countdown midpoint, pause under the pointer, word-count error, always-open password options, narrow settings/results and maximum Vietnamese output. The [machine-readable execution receipt](validation/publication-v0.2.3.json) records the exact revision, artifacts, paired CI results, provenance, per-route headers/digests, browser results and opened-image digests. [The interface review](UI-ACCEPTANCE-v0.2.3.md) explains the original failures and their acceptance mapping.
+
+This post-deployment record is a documentation follow-up. It does not change or replace the tagged release assets or the deployed source identity. Earlier observations below remain historical evidence for their named revisions.
+
 ## Executed GitHub setup
 
 - The public [VINASIG/password-generator](https://github.com/VINASIG/password-generator) repository uses default branch `main`. Its description is `Static local password and passphrase generator with uniform sampling, offline builds and inspectable evidence`.

@@ -53,6 +53,7 @@ Open `http://127.0.0.1:4179/`. Localhost is needed for preview Web Crypto, not f
 - [Public deployment and publication evidence](docs/PUBLICATION.md)
 - [Technical decisions and standards specialization](docs/DECISIONS.md)
 - [Reported interface defects and acceptance evidence](docs/UI-ACCEPTANCE-v0.2.3.md)
+- [v0.2.3 release and deployed execution receipt](docs/validation/publication-v0.2.3.json)
 - [Disclosure policy](SECURITY.md)
 - [License scopes](LICENSES.md) and [third-party credits](NOTICE.md)
 
@@ -60,4 +61,4 @@ Open `http://127.0.0.1:4179/`. Localhost is needed for preview Web Crypto, not f
 
 ## Publication state
 
-The public source repository is [VINASIG/password-generator](https://github.com/VINASIG/password-generator). The canonical website runs on Cloudflare Pages Direct Upload with checked static response headers. Repository details and private vulnerability reporting are configured. Paired Ubuntu/Windows CI has passed, and the initial deployed files were compared with its checked site artifact. Current observations, evidence boundaries and release/deployment procedures are in [the publication record](docs/PUBLICATION.md). A website update requires uploading the verified site ZIP. Preparing a workflow does not prove it ran, and a checksum does not authenticate a publisher.
+The public source repository is [VINASIG/password-generator](https://github.com/VINASIG/password-generator). The canonical website runs on Cloudflare Pages Direct Upload with checked static response headers. Repository details and private vulnerability reporting are configured. The published v0.2.3 revision `45f832779c6eadeb4c1c5fb0b14cfc1a2e07f05e` passed its own paired Ubuntu/Windows CI and release provenance checks. Its 21 public deployed files match the release bytes and all nine declared response headers; 36 delivery cases and 51 affected live regressions passed. The [execution receipt](docs/validation/publication-v0.2.3.json) and [publication record](docs/PUBLICATION.md) retain revision-specific observations and procedures. A website update requires uploading the verified site ZIP. Preparing a workflow does not prove it ran, and a checksum does not authenticate a publisher.
