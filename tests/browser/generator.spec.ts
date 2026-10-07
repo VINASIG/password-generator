@@ -1,4 +1,4 @@
-import { navigateApp } from "./navigation.ts";
+import { navigateApp, navigateNoScript } from "./navigation.ts";
 import { test, expect } from "@playwright/test";
 import { AxeBuilder } from "@axe-core/playwright";
 import { readFileSync, mkdirSync } from "node:fs";
@@ -494,8 +494,8 @@ test("no JavaScript leaves all secret generation locked with a readable explanat
     const page = await context.newPage();
     const destination = new URL("/en/", String(testInfo.project.use.baseURL))
       .href;
-    const response = await page.goto(destination, { waitUntil: "commit" });
-    expect(response?.status()).toBe(200);
+    const response = await navigateNoScript(page, destination);
+    expect(response.status()).toBe(200);
     await expect(page).toHaveURL(destination);
     await expect
       .poll(() => page.evaluate(() => document.readyState))

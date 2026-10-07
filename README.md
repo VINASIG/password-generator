@@ -57,7 +57,7 @@ Open `http://127.0.0.1:4179/`. Localhost is needed for preview Web Crypto, not f
 - [Reported interface defects and acceptance evidence](docs/UI-ACCEPTANCE-v0.2.3.md)
 - [Output interaction and copy follow-up](docs/UI-ACCEPTANCE-v0.2.4.md)
 - [Configured animation and interrupted tab use](docs/UI-ACCEPTANCE-v0.2.9.md)
-- [Release navigation validation follow-up](docs/UI-ACCEPTANCE-v0.2.10.md)
+- [Release navigation validation follow-up](docs/UI-ACCEPTANCE-v0.2.11.md)
 - [v0.2.4 local source, browser, opened-image and performance evidence](docs/UI-VALIDATION-v0.2.4.json)
 - [v0.2.6 release and deployed execution receipt](docs/validation/publication-v0.2.6.json)
 - [Disclosure policy](SECURITY.md)
