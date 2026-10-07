@@ -1,5 +1,7 @@
 # TypeScript web profile
 
+WEB-010 and `templates/web/ui-contract.md` are the common visible-change completion gate. Declare the product state matrix, map each reported defect to its regression and opened image, and repeat affected deployed states. Type checks and a default-mode screenshot cannot approve untested modes or interactions.
+
 Extends [core](core.md) and shares web policy with static web. Use for a web product with TypeScript, including an existing React/Next.js/Vue stack. No profile migrates a product to one of those frameworks.
 
 Use strict compiler options and typed ESLint with a real tsconfig/project service. Integrate framework-generated types and framework lint adapters, then Stylelint/custom syntax and generated-HTML validation where appropriate. The provided preset is tested on a small TypeScript web fixture. Framework-specific adapters have not been tested here and must be reviewed in their consumer.

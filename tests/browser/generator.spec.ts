@@ -65,14 +65,19 @@ test("initial generation, persistent visibility, masked DOM, readonly result and
   await page.locator("#length").fill("");
   await expect(page.locator("#secret")).toBeHidden();
   await page.locator("#generate").click();
-  await expect(page.locator("#status")).toHaveAttribute("data-state", "error");
+  await expect(page.locator("#length-error")).toBeVisible();
+  await expect(page.locator("#length")).toHaveAttribute("aria-invalid", "true");
   await expect(page.locator("#copy")).toBeDisabled();
   await expect(page.locator("#secret")).toHaveValue("");
   await page.locator("#length").fill("20");
-  await page.locator("#compatibility summary").click();
+  await expect(page.locator("#exclude")).toBeVisible();
   await page.locator("#exclude").fill(" ");
   await page.locator("#generate").click();
-  await expect(page.locator("#status")).toHaveAttribute("data-state", "error");
+  await expect(page.locator("#exclude-error")).toBeVisible();
+  await expect(page.locator("#exclude")).toHaveAttribute(
+    "aria-invalid",
+    "true",
+  );
 });
 test("all phrases preserve pinned tokens, repetition, hyphen default and byte counts", async ({
   page,
@@ -231,6 +236,10 @@ test("clipboard is explicit, denied writes explain manual copy, and late complet
   await page.locator("#copy").click();
   await expect(page.locator("#status")).toContainText("denied");
   await expect(page.locator("#copy")).toBeEnabled();
+  await expect(page.locator("#pause")).toBeEnabled();
+  await expect(page.locator("#pause-label")).toHaveText(
+    "Resume automatic generation",
+  );
   await page.evaluate(() => {
     Object.defineProperty(navigator, "clipboard", {
       configurable: true,
@@ -246,6 +255,12 @@ test("clipboard is explicit, denied writes explain manual copy, and late complet
     });
   });
   await page.locator("#copy").click();
+  await expect(page.locator("#pause")).toBeDisabled();
+  await expect(page.locator("#pause-label")).toHaveText(
+    "Resume automatic generation",
+  );
+  await page.locator("#pause").dispatchEvent("click");
+  await expect(page.locator("#pause")).toHaveAttribute("aria-pressed", "true");
   await page.locator("#clear").click();
   await page.evaluate(() => {
     (globalThis as { __completeWrite?: () => void }).__completeWrite?.();
@@ -544,7 +559,7 @@ test("both locales and themes fit declared viewports, preserve shared chrome and
         await expect(page.locator("progress")).toHaveCount(1);
         await expect(page.locator('input[type="checkbox"]')).toHaveCount(6);
         await expect(page.locator('input[type="range"]')).toHaveCount(2);
-        await expect(page.locator("details")).toHaveCount(7);
+        await expect(page.locator("details")).toHaveCount(6);
         await page.locator("details").first().locator("summary").click();
         expect(await page.evaluate(inspectControlSurfaces)).toEqual([]);
         if (

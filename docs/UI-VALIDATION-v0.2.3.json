@@ -1,0 +1,295 @@
+{
+  "status": "PASS",
+  "version": "0.2.3",
+  "reviewedAt": "2026-10-07",
+  "evidenceClass": "project-authored local lab, behavior and visual review; not independent or participant validation",
+  "sourceBinding": {
+    "kind": "working tree before release commit",
+    "baseCommit": "6ffb21015bfefa2fad87cae596056cd13fbf747e",
+    "testedHtmlSha256": "73df0c517e714f16cf4397c796379636c01d5b25279339a413ac89ef16ce8ae3",
+    "files": {
+      "src/app.ts": "c34b661b0f94fb1ebdee746daf11b379fa5a04b79e9664fcf42be2dbfd9634d6",
+      "src/styles/app.css": "21b0eface74022c2182c233a272ce5bff0504469b53913b1a6f33e0adbaaf27d",
+      "scripts/page.ts": "5358c8b6215d8fe9d19193429605c100915638a9305a21d34f2ee30f6d333b51",
+      "scripts/performance.ts": "4711414be86108018af789a233669e5e618d577594b4221d7d6ea4f1d730e2c3",
+      "src/styles/site-chrome.css": "0443593d2b4e9dbd5e9341e444a52d823900fd534e9b80edcbcddb6b54d0f2a3",
+      "src/styles/preferences.css": "a68b18001fc54dd6b5b11cb2a659cccced92797103317e62cfe5bc627a0665e5",
+      "src/styles/control-surfaces.css": "3114cc613a3dfaabfb0c9458ca9384ae43da6ea1a9e9be0e502a07d3ed3a8808",
+      "src/random.ts": "4c0925365029d29e5a9bd4094eedf658718c1452fc64b345dd4928de09bdd382",
+      "src/password.ts": "3c98f3ba1d1b4d28f7c6c0b0cb695664264e269463330ff6a35a96c7ddee1331",
+      "src/phrase.ts": "3a6e8291a09926d8fbd2332be30a673dde86d16c8f07fabab7bc2484f0cb91e5",
+      "src/presentation.ts": "62b90060af6e91045ce8915d304f3e8daa4a5af30d8c8e96f45b171aa724a3d9",
+      "data/lists/eff-long.txt": "6d557f0693958fb5e650b68b5bee585eb82cf4da32965505c789e924743bc522",
+      "data/lists/experimental-agent-vi.txt": "a027da36027ead2da0e80133b3bce6edca28fef01fae867551647767cf79331e",
+      "data/lists/experimental-agent-ascii.txt": "5c3777850faf4d5b95e8d98d990bb3c5f7498a223d31d0ccc7ef855e2502b9a3"
+    }
+  },
+  "unitTests": {
+    "passed": 25,
+    "failed": 0
+  },
+  "browserStats": {
+    "startTime": "2026-10-07T04:25:08.941Z",
+    "duration": 164594.63,
+    "expected": 108,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "performance": {
+    "schema": 1,
+    "evidenceClass": "local lab measurements, not field or human usability evidence",
+    "lighthouse": "13.5.0",
+    "browserVersion": "153.0.8010.12",
+    "testedHtmlSha256": "73df0c517e714f16cf4397c796379636c01d5b25279339a413ac89ef16ce8ae3",
+    "host": {
+      "platform": "win32",
+      "osRelease": "10.0.26300",
+      "cpuModel": "AMD Ryzen 5 PRO 7530U with Radeon Graphics     ",
+      "logicalCpus": 12,
+      "memoryBytes": 15886143488
+    },
+    "robotsHttp": {
+      "status": 200,
+      "sha256": "89c8d8f735a577c4f189c1c6076b00a9104da8643f88b594e6891456b955fd38",
+      "content": "User-agent: *\nAllow: /\nDisallow: /offline/\n"
+    },
+    "coldRuns": [
+      {
+        "mode": "mobile",
+        "performance": 95,
+        "accessibility": 100,
+        "bestPractices": 100,
+        "seo": 92,
+        "fcp": 2343,
+        "lcp": 2354,
+        "tbt": 106,
+        "cls": 0.0002982159205676059
+      },
+      {
+        "mode": "mobile",
+        "performance": 95,
+        "accessibility": 100,
+        "bestPractices": 100,
+        "seo": 92,
+        "fcp": 2336,
+        "lcp": 2348.5,
+        "tbt": 81.5,
+        "cls": 0.0002982159205676059
+      },
+      {
+        "mode": "mobile",
+        "performance": 95,
+        "accessibility": 100,
+        "bestPractices": 100,
+        "seo": 92,
+        "fcp": 2343,
+        "lcp": 2355.5,
+        "tbt": 77.5,
+        "cls": 0.0002982159205676059
+      },
+      {
+        "mode": "desktop",
+        "performance": 100,
+        "accessibility": 100,
+        "bestPractices": 100,
+        "seo": 92,
+        "fcp": 482,
+        "lcp": 485,
+        "tbt": 0,
+        "cls": 0.02574745765518377
+      },
+      {
+        "mode": "desktop",
+        "performance": 100,
+        "accessibility": 100,
+        "bestPractices": 100,
+        "seo": 92,
+        "fcp": 495,
+        "lcp": 498.5,
+        "tbt": 3,
+        "cls": 0.02574745765518377
+      },
+      {
+        "mode": "desktop",
+        "performance": 100,
+        "accessibility": 100,
+        "bestPractices": 100,
+        "seo": 92,
+        "fcp": 480,
+        "lcp": 483,
+        "tbt": 0,
+        "cls": 0.02574745765518377
+      }
+    ],
+    "modes": [
+      {
+        "mode": "mobile",
+        "performance": {
+          "samples": [95, 95, 95],
+          "median": 95,
+          "min": 95,
+          "max": 95
+        },
+        "lcpMilliseconds": {
+          "samples": [2354, 2348.5, 2355.5],
+          "median": 2354,
+          "min": 2348.5,
+          "max": 2355.5
+        },
+        "tbtMilliseconds": {
+          "samples": [106, 81.5, 77.5],
+          "median": 81.5,
+          "min": 77.5,
+          "max": 106
+        }
+      },
+      {
+        "mode": "desktop",
+        "performance": {
+          "samples": [100, 100, 100],
+          "median": 100,
+          "min": 100,
+          "max": 100
+        },
+        "lcpMilliseconds": {
+          "samples": [485, 498.5, 483],
+          "median": 485,
+          "min": 483,
+          "max": 498.5
+        },
+        "tbtMilliseconds": {
+          "samples": [0, 3, 0],
+          "median": 0,
+          "min": 0,
+          "max": 3
+        }
+      }
+    ],
+    "readyMilliseconds": {
+      "samples": [173.89999999850988, 161.30000000447035, 160.70000000298023],
+      "median": 161.30000000447035,
+      "min": 160.70000000298023,
+      "max": 173.89999999850988
+    },
+    "repeatReadyMilliseconds": {
+      "samples": [64.5, 60.600000001490116, 61],
+      "median": 61,
+      "min": 60.600000001490116,
+      "max": 64.5
+    },
+    "synchronousGenerateMilliseconds": {
+      "default-password": {
+        "samples": [
+          1, 0.8999999985098839, 0.8999999985098839, 0.8000000044703484,
+          0.7000000029802322, 0.5, 0.7000000029802322, 0.5, 0.5999999940395355,
+          0.6000000014901161, 0.5, 0.6000000014901161, 0.6000000014901161,
+          0.3999999985098839, 0.3999999985098839, 0.5, 0.5, 0.3999999985098839,
+          0.5, 13.5, 0.4000000059604645, 0.3999999985098839, 0.6999999955296516,
+          0.5, 0.4000000059604645, 0.3999999985098839, 0.3999999985098839,
+          0.3999999985098839, 0.3999999985098839, 0.4000000059604645
+        ],
+        "median": 0.5,
+        "min": 0.3999999985098839,
+        "max": 13.5
+      },
+      "128-required-password": {
+        "samples": [
+          1.5, 1.2000000029802322, 1.1000000014901161, 0.7999999970197678, 1,
+          0.7999999970197678, 0.9000000059604645, 0.8999999985098839,
+          0.8999999985098839, 0.7999999970197678, 0.9000000059604645,
+          0.8999999985098839, 1.1000000014901161, 1, 0.7999999970197678,
+          1.2999999970197678, 1, 0.9000000059604645, 1.0999999940395355,
+          0.8000000044703484, 1, 0.7999999970197678, 0.8000000044703484,
+          0.9000000059604645, 0.7999999970197678, 0.8999999985098839,
+          0.8000000044703484, 0.5999999940395355, 0.9000000059604645,
+          0.7999999970197678
+        ],
+        "median": 0.9000000059604645,
+        "min": 0.5999999940395355,
+        "max": 1.5
+      },
+      "eff": {
+        "samples": [
+          1.5, 1.6000000014901161, 1.6999999955296516, 2, 1.8000000044703484,
+          1.6000000014901161, 1.3999999985098839, 1.5, 1.5, 1.6999999955296516,
+          1.4000000059604645, 1.5, 1.5999999940395355, 1.5, 1.5,
+          1.6000000014901161, 1.6000000014901161, 1.5, 1.3999999985098839, 1.5,
+          1.5, 1.5, 1.8999999985098839, 1.7000000029802322, 1.5,
+          1.6000000014901161, 1.5, 1.6999999955296516, 1.6000000014901161, 1.5
+        ],
+        "median": 1.5,
+        "min": 1.3999999985098839,
+        "max": 2
+      },
+      "experimental-agent-vi": {
+        "samples": [
+          1.7999999970197678, 1.5, 1.1000000014901161, 0.8999999985098839,
+          0.7999999970197678, 1.2000000029802322, 1, 0.8999999985098839, 1, 1,
+          0.8999999985098839, 0.9000000059604645, 0.6999999955296516,
+          0.8999999985098839, 1, 1.5, 0.9000000059604645, 0.7999999970197678,
+          1.1000000014901161, 0.8999999985098839, 0.8999999985098839,
+          0.8000000044703484, 0.8999999985098839, 0.8999999985098839,
+          0.7999999970197678, 0.9000000059604645, 0.7999999970197678,
+          0.8999999985098839, 0.8999999985098839, 0.8000000044703484
+        ],
+        "median": 0.8999999985098839,
+        "min": 0.6999999955296516,
+        "max": 1.7999999970197678
+      },
+      "experimental-agent-ascii": {
+        "samples": [
+          0.8000000044703484, 0.8999999985098839, 0.7999999970197678,
+          0.8000000044703484, 0.6999999955296516, 0.8000000044703484,
+          0.6000000014901161, 0.7999999970197678, 0.7000000029802322,
+          0.6999999955296516, 0.7000000029802322, 1.1000000014901161,
+          0.5999999940395355, 0.7000000029802322, 0.7999999970197678,
+          0.7000000029802322, 0.7999999970197678, 0.6000000014901161,
+          0.7999999970197678, 0.7000000029802322, 0.7999999970197678,
+          0.7000000029802322, 0.7000000029802322, 0.7999999970197678,
+          0.7000000029802322, 0.6999999955296516, 1, 0.8000000044703484,
+          0.6999999955296516, 0.7000000029802322
+        ],
+        "median": 0.7000000029802322,
+        "min": 0.5999999940395355,
+        "max": 1.1000000014901161
+      }
+    }
+  },
+  "retainedRawFiles": [
+    {
+      "file": "output/ux-review/v0.2.3/performance/desktop-1.json",
+      "sha256": "dba714b0eaf39bc1bf84d85fdbd3fe64b7b8e90f4778a3c07a6db1139272d961"
+    },
+    {
+      "file": "output/ux-review/v0.2.3/performance/desktop-2.json",
+      "sha256": "2a9cbc1968d15fefd4a1def5508beb1ddc03a89e5cbb0916dced30788ac973ba"
+    },
+    {
+      "file": "output/ux-review/v0.2.3/performance/desktop-3.json",
+      "sha256": "c9582fb025568cf96bffa4a49f58c7e1136c483ff5e3675f9fab1e1409f2b6ec"
+    },
+    {
+      "file": "output/ux-review/v0.2.3/performance/mobile-1.json",
+      "sha256": "2957aabc3c9beff953424c755f8c24d3d64fd4ec63fe5e858a8ed5d635db8666"
+    },
+    {
+      "file": "output/ux-review/v0.2.3/performance/mobile-2.json",
+      "sha256": "4b96e45cfe451169944001a50cdd530a3e69988138adaed82be7356e36ea84b1"
+    },
+    {
+      "file": "output/ux-review/v0.2.3/performance/mobile-3.json",
+      "sha256": "27d371367044ebf45303fe1d60f250cb9b3ef1889bdeaa1550a4c667815a61d9"
+    },
+    {
+      "file": "output/ux-review/v0.2.3/performance/summary.json",
+      "sha256": "584cd83ccff4f40fa0a841e81ea8dce49d07eb66cabf3002b5b4ddf0a7871c02"
+    }
+  ],
+  "standards": {
+    "sourceCommit": "749503dd45ad99cac3d68ae2e79cfcc733d5293c",
+    "webTestsPassed": 177
+  },
+  "releaseCI": "separate exact-commit Ubuntu/Windows run required before publication",
+  "liveDeployment": "separate exact-byte, header and affected behavior verification required"
+}

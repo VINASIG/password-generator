@@ -91,7 +91,7 @@ test("rotation has a countdown, preserves show/hide and never extends inactivity
   await expect(page.locator("#secret")).not.toHaveValue("••••••••••••••••••••");
 });
 
-test("selection, pointer hover and explicit pause freeze rotation, clear stays clear", async ({
+test("selection and explicit pause share one state, Resume works under the pointer and clear stays clear", async ({
   page,
 }) => {
   await page.clock.install();
@@ -106,19 +106,18 @@ test("selection, pointer hover and explicit pause freeze rotation, clear stays c
   await page.clock.fastForward(61_000);
   await expect(page.locator("#secret")).toHaveValue(initial);
   await expect(page.locator("#countdown-text")).toHaveText("Countdown paused");
-  await page.locator("#length").focus();
-  await page.locator("#secret").hover();
-  await page.clock.fastForward(61_000);
-  await expect(page.locator("#secret")).toHaveValue(initial);
-  await page.mouse.move(0, 0);
-  await page.locator("#pause").click();
   await expect(page.locator("#pause")).toHaveAttribute("aria-pressed", "true");
-  await page.mouse.move(0, 0);
-  await page.clock.fastForward(61_000);
-  await expect(page.locator("#secret")).toHaveValue(initial);
+  await expect(page.locator("#pause-label")).toHaveText(
+    "Resume automatic generation",
+  );
   await page.locator("#pause").click();
   await expect(page.locator("#pause")).toHaveAttribute("aria-pressed", "false");
-  await page.mouse.move(0, 0);
+  await page.clock.fastForward(1_000);
+  await expect(page.locator("#countdown")).toHaveJSProperty("value", 59);
+  await expect(page.locator("#countdown-text")).toHaveText(
+    "New result in 59 seconds",
+  );
+  await page.locator("#secret").hover();
   await page.clock.fastForward(61_000);
   await expect(page.locator("#secret")).not.toHaveValue(initial);
   await page.locator("#clear").click();

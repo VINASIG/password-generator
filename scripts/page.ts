@@ -1,6 +1,8 @@
 import {
   Copy,
   Download,
+  Eye,
+  EyeOff,
   KeyRound,
   RefreshCw,
   ShieldCheck,
@@ -53,7 +55,7 @@ const text = {
     upper: "Chữ hoa",
     digits: "Chữ số",
     symbols: "Ký hiệu",
-    compatibility: "Yêu cầu riêng của website",
+    compatibility: "Tùy chỉnh ký tự",
     require: "Có ít nhất một ký tự từ mỗi nhóm đã chọn",
     requireHint:
       "Bật khi website yêu cầu. Công cụ chọn đều trong toàn bộ các chuỗi đáp ứng điều kiện.",
@@ -83,7 +85,7 @@ const text = {
     pause: "Tạm dừng tự tạo",
     rotation: "Thời gian đến lần tạo mới",
     rotationHint:
-      "Tự tạo sau 60 giây. Tạm dừng khi trỏ chuột vào kết quả, thao tác với kết quả hoặc sao chép.",
+      "Tự tạo sau 60 giây. Chọn kết quả hoặc sao chép sẽ tạm dừng. Bấm tiếp tục để bật lại.",
     footerHome: "Trang chủ VINASIG",
     footerInfo: "Thông tin website",
     result: "Kết quả",
@@ -151,7 +153,7 @@ const text = {
     upper: "Uppercase",
     digits: "Digits",
     symbols: "Symbols",
-    compatibility: "Website compatibility requirements",
+    compatibility: "Character options",
     require: "Require at least one character from every selected group",
     requireHint:
       "Enable when a website requires it. Selection is uniform over all strings satisfying the condition.",
@@ -181,7 +183,7 @@ const text = {
     pause: "Pause automatic generation",
     rotation: "Time until the next result",
     rotationHint:
-      "New result every 60 seconds. Pauses while hovering over the result, interacting with it or copying.",
+      "New result every 60 seconds. Selecting or copying the result pauses the timer. Resume to turn it back on.",
     footerHome: "VINASIG home",
     footerInfo: "Website information",
     result: "Result",
@@ -278,9 +280,9 @@ export function page(options: {
     hint: string,
     active: boolean,
   ): string =>
-    `<label class="choice"><input type="radio" name="${name}" value="${escapeHtml(value)}"${checked(active)}><span>${label}${hint ? `<small>${hint}</small>` : ""}</span></label>`;
+    `<label class="choice" data-choice-card><input type="radio" name="${name}" value="${escapeHtml(value)}"${checked(active)}><span><span class="choice-title">${label}</span>${hint ? `<small>${hint}</small>` : ""}</span></label>`;
   const check = (id: string, label: string, active: boolean): string =>
-    `<label class="check"><input type="checkbox" id="${id}"${checked(active)}><span>${label}</span></label>`;
+    `<label class="check"><input type="checkbox" id="${id}"${["lower", "upper", "digits", "symbols"].includes(id) ? ' aria-describedby="groups-error"' : ""}${checked(active)}><span>${label}</span></label>`;
   const count = (
     id: string,
     label: string,
@@ -289,19 +291,19 @@ export function page(options: {
     value: number,
     hint: string,
   ): string =>
-    `<div class="field"><label for="${id}">${label}</label><div class="number-control"><input type="range" id="${id}-range" min="${min}" max="${max}" value="${value}" aria-label="${label}"><input type="text" id="${id}" value="${value}" inputmode="numeric" pattern="[0-9]+" maxlength="3" autocomplete="off" aria-describedby="${id}-hint"></div><p class="hint" id="${id}-hint">${hint}</p></div>`;
+    `<div class="field"><label for="${id}">${label}</label><div class="number-control"><input type="range" id="${id}-range" min="${min}" max="${max}" value="${value}" aria-label="${label}" aria-describedby="${id}-hint ${id}-error"><input type="text" id="${id}" value="${value}" inputmode="numeric" pattern="[0-9]+" maxlength="3" autocomplete="off" aria-describedby="${id}-hint ${id}-error"></div><p class="field-error" id="${id}-error" role="status" hidden></p><p class="hint" id="${id}-hint">${hint}</p></div>`;
   return `<!doctype html>
 <html lang="${locale}"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="${escapeHtml(options.csp)}"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="referrer" content="no-referrer"><title>${t.title} | VINASIG</title><meta name="description" content="${t.description}">${discovery}<link rel="icon" type="image/svg+xml" href="${options.favicon}"><style>${options.css}</style></head>
 <body><a class="skip-link" href="#generator">${t.skip}</a><div data-site-shell class="app-shell">
 <header data-site-header><a data-brand-logo href="https://vinasig.io.vn/" aria-label="${t.footerHome}"><picture><source type="image/svg+xml" srcset="${options.darkLogo}" media="(prefers-color-scheme: dark)"><img src="${options.lightLogo}" width="540" height="140" alt="VINASIG"></picture></a><nav class="site-preferences" aria-label="${t.preferences}"><button type="button" class="theme-switch" id="theme" data-theme-toggle aria-label="${t.theme}" aria-pressed="false" disabled>${icon(Sun, "theme-sun")}${icon(Moon, "theme-moon")}</button><a class="language-switch" data-copy-notation="ISO 639 language code" href="${languageHref}" lang="${locale === "vi" ? "en" : "vi"}" hreflang="${locale === "vi" ? "en" : "vi"}" aria-label="${locale === "vi" ? "Switch to English" : "Chuyển sang tiếng Việt"}">${locale === "vi" ? "EN" : "VI"}</a></nav></header>
 <main><div class="intro"><h1>${t.title}</h1><p class="lead">${t.lead}</p></div>
-<div class="workspace" id="generator"><section class="result-surface" id="result-surface" aria-labelledby="result-title"><h2 id="result-title" tabindex="-1">${t.result}</h2><div class="secret-box"><p id="empty-result" class="empty-result">${t.empty}</p><div id="scramble" aria-hidden="true" data-user-content translate="no" hidden></div><label class="sr-only" for="secret">${t.resultLabel}</label><textarea id="secret" rows="3" readonly autocomplete="off" spellcheck="false" autocapitalize="off" translate="no" hidden></textarea></div><button type="button" class="primary generate" id="generate" disabled>${icon(RefreshCw)} ${t.generate}</button><div class="rotation" id="rotation" hidden><span id="countdown-text"></span><progress id="countdown" max="60" value="60" aria-label="${t.rotation}"></progress><button type="button" id="pause" aria-pressed="false" disabled><span id="pause-icon">${icon(Pause)}</span><span id="resume-icon" hidden>${icon(Play)}</span><span id="pause-label">${t.pause}</span></button><p class="hint">${t.rotationHint}</p></div><div class="result-actions"><button type="button" id="reveal" aria-pressed="true" disabled>${t.reveal}</button><button type="button" id="copy" disabled>${icon(Copy)} ${t.copy}</button><button type="button" id="clear" disabled>${icon(Trash2)} ${t.clear}</button></div>
-<dl class="metrics" id="metrics" hidden><div><dt>${t.bits}</dt><dd id="bit-count"></dd></div><div><dt>${t.chars}</dt><dd id="character-count"></dd></div><div><dt>${t.bytes}</dt><dd id="byte-count"></dd></div></dl><p class="hint">${t.metricHint}</p><p id="warning" class="warning"></p><p id="status" role="status" aria-live="polite" aria-atomic="true">${t.starting}</p><p class="hint lifecycle">${t.lifecycle}</p></section>
+<div class="workspace" id="generator"><section class="result-surface" id="result-surface" aria-labelledby="result-title"><h2 id="result-title" tabindex="-1">${t.result}</h2><div class="secret-box"><p id="empty-result" class="empty-result">${t.empty}</p><div id="scramble" aria-hidden="true" data-user-content translate="no" hidden></div><label class="sr-only" for="secret">${t.resultLabel}</label><textarea id="secret" rows="1" readonly autocomplete="off" spellcheck="false" autocapitalize="off" translate="no" hidden></textarea></div><div class="result-actions"><button type="button" id="reveal" aria-pressed="true" disabled><span id="show-icon" hidden>${icon(Eye)}</span><span id="hide-icon">${icon(EyeOff)}</span><span id="reveal-label">${t.reveal}</span></button><button type="button" id="copy" disabled>${icon(Copy)} ${t.copy}</button><button type="button" id="clear" disabled>${icon(Trash2)} ${t.clear}</button></div><p id="status" role="status" aria-live="polite" aria-atomic="true">${t.starting}</p><button type="button" class="primary generate" id="generate" disabled>${icon(RefreshCw)} ${t.generate}</button><div class="rotation" id="rotation" hidden><div class="rotation-heading"><span id="countdown-text"></span><button type="button" id="pause" aria-pressed="false" disabled><span id="pause-icon">${icon(Pause)}</span><span id="resume-icon" hidden>${icon(Play)}</span><span id="pause-label">${t.pause}</span></button></div><progress id="countdown" max="60" value="60" aria-label="${t.rotation}"></progress><p class="hint">${t.rotationHint}</p></div>
+<dl class="metrics" id="metrics" hidden><div><dt>${t.bits}</dt><dd id="bit-count"></dd></div><div><dt>${t.chars}</dt><dd id="character-count"></dd></div><div><dt>${t.bytes}</dt><dd id="byte-count"></dd></div></dl><p class="hint">${t.metricHint}</p><p id="warning" class="warning"></p><p class="hint lifecycle">${t.lifecycle}</p></section>
 <section class="settings-surface" aria-labelledby="settings-title"><h2 id="settings-title">${icon(ShieldCheck)} ${t.settings}</h2><fieldset id="settings" disabled><legend class="sr-only">${t.settings}</legend>
-<div class="choices">${radio("mode", "password", `${icon(KeyRound)} ${t.password}`, t.pwdHint, true)}${radio("mode", "phrase", `${icon(WholeWord)} ${t.phrase}`, t.phraseHint, false)}</div>
-<div id="password-panel">${count("length", t.length, 8, 128, 20, t.lengthHint)}<fieldset class="field"><legend>${t.groups}</legend><div class="checks">${check("lower", `${t.lower} a-z`, true)}${check("upper", `${t.upper} A-Z`, true)}${check("digits", `${t.digits} 0-9`, true)}${check("symbols", `${t.symbols} !@#`, true)}</div></fieldset>
-<details id="compatibility"><summary>${t.compatibility}</summary><div class="field">${check("require-each", t.require, false)}<p class="hint">${t.requireHint}</p></div><div class="field">${check("ambiguous", t.ambiguous, false)}</div><div class="field"><label for="exclude">${t.exclude}</label><input type="text" id="exclude" maxlength="94" autocomplete="off" spellcheck="false" aria-describedby="exclude-hint"><p class="hint" id="exclude-hint">${t.excludeHint}</p></div></details></div>
-<div id="phrase-panel" hidden><fieldset class="field"><legend>${t.lists}</legend><div class="list-choices">${radio("wordlist", "eff", t.eff, t.effHint, true)}${radio("wordlist", "experimental-agent-vi", t.vi, t.viHint, false)}${radio("wordlist", "experimental-agent-ascii", t.ascii, t.asciiHint, false)}</div></fieldset>${count("words", t.words, 4, 20, 7, t.wordsHint)}<div class="bit-shortcuts"><span>${t.target}</span><button type="button" data-bits="80" disabled>${t.bits80}</button><button type="button" data-bits="128" disabled>${t.bits128}</button></div><fieldset class="field"><legend>${t.separator}</legend><div class="choices">${radio("separator", "-", t.hyphen, "", true)}${radio("separator", " ", t.space, "", false)}${radio("separator", ".", t.period, "", false)}</div><p class="hint">${t.delimiterHint}</p></fieldset></div></fieldset>
+<div class="choices mode-choices">${radio("mode", "password", `${icon(KeyRound)}<span data-icon-label>${t.password}</span>`, t.pwdHint, true)}${radio("mode", "phrase", `${icon(WholeWord)}<span data-icon-label>${t.phrase}</span>`, t.phraseHint, false)}</div>
+<div id="password-panel">${count("length", t.length, 8, 128, 20, t.lengthHint)}<fieldset class="field" id="groups-field" aria-describedby="groups-error"><legend>${t.groups}</legend><div class="checks">${check("lower", `${t.lower} a-z`, true)}${check("upper", `${t.upper} A-Z`, true)}${check("digits", `${t.digits} 0-9`, true)}${check("symbols", `${t.symbols} !@#`, true)}</div><p class="field-error" id="groups-error" role="status" hidden></p></fieldset>
+<fieldset class="field character-options" id="compatibility"><legend>${t.compatibility}</legend><div class="field">${check("require-each", t.require, false)}<p class="hint">${t.requireHint}</p></div><div class="field">${check("ambiguous", t.ambiguous, false)}</div><div class="field"><label for="exclude">${t.exclude}</label><input type="text" id="exclude" maxlength="94" autocomplete="off" spellcheck="false" aria-describedby="exclude-hint exclude-error"><p class="field-error" id="exclude-error" role="status" hidden></p><p class="hint" id="exclude-hint">${t.excludeHint}</p></div></fieldset></div>
+<div id="phrase-panel" hidden><fieldset class="field"><legend>${t.lists}</legend><div class="list-choices">${radio("wordlist", "eff", t.eff, t.effHint, true)}${radio("wordlist", "experimental-agent-vi", t.vi, t.viHint, false)}${radio("wordlist", "experimental-agent-ascii", t.ascii, t.asciiHint, false)}</div></fieldset>${count("words", t.words, 4, 20, 7, t.wordsHint)}<div class="bit-shortcuts"><span>${t.target}</span><div class="bit-buttons"><button type="button" data-bits="80" disabled>${t.bits80}</button><button type="button" data-bits="128" disabled>${t.bits128}</button></div></div><fieldset class="field"><legend>${t.separator}</legend><div class="choices separator-choices">${radio("separator", "-", t.hyphen, "", true)}${radio("separator", " ", t.space, "", false)}${radio("separator", ".", t.period, "", false)}</div><p class="hint">${t.delimiterHint}</p></fieldset></div></fieldset>
 <noscript><p class="warning">${t.nojs}</p></noscript></section></div>
 <section class="offline prose" aria-labelledby="offline-title"><h2 id="offline-title">${icon(Download)} ${t.offline}</h2><p>${offline ? t.downloaded : t.offlineHint}</p>${offline ? "" : `<a class="button-link" download="vinasig-password-${locale}.html" href="/offline/${locale}.html">${t.download}</a>`}</section>
 <section class="prose methods" aria-labelledby="methods-title"><h2 id="methods-title">${t.limits}</h2>${([1, 2, 3, 4, 5] as const).map((number) => `<details><summary>${t[`faq${number}`]}</summary><p>${t[`answer${number}`]}</p></details>`).join("")}<p><a href="${repository}/blob/${options.sourceCommit ?? "main"}/docs/RESEARCH.md">${t.evidence}</a></p></section>

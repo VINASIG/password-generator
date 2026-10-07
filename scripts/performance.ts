@@ -143,7 +143,6 @@ try {
     if (mode.endsWith("password")) {
       await page.locator('input[name="mode"][value="password"]').check();
       if (mode.startsWith("128")) {
-        await page.locator("#compatibility summary").click();
         await page.locator("#length").fill("128");
         await page.locator("#require-each").check();
       }

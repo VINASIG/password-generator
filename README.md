@@ -10,7 +10,7 @@ Use the website in [Vietnamese](https://password.vinasig.io.vn/) or [English](ht
 
 Open the built `dist/offline/vi.html` or `dist/offline/en.html` in a supported browser. Both files contain their code, fonts, icons and pinned lists. They work without a server or connection after opening. Generation stays disabled if secure context, Web Crypto, top-level browsing or wordlist integrity checks fail. Offline clipboard support depends on the browser. Reveal and manual copy remain available when clipboard access is denied.
 
-A fresh result is generated on startup, whenever relevant settings change, and every 60 seconds while the page is active. A visible countdown and Generate now button control rotation. Results are shown by default with a short character scramble, and show/hide stays selected until reload. Masked mode keeps the actual secret out of the DOM. Copy is explicit and pauses rotation. Hovering over the result or selecting its text temporarily freezes the countdown. Clear stops rotation. Leaving the tab, page navigation and five minutes without interaction clear the result. Automatic rotation does not reset the inactivity deadline. This is lifecycle cleanup, not guaranteed erasure of JavaScript memory, browser caches, clipboard history or receiving applications. Save a unique result for each account in a trusted password manager.
+A fresh result is generated on startup, whenever relevant settings change, and every 60 seconds while the page is active. A visible countdown and Generate now button control rotation. Results are shown by default with a short character scramble, and show/hide stays selected until reload. Masked mode keeps the actual secret out of the DOM. Copy is explicit and pauses rotation. Focusing the result also pauses it until Resume. Hover alone does not pause, so Resume works while the pointer stays on its button. Clear stops rotation. Leaving the tab, page navigation and five minutes without interaction clear the result. Automatic rotation does not reset the inactivity deadline. This is lifecycle cleanup, not guaranteed erasure of JavaScript memory, browser caches, clipboard history or receiving applications. Save a unique result for each account in a trusted password manager.
 
 The root UI is Vietnamese. `/en/` is English. Both have light, dark, system preference, keyboard and responsive layouts. The appearance preference uses the same `vinasig-theme` key as the other VINASIG tools. Secret, settings, visibility and rotation preferences remain volatile.
 
@@ -52,6 +52,7 @@ Open `http://127.0.0.1:4179/`. Localhost is needed for preview Web Crypto, not f
 - [Reproducibility and release verification](docs/REPRODUCIBILITY.md)
 - [Public deployment and publication evidence](docs/PUBLICATION.md)
 - [Technical decisions and standards specialization](docs/DECISIONS.md)
+- [Reported interface defects and acceptance evidence](docs/UI-ACCEPTANCE-v0.2.3.md)
 - [Disclosure policy](SECURITY.md)
 - [License scopes](LICENSES.md) and [third-party credits](NOTICE.md)
 
