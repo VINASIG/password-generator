@@ -5,13 +5,14 @@
   "evidenceClass": "project-authored local lab, behavior and visual review; not independent or participant validation",
   "sourceBinding": {
     "kind": "working tree before release commit",
-    "baseCommit": "6ffb21015bfefa2fad87cae596056cd13fbf747e",
+    "baseCommit": "e9fee3c8c1184becf47d722eeb4c4255dea24587",
     "testedHtmlSha256": "73df0c517e714f16cf4397c796379636c01d5b25279339a413ac89ef16ce8ae3",
     "files": {
       "src/app.ts": "c34b661b0f94fb1ebdee746daf11b379fa5a04b79e9664fcf42be2dbfd9634d6",
       "src/styles/app.css": "21b0eface74022c2182c233a272ce5bff0504469b53913b1a6f33e0adbaaf27d",
       "scripts/page.ts": "5358c8b6215d8fe9d19193429605c100915638a9305a21d34f2ee30f6d333b51",
       "scripts/performance.ts": "4711414be86108018af789a233669e5e618d577594b4221d7d6ea4f1d730e2c3",
+      "tests/browser/ui-contract.spec.ts": "e62d993d1eeb32a11e47dbc60e903320b972a7934fd57f6e291547af0d9458e3",
       "src/styles/site-chrome.css": "0443593d2b4e9dbd5e9341e444a52d823900fd534e9b80edcbcddb6b54d0f2a3",
       "src/styles/preferences.css": "a68b18001fc54dd6b5b11cb2a659cccced92797103317e62cfe5bc627a0665e5",
       "src/styles/control-surfaces.css": "3114cc613a3dfaabfb0c9458ca9384ae43da6ea1a9e9be0e502a07d3ed3a8808",
@@ -29,12 +30,24 @@
     "failed": 0
   },
   "browserStats": {
-    "startTime": "2026-10-07T04:25:08.941Z",
-    "duration": 164594.63,
+    "startTime": "2026-10-07T04:40:51.651Z",
+    "duration": 171387.935,
     "expected": 108,
     "skipped": 0,
     "unexpected": 0,
     "flaky": 0
+  },
+  "browserReport": {
+    "file": "output/ux-review/v0.2.3/browser-108.json",
+    "sha256": "f006349cd4bdaabda946c2a4104fe73d3ca66e5e1e5e344d86619524df158ea1"
+  },
+  "initialUbuntuCI": {
+    "run": "https://github.com/VINASIG/password-generator/actions/runs/37571945002",
+    "passed": 106,
+    "failed": 2,
+    "cause": "Immediate viewport measurement preceded resize-observer rendering update",
+    "correction": "Wait two rendering frames after viewport change; retain direct geometry assertions and zero retries",
+    "rapidResizePostPaintMismatches": 0
   },
   "performance": {
     "schema": 1,

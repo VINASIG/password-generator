@@ -19,6 +19,19 @@ async function ready(page: Page, locale = "vi"): Promise<void> {
   await page.evaluate(() => document.fonts.ready.then(() => {}));
 }
 
+async function painted(page: Page): Promise<void> {
+  await page.evaluate(
+    () =>
+      new Promise<void>((resolve) =>
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            resolve();
+          });
+        }),
+      ),
+  );
+}
+
 function contract(desktop: boolean, phrase: boolean) {
   return {
     cards: [
@@ -304,6 +317,7 @@ test("all visible modes pass localized structural acceptance in both themes and 
       await expect(page.locator("html")).toHaveAttribute("data-theme", theme);
       for (const width of [320, 390, 768, 1440]) {
         await page.setViewportSize({ width, height: 900 });
+        await painted(page);
         for (const mode of [
           "password",
           "eff",
@@ -324,6 +338,7 @@ test("all visible modes pass localized structural acceptance in both themes and 
               inspectUiContract,
               contract(width > 760, mode !== "password"),
             ),
+            `${locale}/${theme}/${mode}/${width}px after resize paint`,
           ).toEqual([]);
           if (info.project.name === "chromium" && [390, 1440].includes(width)) {
             mkdirSync("output/ui-acceptance", { recursive: true });
@@ -339,6 +354,7 @@ test("all visible modes pass localized structural acceptance in both themes and 
       });
       for (const width of [320, 390, 768, 1440]) {
         await page.setViewportSize({ width, height: 900 });
+        await painted(page);
         for (const mode of [
           "password",
           "eff",
