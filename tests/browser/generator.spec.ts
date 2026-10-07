@@ -488,17 +488,37 @@ test("copy writes the exact generated secret only on an explicit action", async 
 });
 test("no JavaScript leaves all secret generation locked with a readable explanation", async ({
   browser,
-}) => {
+}, testInfo) => {
   const context = await browser.newContext({ javaScriptEnabled: false });
-  const page = await context.newPage();
-  await page.goto("http://127.0.0.1:4179/en/");
-  await expect(page.locator("#generate")).toBeDisabled();
-  await expect(page.locator("noscript p")).toBeVisible();
-  await expect(page.locator("noscript p")).toHaveText(
-    /JavaScript and Web Crypto/,
-  );
-  await expect(page.locator("#secret")).toBeHidden();
-  await context.close();
+  try {
+    const page = await context.newPage();
+    const destination = new URL("/en/", String(testInfo.project.use.baseURL))
+      .href;
+    const response = await page.goto(destination, { waitUntil: "commit" });
+    expect(response?.status()).toBe(200);
+    await expect(page).toHaveURL(destination);
+    await expect
+      .poll(() => page.evaluate(() => document.readyState))
+      .toBe("complete");
+    await expect(page.locator("#generate")).toBeDisabled();
+    await expect(page.locator("#copy")).toBeDisabled();
+    await expect(page.locator("#reveal")).toBeDisabled();
+    await expect(page.locator("noscript p")).toBeVisible();
+    await expect(page.locator("noscript p")).toHaveText(
+      /JavaScript and Web Crypto/,
+    );
+    await expect(page.locator("#secret")).toBeHidden();
+    await expect(page.locator("#secret")).toHaveValue("");
+    await expect(page.locator("#settings")).toHaveAttribute("disabled", "");
+    const settingsControls = await page
+      .locator("#settings input, #settings button")
+      .all();
+    expect(settingsControls.length).toBeGreaterThan(0);
+    for (const control of settingsControls)
+      await expect(control).toBeDisabled();
+  } finally {
+    await context.close();
+  }
 });
 test("offline standalone file uses the same verified lists and generation without network", async ({
   page,
