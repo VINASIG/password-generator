@@ -1,3 +1,4 @@
+import "./shared-preferences.js";
 import {
   planPassword,
   generatePassword,
@@ -504,47 +505,9 @@ function updateLogo(): void {
   if (source instanceof HTMLSourceElement)
     source.media = luminance < 0.179 ? "all" : "not all";
 }
-const themeButton = element("theme", HTMLButtonElement);
-const systemTheme = matchMedia("(prefers-color-scheme: dark)");
-let savedTheme: string | null = null;
-function readTheme(): void {
-  try {
-    savedTheme = localStorage.getItem("vinasig-theme");
-  } catch {
-    savedTheme = null;
-  }
-}
-function applyTheme(): void {
-  const dark =
-    savedTheme === "dark" || (savedTheme !== "light" && systemTheme.matches);
-  document.documentElement.dataset["theme"] = dark ? "dark" : "light";
-  const label = dark ? copy.light : copy.dark;
-  themeButton.setAttribute("aria-label", label);
-  themeButton.setAttribute("aria-pressed", String(dark));
-  themeButton.title = label;
-  updateLogo();
-}
-readTheme();
-themeButton.addEventListener("click", () => {
-  savedTheme =
-    document.documentElement.dataset["theme"] === "dark" ? "light" : "dark";
-  try {
-    localStorage.setItem("vinasig-theme", savedTheme);
-  } catch {
-    /* Appearance remains available without storage. */
-  }
-  applyTheme();
-});
-systemTheme.addEventListener("change", applyTheme);
-window.addEventListener("storage", (event) => {
-  if (event.key === "vinasig-theme" || event.key === null) {
-    readTheme();
-    applyTheme();
-  }
-});
+document.documentElement.addEventListener("vinasig:theme", updateLogo);
 matchMedia("(forced-colors: active)").addEventListener("change", updateLogo);
-applyTheme();
-themeButton.disabled = false;
+updateLogo();
 
 for (const event of ["pointerdown", "keydown", "input"] as const)
   document.addEventListener(event, touchActivity, {

@@ -7,6 +7,7 @@ export default defineConfig({
   retries: 0,
   reporter: [["line"], ["json", { outputFile: "output/browser-results.json" }]],
   use: {
+    locale: "vi-VN",
     baseURL: "http://127.0.0.1:4179",
     trace: "retain-on-failure",
     screenshot: "off",

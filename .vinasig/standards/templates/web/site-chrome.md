@@ -2,6 +2,8 @@
 
 Apply WEB-009 before writing a new layout, including a small utility or documentation site. Apply WEB-010 and `ui-contract.md` to the full interface acceptance review.
 
+For appearance and language apply WEB-011 and `shared-preferences.md`. A shared localStorage key cannot synchronize different subdomains. Keep the reviewed preference implementation and actual cross-site tests together with the unchanged header/footer presentation.
+
 The appearance control retains the shared target-state behavior. In light appearance use the reviewed Moon SVG and switch-to-dark name. In dark appearance use the reviewed Sun SVG and switch-to-light name. Do not substitute a combined icon or invert its action. Check persistence, system preference, blocked JavaScript and exact shared CSS/artwork bytes as well as geometry. A similar-looking icon is not the approved source.
 
 1. Read the current project instructions and the reviewed [VINASIG header/footer contract](https://github.com/VINASIG/web-design-system/blob/main/docs/components/site-chrome.md). Review its source revision and the existing websites. Record the adopted revision in the project's source/brand record. The approved chrome does not imply adoption of unrelated draft design guidance.

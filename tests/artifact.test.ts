@@ -16,22 +16,36 @@ void test("standalone CSP hashes cover exactly the embedded code and style, with
   const html = readFileSync("dist/index.html", "utf8");
   const digest = (source: string): string =>
     createHash("sha256").update(source).digest("base64");
-  const js = /<script>([\s\S]*?)<\/script>/.exec(html)?.[1];
+  const scripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(
+    (match) => match[1],
+  );
+  const js = scripts.join("\n");
   const css = /<style>([\s\S]*?)<\/style>/.exec(html)?.[1];
   assert.ok(js && css);
-  assert.ok(
-    html.includes(`sha256-${digest(js)}`) &&
-      html.includes(`sha256-${digest(css)}`),
-  );
+  assert.ok(html.includes(`sha256-${digest(css)}`));
+  assert.equal(scripts.length, 2);
+  for (const script of scripts) {
+    assert.ok(script);
+    assert.ok(html.includes(`sha256-${digest(script)}`));
+  }
   assert.ok(html.includes("connect-src &#39;none&#39;"));
   assert.doesNotMatch(html, /<script[^>]+src=|<link[^>]+rel="stylesheet"/);
   assert.doesNotMatch(
     js,
     /Math\.random|sessionStorage|sendBeacon|XMLHttpRequest|WebSocket|EventSource|serviceWorker|fetch\(|console\.|innerHTML|eval\(|new Function/,
   );
-  assert.equal((js.match(/localStorage\.setItem\(/g) ?? []).length, 1);
-  assert.match(js, /localStorage\.setItem\("vinasig-theme", savedTheme\)/);
+  assert.match(js, /__Secure-vinasig-theme/);
+  assert.match(js, /__Secure-vinasig-language/);
+  assert.match(
+    js,
+    /Domain=vinasig\.io\.vn; Path=\/; Max-Age=31536000; SameSite=Lax; Secure/,
+  );
   assert.doesNotMatch(html, /name="secret"|<form\b/);
+  for (const language of ["vi", "en", "x-default"])
+    assert.ok(
+      html.includes(`rel="alternate" hreflang="${language}"`),
+      "Online locale routing remains available without a production origin",
+    );
   assert.ok(
     readFileSync("dist/_headers", "utf8").includes("frame-ancestors 'none'"),
   );

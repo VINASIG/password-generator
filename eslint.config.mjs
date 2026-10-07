@@ -22,8 +22,14 @@ export default tseslint.config(
     },
   },
   {
-    files: ["**/*.ts"],
+    files: ["**/*.ts", "src/shared-preferences.js"],
     languageOptions: {
+      globals: {
+        window: "readonly",
+        document: "readonly",
+        location: "readonly",
+        navigator: "readonly",
+      },
       parserOptions: {
         projectService: true,
         tsconfigRootDir: import.meta.dirname,

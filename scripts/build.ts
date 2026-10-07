@@ -81,7 +81,10 @@ const js = bundle.outputFiles[0]?.text.trimEnd();
 if (!js || /<\/script/i.test(js))
   throw new Error("UNSAFE_SCRIPT_SERIALIZATION");
 const css = `@font-face{font-family:'Space Grotesk';font-style:normal;font-weight:300 700;font-display:swap;src:url(data:font/woff2;base64,${readFileSync("assets/fonts/SpaceGrotesk-VariableFont_wght.woff2").toString("base64")}) format('woff2');}\n${["tokens", "preferences", "site-chrome", "control-surfaces", "app"].map((name) => readFileSync(`src/styles/${name}.css`, "utf8").replace(/\r\n/g, "\n")).join("\n")}`;
-const csp = `default-src 'none'; script-src 'sha256-${createHash("sha256").update(js).digest("base64")}'; style-src 'sha256-${createHash("sha256").update(css).digest("base64")}'; img-src data:; font-src data:; connect-src 'none'; worker-src 'none'; child-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'`;
+const preferencesScript = readFileSync("src/shared-preferences.js", "utf8")
+  .replace(/\r\n/g, "\n")
+  .trimEnd();
+const csp = `default-src 'none'; script-src 'sha256-${createHash("sha256").update(js).digest("base64")}' 'sha256-${createHash("sha256").update(preferencesScript).digest("base64")}'; style-src 'sha256-${createHash("sha256").update(css).digest("base64")}'; img-src data:; font-src data:; connect-src 'none'; worker-src 'none'; child-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'`;
 const dataImage = (path: string): string =>
   `data:image/svg+xml;base64,${readFileSync(path).toString("base64")}`;
 const destination = resolve(process.env["BUILD_DIR"] ?? "dist");
@@ -134,6 +137,7 @@ for (const locale of ["vi", "en"] as const) {
       css,
       js,
       csp,
+      preferencesScript,
       lightLogo: dataImage("assets/brand/primary-color.svg"),
       darkLogo: dataImage("assets/brand/reversed.svg"),
       favicon: dataImage("assets/brand/mark.svg"),

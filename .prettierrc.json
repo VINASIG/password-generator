@@ -1,0 +1,10 @@
+{
+  "overrides": [
+    {
+      "files": ["src/shared-preferences.js"],
+      "options": {
+        "singleQuote": false
+      }
+    }
+  ]
+}

@@ -237,6 +237,7 @@ export function page(options: {
   css: string;
   js: string;
   csp: string;
+  preferencesScript: string;
   lightLogo: string;
   darkLogo: string;
   favicon: string;
@@ -257,7 +258,7 @@ export function page(options: {
     ? '<meta name="robots" content="noindex">'
     : options.publicOrigin
       ? `<link rel="canonical" href="${options.publicOrigin}${locale === "vi" ? "/" : "/en/"}"><link rel="alternate" hreflang="vi" href="${options.publicOrigin}/"><link rel="alternate" hreflang="en" href="${options.publicOrigin}/en/"><link rel="alternate" hreflang="x-default" href="${options.publicOrigin}/"><meta property="og:title" content="${escapeHtml(t.title)} | VINASIG"><meta property="og:description" content="${escapeHtml(t.description)}"><meta property="og:type" content="website"><meta property="og:url" content="${options.publicOrigin}${locale === "vi" ? "/" : "/en/"}"><meta property="og:locale" content="${locale === "vi" ? "vi_VN" : "en_US"}">`
-      : "";
+      : '<link rel="alternate" hreflang="vi" href="/"><link rel="alternate" hreflang="en" href="/en/"><link rel="alternate" hreflang="x-default" href="/">';
   const repository = "https://github.com/VINASIG/password-generator";
   const source = options.sourceCommit
     ? `${repository}/tree/${options.sourceCommit}`
@@ -290,7 +291,7 @@ export function page(options: {
   ): string =>
     `<div class="field"><label for="${id}">${label}</label><div class="number-control"><input type="range" id="${id}-range" min="${min}" max="${max}" value="${value}" aria-label="${label}" aria-describedby="${id}-hint ${id}-error ${id}-warning"><input type="text" id="${id}" value="${value}" inputmode="numeric" pattern="[0-9]+" maxlength="3" autocomplete="off" aria-describedby="${id}-hint ${id}-error ${id}-warning"></div><p class="field-error" id="${id}-error" role="status" hidden></p><p class="hint" id="${id}-hint">${hint}</p></div>`;
   return `<!doctype html>
-<html lang="${locale}"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="${escapeHtml(options.csp)}"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="referrer" content="no-referrer"><title>${t.title} | VINASIG</title><meta name="description" content="${t.description}">${discovery}<link rel="icon" type="image/svg+xml" href="${options.favicon}"><style>${options.css}</style></head>
+<html lang="${locale}"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="${escapeHtml(options.csp)}"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="referrer" content="no-referrer"><title>${t.title} | VINASIG</title><meta name="description" content="${t.description}">${discovery}<script>${options.preferencesScript}</script><link rel="icon" type="image/svg+xml" href="${options.favicon}"><style>${options.css}</style></head>
 <body><a class="skip-link" href="#generator">${t.skip}</a><div data-site-shell class="app-shell">
 <header data-site-header><a data-brand-logo href="https://vinasig.io.vn/" aria-label="${t.footerHome}"><picture><source type="image/svg+xml" srcset="${options.darkLogo}" media="(prefers-color-scheme: dark)"><img src="${options.lightLogo}" width="540" height="140" alt="VINASIG"></picture></a><nav class="site-preferences" aria-label="${t.preferences}"><button type="button" class="theme-switch" id="theme" data-theme-toggle aria-label="${t.theme}" aria-pressed="false" disabled>${icon(Sun, "theme-sun")}${icon(Moon, "theme-moon")}</button><a class="language-switch" data-copy-notation="ISO 639 language code" href="${languageHref}" lang="${locale === "vi" ? "en" : "vi"}" hreflang="${locale === "vi" ? "en" : "vi"}" aria-label="${locale === "vi" ? "Switch to English" : "Chuyển sang tiếng Việt"}">${locale === "vi" ? "EN" : "VI"}</a></nav></header>
 <main><div class="intro"><h1>${t.title}</h1><p class="lead">${t.lead}</p></div>
