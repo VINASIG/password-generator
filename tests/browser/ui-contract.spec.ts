@@ -391,14 +391,14 @@ test("all visible modes pass localized structural acceptance in both themes and 
     }
 });
 
-test("shared chrome and control styles retain the reviewed original source bytes", () => {
+test("shared chrome and control styles retain the approved source bytes", () => {
   const expected: Record<string, string> = {
     "site-chrome":
       "0443593d2b4e9dbd5e9341e444a52d823900fd534e9b80edcbcddb6b54d0f2a3",
     preferences:
-      "a68b18001fc54dd6b5b11cb2a659cccced92797103317e62cfe5bc627a0665e5",
+      "259aa0c82b18afab1be0f6cf898a7a6a9b018ca6d26ca1e8d010e67ed97da999",
     "control-surfaces":
-      "3114cc613a3dfaabfb0c9458ca9384ae43da6ea1a9e9be0e502a07d3ed3a8808",
+      "84f70084cf8f7ff73fae48dcdae9f7cad6e6e9d9c96dd3705921a25118b5f27f",
   };
   for (const [name, digest] of Object.entries(expected))
     expect(

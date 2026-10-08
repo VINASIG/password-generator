@@ -70,3 +70,7 @@ Open `http://127.0.0.1:4179/`. Localhost is needed for preview Web Crypto, not f
 The public source repository is [VINASIG/password-generator](https://github.com/VINASIG/password-generator). The canonical website runs on Cloudflare Pages Direct Upload with checked static response headers. Repository details and private vulnerability reporting are configured. The published v0.2.6 revision `3a9c9146b24fda5af547f675658f8bce74526bc6` passed 135 browser cases in each main/tag Ubuntu and Windows job and exact-tag provenance verification for all seven release assets. Its 21 public deployed files match the release bytes and all nine declared response headers; 36 delivery cases and 75 affected live regressions passed. The [execution receipt](docs/validation/publication-v0.2.6.json) and [publication record](docs/PUBLICATION.md) retain revision-specific observations and procedures. A website update requires uploading the verified site ZIP. Preparing a workflow does not prove it ran, and a checksum does not authenticate a publisher.
 
 System defaults and shared deliberate theme/language choices follow [the ecosystem preference contract](docs/LOCALIZATION.md). Active work is preserved when another tab changes language.
+
+## Shared appearance
+
+The interface uses the approved [VINASIG neutral theme](docs/THEME.md). Identity artwork and archived palette colors remain unchanged.
