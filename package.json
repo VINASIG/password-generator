@@ -45,7 +45,7 @@
     "html-validate": "11.16.2",
     "lighthouse": "13.5.0",
     "lucide": "1.52.0",
-    "prettier": "3.9.9",
+    "prettier": "3.9.10",
     "typescript": "6.0.3",
     "typescript-eslint": "8.71.1"
   }
